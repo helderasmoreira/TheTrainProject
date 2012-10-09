@@ -1,4 +1,4 @@
 class Card < ActiveRecord::Base
-  belongs_to :User
+  belongs_to :user
   attr_accessible :number, :type, :validity
 end

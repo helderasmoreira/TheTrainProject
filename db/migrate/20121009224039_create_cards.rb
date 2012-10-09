@@ -4,10 +4,10 @@ class CreateCards < ActiveRecord::Migration
       t.string :number
       t.string :type
       t.date :validity
-      t.references :User
+      t.references :user
 
       t.timestamps
     end
-    add_index :cards, :User_id
+    add_index :cards, :user_id
   end
 end

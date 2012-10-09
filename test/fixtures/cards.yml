@@ -4,10 +4,10 @@ one:
   number: MyString
   type: 
   validity: 2012-10-09
-  User: 
+  user: 
 
 two:
   number: MyString
   type: 
   validity: 2012-10-09
-  User: 
+  user: 
