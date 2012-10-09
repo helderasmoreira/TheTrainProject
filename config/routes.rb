@@ -1,4 +1,6 @@
 TrainCompanyServer::Application.routes.draw do
+  resources :cards
+
   resources :users
 
   # The priority is based upon order of creation:

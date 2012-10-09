@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  number: MyString
+  type: 
+  validity: 2012-10-09
+  User: 
+
+two:
+  number: MyString
+  type: 
+  validity: 2012-10-09
+  User: 
