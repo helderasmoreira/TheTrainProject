@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  stop1_id: 1
+  stop2_id: 1
+  distance: 1
+
+two:
+  stop1_id: 1
+  stop2_id: 1
+  distance: 1

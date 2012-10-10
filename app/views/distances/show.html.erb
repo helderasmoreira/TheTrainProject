@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Stop1:</b>
+  <%= @distance.stop1_id %>
+</p>
+
+<p>
+  <b>Stop2:</b>
+  <%= @distance.stop2_id %>
+</p>
+
+<p>
+  <b>Distance:</b>
+  <%= @distance.distance %>
+</p>
+
+
+<%= link_to 'Edit', edit_distance_path(@distance) %> |
+<%= link_to 'Back', distances_path %>
