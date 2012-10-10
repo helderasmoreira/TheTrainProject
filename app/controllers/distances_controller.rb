@@ -40,9 +40,6 @@ class DistancesController < ApplicationController
   # POST /distances
   # POST /distances.json
   def create
-    params[:distance][:stop1_id] = Integer(params[:distance][:stop1_id])
-    params[:distance][:stop2_id] = Integer(params[:distance][:stop2_id])
-    params[:distance][:distance] = Integer(params[:distance][:distance])
     @distance = Distance.new(params[:distance])
 
     respond_to do |format|
