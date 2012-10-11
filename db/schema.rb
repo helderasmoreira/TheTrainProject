@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121011142429) do
+ActiveRecord::Schema.define(:version => 20121011155856) do
 
   create_table "cards", :force => true do |t|
     t.string   "number"
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(:version => 20121011142429) do
   add_index "route_stops", ["stop_id"], :name => "index_route_stops_on_stop_id"
 
   create_table "routes", :force => true do |t|
-    t.datetime "starts"
-    t.datetime "ends"
+    t.time     "starts"
+    t.time     "ends"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
