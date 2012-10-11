@@ -11,11 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121010095205) do
+ActiveRecord::Schema.define(:version => 20121011142429) do
 
   create_table "cards", :force => true do |t|
     t.string   "number"
-    t.string   "type"
+    t.string   "card_type"
     t.date     "validity"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
@@ -28,6 +28,25 @@ ActiveRecord::Schema.define(:version => 20121010095205) do
     t.integer  "stop1_id"
     t.integer  "stop2_id"
     t.integer  "distance"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "route_stops", :force => true do |t|
+    t.integer  "route_id"
+    t.integer  "stop_id"
+    t.integer  "stop_order"
+    t.integer  "delay"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "route_stops", ["route_id"], :name => "index_route_stops_on_route_id"
+  add_index "route_stops", ["stop_id"], :name => "index_route_stops_on_stop_id"
+
+  create_table "routes", :force => true do |t|
+    t.datetime "starts"
+    t.datetime "ends"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

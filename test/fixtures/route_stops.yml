@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  route: 
+  stop: 
+  stop_order: 1
+  delay: 1
+
+two:
+  route: 
+  stop: 
+  stop_order: 1
+  delay: 1

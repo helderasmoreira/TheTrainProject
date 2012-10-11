@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Route:</b>
+  <%= @route_stop.route %>
+</p>
+
+<p>
+  <b>Stop:</b>
+  <%= @route_stop.stop %>
+</p>
+
+<p>
+  <b>Stop order:</b>
+  <%= @route_stop.stop_order %>
+</p>
+
+<p>
+  <b>Delay:</b>
+  <%= @route_stop.delay %>
+</p>
+
+
+<%= link_to 'Edit', edit_route_stop_path(@route_stop) %> |
+<%= link_to 'Back', route_stops_path %>

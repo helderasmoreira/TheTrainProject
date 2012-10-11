@@ -1,4 +1,8 @@
 TrainCompanyServer::Application.routes.draw do
+  resources :route_stops
+
+  resources :routes
+
   resources :distances
 
   resources :stops
