@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class RoutesController < ApplicationController
   # GET /routes
   # GET /routes.json
@@ -8,6 +9,34 @@ class RoutesController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @routes }
     end
+  end
+
+  def get_route
+
+    # TODO: only get routes from a specific time interval
+    
+    from = Stop.where(:location => "Valongo").first
+    to = Stop.where(:location => "Suzão").first
+
+    routes_from = RouteStop.where(:stop_id => from.id)
+    routes_to = RouteStop.where(:stop_id => to.id)
+
+    routes_possible = []
+    
+    # Check for direct routes
+    routes_from.each do |route_from|
+      routes_to.each do |route_to|
+        if route_from.route_id == route_to.route_id and route_from.stop_order < route_to.stop_order
+          puts 'yaaa'
+          routes_possible.push(route_from)
+        end
+      end  
+    end
+
+    # Check for indirect routes
+    # ...
+    
+    puts routes_possible
   end
 
   # GET /routes/1
