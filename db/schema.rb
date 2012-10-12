@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121011155856) do
+ActiveRecord::Schema.define(:version => 20121012131652) do
 
   create_table "cards", :force => true do |t|
     t.string   "number"
@@ -56,6 +56,23 @@ ActiveRecord::Schema.define(:version => 20121011155856) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "tickets", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "route_id"
+    t.integer  "stop_start_id"
+    t.integer  "stop_end_id"
+    t.datetime "date"
+    t.float    "price"
+    t.boolean  "paid"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "tickets", ["route_id"], :name => "index_tickets_on_route_id"
+  add_index "tickets", ["stop_end_id"], :name => "index_tickets_on_stop_end_id"
+  add_index "tickets", ["stop_start_id"], :name => "index_tickets_on_stop_start_id"
+  add_index "tickets", ["user_id"], :name => "index_tickets_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

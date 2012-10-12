@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @ticket.user %>
+</p>
+
+<p>
+  <b>Route:</b>
+  <%= @ticket.route %>
+</p>
+
+<p>
+  <b>Stop start:</b>
+  <%= @ticket.stop_start %>
+</p>
+
+<p>
+  <b>Stop end:</b>
+  <%= @ticket.stop_end %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @ticket.date %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @ticket.price %>
+</p>
+
+<p>
+  <b>Paid:</b>
+  <%= @ticket.paid %>
+</p>
+
+
+<%= link_to 'Edit', edit_ticket_path(@ticket) %> |
+<%= link_to 'Back', tickets_path %>

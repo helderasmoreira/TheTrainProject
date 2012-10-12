@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: 
+  route: 
+  stop_start: 
+  stop_end: 
+  date: 2012-10-12 14:16:52
+  price: 
+  paid: false
+
+two:
+  user: 
+  route: 
+  stop_start: 
+  stop_end: 
+  date: 2012-10-12 14:16:52
+  price: 
+  paid: false
