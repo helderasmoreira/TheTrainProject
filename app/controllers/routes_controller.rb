@@ -16,25 +16,33 @@ class RoutesController < ApplicationController
     # TODO: only get routes from a specific time interval
     
     from = Stop.where(:location => "Valongo").first
-    to = Stop.where(:location => "Suzão").first
+    to = Stop.where(:location => "Penafiel").first
 
     routes_from = RouteStop.where(:stop_id => from.id)
     routes_to = RouteStop.where(:stop_id => to.id)
 
     routes_possible = []
     
-    # Check for direct routes
+    # Check routes
     routes_from.each do |route_from|
-      routes_to.each do |route_to|
-        if route_from.route_id == route_to.route_id and route_from.stop_order < route_to.stop_order
-          puts 'yaaa'
-          routes_possible.push(route_from)
+      routes_stops = RouteStop.where(:route_id => route_from.route_id)
+      routes_stops.each do |route_stop|
+        stop = route_stop.stop_id
+        stop_routes = RouteStop.where(:stop_id => stop)
+        stop_routes.each do |stop_route|
+          stop_routes2 = RouteStop.where(:route_id => stop_route.route_id)
+          stop_routes2.each do |stop_route2|
+            if stop_route2.stop_id == to.id and stop_route.stop_order < stop_route2.stop_order
+              if stop_route.route_id == route_stop.route_id and routes_possible.include?(stop_route.route_id) == false
+                routes_possible.push(stop_route.route_id)
+              elsif route_stop.route_id != stop_route.route_id and routes_possible.include?(route_stop.route_id + stop_route.route_id*0.1) == false
+                routes_possible.push(route_stop.route_id + stop_route.route_id*0.1)
+              end
+            end
+          end
         end
-      end  
+      end
     end
-
-    # Check for indirect routes
-    # ...
     
     puts routes_possible
   end
