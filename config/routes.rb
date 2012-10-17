@@ -1,4 +1,6 @@
 TrainCompanyServer::Application.routes.draw do
+  resources :prices
+
   resources :tickets
 
   resources :route_stops
@@ -12,6 +14,8 @@ TrainCompanyServer::Application.routes.draw do
   resources :cards
 
   resources :users
+
+  get "get_route", :to => "routes#get_route"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

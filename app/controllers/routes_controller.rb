@@ -12,39 +12,118 @@ class RoutesController < ApplicationController
   end
 
   def get_route
-
-    # TODO: only get routes from a specific time interval
     
-    from = Stop.where(:location => "Valongo").first
-    to = Stop.where(:location => "Penafiel").first
+    from = Stop.where(:location => params[:from]).first
+    to = Stop.where(:location => params[:to]).first
 
     routes_from = RouteStop.where(:stop_id => from.id)
     routes_to = RouteStop.where(:stop_id => to.id)
 
     routes_possible = []
-    
-    # Check routes
+
+    # Direct routes
     routes_from.each do |route_from|
-      routes_stops = RouteStop.where(:route_id => route_from.route_id)
-      routes_stops.each do |route_stop|
-        stop = route_stop.stop_id
-        stop_routes = RouteStop.where(:stop_id => stop)
-        stop_routes.each do |stop_route|
-          stop_routes2 = RouteStop.where(:route_id => stop_route.route_id)
-          stop_routes2.each do |stop_route2|
-            if stop_route2.stop_id == to.id and stop_route.stop_order < stop_route2.stop_order
-              if stop_route.route_id == route_stop.route_id and routes_possible.include?(stop_route.route_id) == false
-                routes_possible.push(stop_route.route_id)
-              elsif route_stop.route_id != stop_route.route_id and routes_possible.include?(route_stop.route_id + stop_route.route_id*0.1) == false
-                routes_possible.push(route_stop.route_id + stop_route.route_id*0.1)
+      routes_to.each do |route_to|
+        if route_from.route_id == route_to.route_id and route_from.stop_order < route_to.stop_order
+          routes_possible.push([route_from.route_id])
+        end
+      end  
+    end
+
+    if routes_possible.length == 0
+      # Indirect routes
+      routes_from.each do |route_from|
+        stops_of_route_from = RouteStop.where(:route_id => route_from.route_id)
+        stops_of_route_from.each do |stop_of_route_from|
+          stop = stop_of_route_from.stop_id
+          routes_of_stop_of_route_from = RouteStop.where(:stop_id => stop)
+          routes_of_stop_of_route_from.each do |route_of_stop_of_route_from|
+            stops_of_route_of_stop_of_route_from = RouteStop.where(:route_id => route_of_stop_of_route_from.route_id)
+            stops_of_route_of_stop_of_route_from.each do |stop_of_route_of_stop_of_route_from|
+              if stop_of_route_of_stop_of_route_from.stop_id == to.id  and route_of_stop_of_route_from.stop_order < stop_of_route_of_stop_of_route_from.stop_order  and route_from.stop_order < route_of_stop_of_route_from.stop_order
+                if route_from.route_id != route_of_stop_of_route_from.route_id and routes_possible.include?(route_from.route_id + route_of_stop_of_route_from.route_id*0.1) == false
+                  routes_possible.push([route_from.route_id, route_of_stop_of_route_from.stop_id, route_of_stop_of_route_from.route_id])
+                end
               end
             end
           end
         end
       end
     end
-    
-    puts routes_possible
+
+    routes = []
+    logger.info(routes_possible)
+    # Process results
+    routes_possible.each do |route|
+      if route.length == 1
+        routes.push(["SIMPLE_ROUTE"] + calculate_routes(from, to, route[0]))
+      else
+        route1 = calculate_routes(from, Stop.find(route[1]), route[0])
+        route2 = calculate_routes(Stop.find(route[1]), to, route[2])
+        
+        route1_time = Time.parse(route1[-1][-1][1])
+        route2_time = Time.parse(route2[1][0][1])
+
+        if route1_time > route2_time
+          routes.push(["DUAL_ROUTE_OTHER_DAY", route1[0] + route2[0], route1 + route2])
+        else
+          routes.push(["DUAL_ROUTE_SAME_DAY", route1[0] + route2[0], route1 + route2])
+        end
+
+        #route_final = []
+        #route_final.push(route1[0] + route2[0])
+        #route_final.push(route1[1].concat(route2[1]))
+        #routes.push(route_final)
+      end
+    end
+
+    respond_to do |format|
+      format.json { render json: routes }
+    end
+  end
+
+  def calculate_routes(from, to, route_id)
+    logger.info(from.id)
+    logger.info(to.id)
+    logger.info(route_id)
+    price_per_km = Price.first.price
+    stops = []
+    route_stop = RouteStop.where(:route_id => route_id)
+    route_info = Route.find(route_id)
+    first = false
+    price = [0.0]
+    previous = nil
+    route_stop = route_stop.sort_by {|obj| obj.stop_order}
+    route_stop.each do |stop|
+      temp_stop = Stop.where(:id => stop.stop_id).first
+
+      if first == false and temp_stop.location == from.location
+        first = true
+      end
+
+      if first == true
+        stops.push([temp_stop.location, (route_info.starts + stop.delay*60).to_s(:time) ])
+      end
+      
+      if previous != nil
+        d = Distance.where(:stop1_id => previous.id, :stop2_id => temp_stop.id).first
+        if d == nil
+          d = Distance.where(:stop2_id => previous.id, :stop1_id => temp_stop.id).first
+        end
+        price[0] += d.distance*price_per_km
+      end
+
+      previous = temp_stop
+
+      if temp_stop.location == to.location
+        break
+      end
+    end
+
+    price += [stops]
+
+    return price
+
   end
 
   # GET /routes/1

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121012131652) do
+ActiveRecord::Schema.define(:version => 20121017145749) do
 
   create_table "cards", :force => true do |t|
     t.string   "number"
@@ -28,6 +28,12 @@ ActiveRecord::Schema.define(:version => 20121012131652) do
     t.integer  "stop1_id"
     t.integer  "stop2_id"
     t.integer  "distance"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "prices", :force => true do |t|
+    t.float    "price"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
