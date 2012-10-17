@@ -103,17 +103,20 @@ class RoutesController < ApplicationController
 
       if first == true
         stops.push([temp_stop.location, (route_info.starts + stop.delay*60).to_s(:time) ])
+
+        if previous != nil
+        d = Distance.where(:stop1_id => previous.id, :stop2_id => temp_stop.id).first
+          if d == nil
+            d = Distance.where(:stop2_id => previous.id, :stop1_id => temp_stop.id).first
+          end
+            price[0] += d.distance*price_per_km
+        end
+
+        previous = temp_stop
+
       end
       
-      if previous != nil
-        d = Distance.where(:stop1_id => previous.id, :stop2_id => temp_stop.id).first
-        if d == nil
-          d = Distance.where(:stop2_id => previous.id, :stop1_id => temp_stop.id).first
-        end
-        price[0] += d.distance*price_per_km
-      end
-
-      previous = temp_stop
+      
 
       if temp_stop.location == to.location
         break
