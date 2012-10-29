@@ -1,0 +1,27 @@
+<h1>Listing route_connections</h1>
+
+<table>
+  <tr>
+    <th>Route1</th>
+    <th>Route2</th>
+    <th>Stop</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @route_connections.each do |route_connection| %>
+  <tr>
+    <td><%= route_connection.route1_id %></td>
+    <td><%= route_connection.route2_id %></td>
+    <td><%= route_connection.stop_id %></td>
+    <td><%= link_to 'Show', route_connection %></td>
+    <td><%= link_to 'Edit', edit_route_connection_path(route_connection) %></td>
+    <td><%= link_to 'Destroy', route_connection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Route connection', new_route_connection_path %>

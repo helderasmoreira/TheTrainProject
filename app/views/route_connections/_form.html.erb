@@ -1,0 +1,29 @@
+<%= form_for(@route_connection) do |f| %>
+  <% if @route_connection.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@route_connection.errors.count, "error") %> prohibited this route_connection from being saved:</h2>
+
+      <ul>
+      <% @route_connection.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :route1_id %><br />
+    <%= f.text_field :route1_id %>
+  </div>
+  <div class="field">
+    <%= f.label :route2_id %><br />
+    <%= f.text_field :route2_id %>
+  </div>
+  <div class="field">
+    <%= f.label :stop_id %><br />
+    <%= f.text_field :stop_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

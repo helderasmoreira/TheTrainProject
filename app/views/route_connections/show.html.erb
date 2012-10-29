@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Route1:</b>
+  <%= @route_connection.route1_id %>
+</p>
+
+<p>
+  <b>Route2:</b>
+  <%= @route_connection.route2_id %>
+</p>
+
+<p>
+  <b>Stop:</b>
+  <%= @route_connection.stop_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_route_connection_path(@route_connection) %> |
+<%= link_to 'Back', route_connections_path %>
