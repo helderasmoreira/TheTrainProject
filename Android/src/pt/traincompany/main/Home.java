@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class Home extends Activity {
@@ -19,7 +20,7 @@ public class Home extends Activity {
 
 		setContentView(R.layout.activity_home);
 
-		final Button search = (Button) findViewById(R.id.btnSearch);
+		final ImageView search = (ImageView) findViewById(R.id.btnSearch);
 		search.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Toast.makeText(getApplicationContext(), "search",
@@ -35,7 +36,7 @@ public class Home extends Activity {
 			}
 		});
 
-		final Button myTickets = (Button) findViewById(R.id.btnMyTickets);
+		final ImageView myTickets = (ImageView) findViewById(R.id.btnMyTickets);
 		myTickets.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Toast.makeText(getApplicationContext(), "myTickets",

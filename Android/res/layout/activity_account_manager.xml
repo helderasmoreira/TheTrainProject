@@ -6,61 +6,76 @@
     android:orientation="vertical" >
 
     <TableLayout
-        android:id="@+id/tableLayout1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" >
 
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:gravity="center_horizontal" >
+        <TableLayout
+            android:id="@+id/tableLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-            <TextView
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Utilizador:" />
+
+                <EditText
+                    android:id="@+id/user"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" >
+
+                    <requestFocus />
+                </EditText>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Password:" />
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                android:id="@+id/tableRow4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Utilizador:" />
+                android:gravity="center_horizontal" >
 
-            <EditText
-                android:id="@+id/user"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:inputType="text" />
-        </TableRow>
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Login" />
 
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password:" />
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_marginTop="30dp"
-            android:gravity="center_horizontal" >
-
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Login" />
-
-            <Button
-                android:id="@+id/btnSignUp"
-                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Registar" />
-        </TableRow>
+                <Button
+                    android:id="@+id/btnSignUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Registar" />
+            </TableRow>
+        </TableLayout>
     </TableLayout>
 
 </RelativeLayout>

@@ -23,13 +23,18 @@
             android:id="@+id/tableRow1"
             android:gravity="center_horizontal" >
 
-            <Button
+            <ImageView
                 android:id="@+id/btnSearch"
-                android:text="@string/btnSearchText" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/horarios" />
 
-            <Button
+            <ImageView
                 android:id="@+id/btnMyTickets"
-                android:text="@string/btnMyTicketsText" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/horarios" />
+
         </TableRow>
 
         <TableRow
