@@ -1,77 +1,66 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical|fill_vertical"
-    android:layout_weight="0" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/layoutUser"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="150dp"
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_centerVertical="true" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="Utilizador:" />
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:gravity="center_horizontal" >
 
-        <EditText
-            android:id="@+id/user"
-            android:inputType="text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Utilizador:" />
 
-    <LinearLayout
-        android:id="@+id/layoutPassword"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutUser"
-        android:orientation="horizontal" >
+            <EditText
+                android:id="@+id/user"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </TableRow>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="Password:" />
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal" >
 
-        <EditText   
-            android:id="@+id/password"
-              android:inputType="textPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-    
-     <LinearLayout
-         android:id="@+id/layoutButtons"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/layoutPassword"
-         android:layout_marginTop="30dp"
-         android:gravity="center_horizontal"
-         android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password:" />
 
-         <Button
-             android:id="@+id/btnLogin"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center_horizontal"
-             android:text="Login" />
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </TableRow>
 
-         <Button
-             android:id="@+id/btnSignUp"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginLeft="20dp"
-             android:layout_gravity="center_horizontal"
-             android:text="Registar" />
-       
-    </LinearLayout>
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal" >
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login" />
+
+            <Button
+                android:id="@+id/btnSignUp"
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registar" />
+        </TableRow>
+    </TableLayout>
 
 </RelativeLayout>
