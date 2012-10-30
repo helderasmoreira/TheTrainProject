@@ -55,7 +55,8 @@
 
         <TableLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp" >
 
             <TableRow
                 android:id="@+id/tableRow4"
@@ -65,13 +66,13 @@
 
                 <Button
                     android:id="@+id/btnLogin"
-                    android:layout_width="wrap_content"
+                    android:layout_width="133dp"
                     android:layout_height="wrap_content"
                     android:text="Login" />
 
                 <Button
                     android:id="@+id/btnSignUp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="133dp"
                     android:layout_height="wrap_content"
                     android:text="Registar" />
             </TableRow>
