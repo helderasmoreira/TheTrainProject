@@ -1,8 +1,13 @@
 <resources>
 
     <string name="app_name">TrainCompany</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_home">Home</string>
+    <string name="btnSearchText">Pesquisa</string>
+    <string name="btnHistoricText">Histórico Pesquisas</string>
+    <string name="btnMyTicketsText">Meus Bilhetes</string>
+    <string name="btnLoginText">Login</string>
+    <string name="btnLogoutText">Logout</string>
+    <string name="copyright">CMOV - FEUP 2012/13</string>
 
 </resources>
