@@ -1,9 +1,11 @@
 package pt.traincompany.main;
 
+import pt.traincompany.account.AccountManager;
 import pt.traincompany.main.R;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -44,8 +46,8 @@ public class Home extends Activity {
 		final Button login = (Button) findViewById(R.id.btnLogin);
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "login",
-						Toast.LENGTH_SHORT).show();
+				Intent myIntent = new Intent(Home.this, AccountManager.class);
+				Home.this.startActivity(myIntent);
 			}
 		});
 

@@ -9,5 +9,7 @@
     <string name="btnLoginText">Login</string>
     <string name="btnLogoutText">Logout</string>
     <string name="copyright">CMOV - FEUP 2012/13</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_account_manager">Gestão de conta</string>
 
 </resources>
