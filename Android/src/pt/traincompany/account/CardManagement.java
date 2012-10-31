@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +45,7 @@ public class CardManagement extends Activity {
     public void removeHandler(View v) 
     {
 
-        LinearLayout vwParentRow = (LinearLayout)v.getParent();
+        RelativeLayout vwParentRow = (RelativeLayout)v.getParent();
         TextView child = (TextView)vwParentRow.getChildAt(0);
         Toast.makeText(getApplicationContext(), child.getText(),
 				Toast.LENGTH_SHORT).show();

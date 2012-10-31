@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingBottom="6dip"
-    android:paddingTop="4dip" >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/creditCardNumber"
         android:layout_width="150dip"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/removeCard"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical" />
 
     <Button
         android:id="@+id/removeCard"
         android:layout_width="50dip"
         android:layout_height="wrap_content"
-        android:text="X"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:onClick="removeHandler"
+        android:text="X"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-</LinearLayout>
+</RelativeLayout>
