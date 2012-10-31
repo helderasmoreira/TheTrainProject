@@ -27,12 +27,15 @@
                 android:id="@+id/btnSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/bottom_imagem_menu"
+                android:paddingRight="@dimen/bottom_imagem_menu"
                 android:src="@drawable/horarios" />
 
             <ImageView
                 android:id="@+id/btnMyTickets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/bottom_imagem_menu"
                 android:src="@drawable/horarios" />
 
         </TableRow>
@@ -41,13 +44,18 @@
             android:id="@+id/tableRow2"
             android:gravity="center_horizontal" >
             
-            <Button
-                android:id="@+id/btnHistoric"
-                android:text="@string/btnHistoricText" />
+             <ImageView
+                 android:id="@+id/btnHistoric"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:paddingRight="@dimen/bottom_imagem_menu"
+                 android:src="@drawable/horarios" />
 
-        	<Button
-        	    android:id="@+id/btnLogin"
-        	    android:text="@string/btnLoginText" />
+            <ImageView
+                android:id="@+id/btnLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/horarios" />
 
         </TableRow>
 

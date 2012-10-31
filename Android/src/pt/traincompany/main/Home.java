@@ -28,7 +28,7 @@ public class Home extends Activity {
 			}
 		});
 
-		final Button historic = (Button) findViewById(R.id.btnHistoric);
+		final ImageView historic = (ImageView) findViewById(R.id.btnHistoric);
 		historic.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Toast.makeText(getApplicationContext(), "historic",
@@ -44,7 +44,7 @@ public class Home extends Activity {
 			}
 		});
 
-		final Button login = (Button) findViewById(R.id.btnLogin);
+		final ImageView login = (ImageView) findViewById(R.id.btnLogin);
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent myIntent = new Intent(Home.this, AccountManager.class);
