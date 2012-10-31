@@ -25,6 +25,15 @@
             android:name="pt.traincompany.account.AccountManager"
             android:label="@string/title_activity_account_manager" >
         </activity>
+        <activity
+            android:name="pt.traincompany.account.CardManagement"
+            android:label="@string/title_activity_card_management" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
