@@ -6,10 +6,10 @@
     <TextView
         android:id="@+id/creditCardNumber"
         android:layout_width="150dip"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
         android:gravity="center_vertical" />
 
     <ImageView

@@ -40,6 +40,7 @@ public class CardAdapter extends ArrayAdapter<Card> {
 			holder.txtNumber = (TextView) row.findViewById(R.id.creditCardNumber);
 			row.setTag(holder);
 		} else {
+			holder = (CardHolder) row.getTag();
 		}
 
 		Card weather = data[position];
