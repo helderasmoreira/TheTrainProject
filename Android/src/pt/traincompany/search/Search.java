@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
+import pt.traincompany.utility.Utility;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,10 +17,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class Search extends Activity {
 	
@@ -39,7 +37,7 @@ public class Search extends Activity {
 
 		// adds stations
 		dialog = ProgressDialog.show(Search.this, "", 
-                "Retrieving information...", true);
+                "A comunicar com o servidor...", true);
 		GetStations gs = new GetStations();
     	new Thread(gs).start();
 		
@@ -58,6 +56,15 @@ public class Search extends Activity {
 		public void run() {
 			String from = (String) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
 			String to = (String) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+			if(from.equals(to)) {
+				dialog.dismiss();
+				runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(Search.this, "A estação de origem não pode ser igual à de destino.", Toast.LENGTH_LONG).show();
+				}});
+				return;
+			}
+				
 			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY).buildUpon();
 			uri.path(Configurations.GETROUTE)
 				.appendQueryParameter("from", from)
@@ -68,11 +75,22 @@ public class Search extends Activity {
 			try {
 				response = Connection.getJSONLine(uri.build());
 				JSONArray info = new JSONArray(response);
-				info = (JSONArray) info.get(0);
+				Utility.search_data = new SearchResult[info.length()];
+
+				for(int i = 0; i < info.length(); i++) {
+					JSONArray route = (JSONArray) info.get(i);
+					Utility.search_data[i] = new SearchResult(route.getString(1), route.getString(2), route.getString(3), route.getDouble(4));
+				}
+				
+
+				Intent myIntent = new Intent(Search.this, SearchResults.class);
+				Search.this.startActivity(myIntent);
 			}
 			catch(Exception e) {}
 			
 			dialog.dismiss();
+			
+			
 		}
 		
 	}

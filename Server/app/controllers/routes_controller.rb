@@ -56,7 +56,12 @@ class RoutesController < ApplicationController
     # Process results
     routes_possible.each do |route|
       if route.length == 1
-        routes.push(["SIMPLE_ROUTE"] + calculate_routes(from, to, route[0]))
+        final_route = calculate_routes(from, to, route[0])
+        time1 = Time.parse(final_route[1][0][1])
+        time2 = Time.parse(final_route[1][-1][1])
+        duration = Time.at(time2.minus_with_coercion(time1)).utc.strftime("%H:%M") 
+
+        routes.push(["SIMPLE_ROUTE", final_route[1][0][1], final_route[1][-1][1], duration] + final_route)
       else
         route1 = calculate_routes(from, Stop.find(route[1]), route[0])
         route2 = calculate_routes(Stop.find(route[1]), to, route[2])
@@ -64,10 +69,15 @@ class RoutesController < ApplicationController
         route1_time = Time.parse(route1[-1][-1][1])
         route2_time = Time.parse(route2[1][0][1])
 
+        time1 = Time.parse(route1[1][0][1])
+        time2 = Time.parse(route2[-1][-1][-1])
+
+        duration = Time.at(time2.minus_with_coercion(time1)).utc.strftime("%H:%M") 
+        
         if route1_time > route2_time
-          routes.push(["DUAL_ROUTE_OTHER_DAY", route1[0] + route2[0], route1 + route2])
+          routes.push(["DUAL_ROUTE_OTHER_DAY", time1.to_s(:time), time2.to_s(:time),  duration, route1[0] + route2[0], route1 + route2])
         else
-          routes.push(["DUAL_ROUTE_SAME_DAY", route1[0] + route2[0], route1 + route2])
+          routes.push(["DUAL_ROUTE_SAME_DAY", time1.to_s(:time), time2.to_s(:time), duration, route1[0] + route2[0], route1 + route2])
         end
 
         #route_final = []
