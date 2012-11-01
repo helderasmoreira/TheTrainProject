@@ -15,26 +15,33 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnLogout" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btnLogout"
+        android:orientation="vertical" >
 
         <ListView
             android:id="@+id/creditCards"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </ListView>
-    </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btnAddCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Adicionar cartão" />
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal" >
+    
+     <Button
+            android:id="@+id/btnAddCard"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Adicionar cartão"
+            android:layout_weight="0" />
+    
+</RelativeLayout>
+       
+    </LinearLayout>
 
 </RelativeLayout>
