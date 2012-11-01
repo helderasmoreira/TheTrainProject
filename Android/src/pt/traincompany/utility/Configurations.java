@@ -7,5 +7,6 @@ public class Configurations {
 	final public static String FORMAT = "json";
 	
 	final public static String GETSTATIONS = "stops";
+	final public static String GETROUTE = "get_route";
 
 }

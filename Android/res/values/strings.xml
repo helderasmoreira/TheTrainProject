@@ -13,5 +13,6 @@
     <string name="title_activity_account_manager">Gestão de conta</string>
     <string name="title_activity_card_management">Gestão de cartões</string>
     <string name="title_activity_search">Horários</string>
-
+    <string name="title_activity_add_card">Adicionar cartão</string>
+    <string name="title_activity_my_tickets">Meus bilhetes</string>
 </resources>
