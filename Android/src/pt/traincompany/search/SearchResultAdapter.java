@@ -51,7 +51,7 @@ public class SearchResultAdapter extends ArrayAdapter<SearchResult> {
 		holder.txtDuration.setText(ticket.duration);
 		holder.txtPrice.setText(ticket.price + "Û");
 		
-		holder.imgIcon.setImageResource(R.drawable.ic_launcher);
+		holder.imgIcon.setImageResource(R.drawable.more);
 
 		return row;
 	}
