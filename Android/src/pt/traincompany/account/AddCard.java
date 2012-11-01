@@ -3,8 +3,6 @@ package pt.traincompany.account;
 import java.lang.reflect.Field;
 
 import pt.traincompany.main.R;
-import pt.traincompany.main.R.layout;
-import pt.traincompany.main.R.menu;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
