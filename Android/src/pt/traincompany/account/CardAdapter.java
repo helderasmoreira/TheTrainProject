@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CardAdapter extends ArrayAdapter<Card> {
 
@@ -43,9 +44,19 @@ public class CardAdapter extends ArrayAdapter<Card> {
 			holder = (CardHolder) row.getTag();
 		}
 
-		Card weather = data[position];
-		holder.txtNumber.setText(weather.number);
+		Card card = data[position];
+		holder.txtNumber.setText(card.number);
 		holder.imgIcon.setImageResource(this.icon);
+		holder.imgIcon.setTag(card);
+		
+		final ImageView removeCard = (ImageView) row.findViewById(R.id.removeCard);
+        removeCard.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Card card = (Card)removeCard.getTag();
+				Toast.makeText(context, card.number,
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 
 		return row;
 	}
