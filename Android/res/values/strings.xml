@@ -15,4 +15,6 @@
     <string name="title_activity_search">Horários</string>
     <string name="title_activity_add_card">Adicionar cartão</string>
     <string name="title_activity_my_tickets">Meus bilhetes</string>
+    <string name="title_activity_ticket">Bilhete</string>
+
 </resources>
