@@ -13,7 +13,13 @@ public class SearchResults extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_results);
-
+		
+		Bundle bundle = getIntent().getExtras();
+		String from = bundle.getString("from");
+		String to = bundle.getString("to");
+		
+		setTitle(from + " > " + to);
+		
 		SearchResultAdapter adapter = new SearchResultAdapter(this, R.layout.search_result_row,
 				Utility.search_data);
 
