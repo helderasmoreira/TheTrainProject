@@ -82,17 +82,31 @@ public class Search extends Activity {
 					Utility.search_data[i] = new SearchResult(route.getString(1), route.getString(2), route.getString(3), route.getDouble(4));
 				}
 				
-
+				Bundle b = new Bundle();
+				b.putString("from", from);
+				b.putString("to", to);
+				
 				Intent myIntent = new Intent(Search.this, SearchResults.class);
+				myIntent.putExtras(b);
 				Search.this.startActivity(myIntent);
 			}
-			catch(Exception e) {}
+			catch(Exception e) {
+				communicationProblem();
+			}
 			
 			dialog.dismiss();
 			
 			
 		}
-		
+
+	}
+	
+	private void communicationProblem() {
+		dialog.dismiss();
+		runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(Search.this, "A comunicação com o servidor falhou...", Toast.LENGTH_LONG).show();
+		}});
 	}
 	
 	class GetStations implements Runnable {
@@ -127,7 +141,10 @@ public class Search extends Activity {
 						dialog.dismiss();
 				}});
 				
-			} catch (Exception e) { }
+			} catch (Exception e) { 
+				communicationProblem();
+				Search.this.finish();
+			}
 		}
 	}
 }
