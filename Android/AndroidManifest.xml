@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Home"
-            android:label="@string/title_activity_home">
+            android:label="@string/title_activity_home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +27,15 @@
         <activity
             android:name="pt.traincompany.account.CardManagement"
             android:label="@string/title_activity_card_management" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="pt.traincompany.account.AddCard"
+            android:label="@string/title_activity_add_card" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
