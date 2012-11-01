@@ -61,7 +61,7 @@ class RoutesController < ApplicationController
         time2 = Time.parse(final_route[1][-1][1])
         duration = Time.at(time2.minus_with_coercion(time1)).utc.strftime("%H:%M") 
 
-        routes.push(["SIMPLE_ROUTE", final_route[1][0][1], final_route[1][-1][1], duration] + final_route)
+        routes.push(["SIMPLE_ROUTE", final_route[1][0][1], final_route[1][-1][1], duration, final_route[0] ] + [final_route])
       else
         route1 = calculate_routes(from, Stop.find(route[1]), route[0])
         route2 = calculate_routes(Stop.find(route[1]), to, route[2])

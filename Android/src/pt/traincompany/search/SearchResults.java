@@ -3,11 +3,16 @@ package pt.traincompany.search;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Utility;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class SearchResults extends Activity {
+	
+	String from, to;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -15,8 +20,8 @@ public class SearchResults extends Activity {
 		setContentView(R.layout.activity_search_results);
 		
 		Bundle bundle = getIntent().getExtras();
-		String from = bundle.getString("from");
-		String to = bundle.getString("to");
+		from = bundle.getString("from");
+		to = bundle.getString("to");
 		
 		setTitle(from + " > " + to);
 		
@@ -30,5 +35,24 @@ public class SearchResults extends Activity {
 
 		list.addHeaderView(header);
 		list.setAdapter(adapter);
+		
+		list.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				if (position > 0) {
+						
+					Bundle b = new Bundle();
+					b.putInt("position", position-1);
+					b.putString("from", from);
+					b.putString("to", to);
+
+					Intent i = new Intent(SearchResults.this, SearchResultExtended.class);
+					i.putExtras(b);
+					startActivity(i);
+
+				}
+			}
+		});
 	}
 }

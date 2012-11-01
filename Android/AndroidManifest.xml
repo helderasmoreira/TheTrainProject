@@ -31,6 +31,10 @@
             android:name="pt.traincompany.search.SearchResults"
             android:label="@string/title_activity_search" >
         </activity>
+         <activity
+            android:name="pt.traincompany.search.SearchResultExtended"
+            android:label="@string/title_activity_search" >
+        </activity>
         <activity
             android:name="pt.traincompany.account.CardManagement"
             android:label="@string/title_activity_card_management" >

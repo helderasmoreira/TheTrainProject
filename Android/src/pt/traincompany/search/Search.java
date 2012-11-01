@@ -74,11 +74,11 @@ public class Search extends Activity {
 			String response = null;
 			try {
 				response = Connection.getJSONLine(uri.build());
-				JSONArray info = new JSONArray(response);
-				Utility.search_data = new SearchResult[info.length()];
+				Utility.search_results = new JSONArray(response);
+				Utility.search_data = new SearchResult[Utility.search_results.length()];
 
-				for(int i = 0; i < info.length(); i++) {
-					JSONArray route = (JSONArray) info.get(i);
+				for(int i = 0; i < Utility.search_results.length(); i++) {
+					JSONArray route = (JSONArray) Utility.search_results.get(i);
 					Utility.search_data[i] = new SearchResult(route.getString(1), route.getString(2), route.getString(3), route.getDouble(4));
 				}
 				
