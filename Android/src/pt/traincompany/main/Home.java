@@ -2,7 +2,7 @@ package pt.traincompany.main;
 
 import pt.traincompany.account.AccountManager;
 import pt.traincompany.search.Search;
-import tickets.MyTickets;
+import pt.traincompany.tickets.MyTickets;
 
 import android.os.Bundle;
 import android.app.Activity;

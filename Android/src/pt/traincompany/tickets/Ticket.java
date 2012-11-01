@@ -1,4 +1,4 @@
-package tickets;
+package pt.traincompany.tickets;
 
 import java.io.Serializable;
 
