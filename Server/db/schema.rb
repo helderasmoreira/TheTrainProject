@@ -38,6 +38,18 @@ ActiveRecord::Schema.define(:version => 20121017145749) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "route_connections", :force => true do |t|
+    t.integer  "route1_id"
+    t.integer  "route2_id"
+    t.integer  "stop_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "route_connections", ["route1_id"], :name => "index_route_connections_on_route1_id"
+  add_index "route_connections", ["route2_id"], :name => "index_route_connections_on_route2_id"
+  add_index "route_connections", ["stop_id"], :name => "index_route_connections_on_stop_id"
+
   create_table "route_stops", :force => true do |t|
     t.integer  "route_id"
     t.integer  "stop_id"

@@ -2,8 +2,8 @@ class StopsController < ApplicationController
   # GET /stops
   # GET /stops.json
   def index
-    @stops = Stop.all
-
+    @stops = Stop.pluck(:location)
+    @stops = @stops.sort_alphabetical
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @stops }

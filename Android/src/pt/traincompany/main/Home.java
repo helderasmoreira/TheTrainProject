@@ -1,7 +1,7 @@
 package pt.traincompany.main;
 
 import pt.traincompany.account.AccountManager;
-import pt.traincompany.main.R;
+import pt.traincompany.search.Search;
 import tickets.MyTickets;
 
 import android.os.Bundle;
@@ -23,8 +23,8 @@ public class Home extends Activity {
 		final ImageView search = (ImageView) findViewById(R.id.btnSearch);
 		search.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "search",
-						Toast.LENGTH_SHORT).show();
+				Intent myIntent = new Intent(Home.this, Search.class);
+				Home.this.startActivity(myIntent);
 			}
 		});
 
