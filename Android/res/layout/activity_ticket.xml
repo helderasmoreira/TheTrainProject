@@ -13,19 +13,37 @@
             android:layout_height="wrap_content" >
 
             <TableRow
+                android:id="@+id/tableRow0"
+                android:gravity="center_vertical|center_horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID: "
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow
                 android:id="@+id/tableRow1"
                 android:gravity="center_vertical|center_horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data: " />
+                    android:text="Data: "
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/data"
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-" />
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow
@@ -35,13 +53,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Partida: " />
+                    android:text="Partida: "
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/from"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-" />
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow
@@ -51,13 +70,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Destino: " />
+                    android:text="Destino: "
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/to"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-" />
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow
@@ -67,13 +87,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Preço: " />
+                    android:text="Preço: "
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-" />
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow
@@ -83,13 +104,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Duração: " />
+                    android:text="Duração: "
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/duration"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-" />
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow
@@ -99,7 +121,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Identificador: " />
+                    android:text="Identificador: "
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/qrCode"
@@ -115,7 +139,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Estado: " />
+                    android:text="Estado: "
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/paid"

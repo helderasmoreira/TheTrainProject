@@ -19,6 +19,7 @@ public class Ticket implements Serializable {
 
 	public Ticket(int id, String date, String from, int duration, String to, double price, boolean paid) {
 		super();
+		this.id = id;
 		this.date = date;
 		this.from = from;
 		this.duration = duration;
