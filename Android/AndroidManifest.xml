@@ -36,6 +36,10 @@
             android:name="tickets.MyTickets"
             android:label="@string/title_activity_my_tickets" >
         </activity>
+        <activity
+            android:name="tickets.TicketActivity"
+            android:label="@string/title_activity_ticket" >
+        </activity>
     </application>
 
 </manifest>
