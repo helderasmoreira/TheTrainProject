@@ -8,20 +8,18 @@
         android:layout_width="150dip"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_alignBottom="@+id/removeCard"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
         android:gravity="center_vertical" />
 
-    <Button
+    <ImageView
         android:id="@+id/removeCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/creditCardNumber"
+		android:layout_alignParentTop="true"
+        android:layout_marginLeft="40dp"
         android:onClick="removeHandler"
-        android:text="X"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>

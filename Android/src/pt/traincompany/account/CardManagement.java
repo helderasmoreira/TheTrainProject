@@ -1,8 +1,5 @@
 package pt.traincompany.account;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import pt.traincompany.main.R;
 import android.os.Bundle;
 import android.app.Activity;
@@ -10,88 +7,40 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class CardManagement extends Activity {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_management);
-        
-        ListView list = (ListView) findViewById(R.id.creditCards);
-        
-        ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("creditCardNumber", "123456");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "654321");
-        mylist.add(map);
-        map = new HashMap<String, String>();
-        map.put("creditCardNumber", "12123123123");
-        mylist.add(map);
-        
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_card_management);
 
-        SimpleAdapter adapter = new SimpleAdapter(this, mylist, R.layout.creditcard_row,
-                    new String[] {"creditCardNumber", "removeCard"}, new int[] {R.id.creditCardNumber, R.id.removeCard});
-        list.setAdapter(adapter);
-    }
+		Card card_data[] = new Card[] { new Card("132456"),
+				new Card("11232456"), new Card("132123456"),
+				new Card("132432156"), new Card("13241356"), };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_card_management, menu);
-        return true;
-    }
-    
-    public void removeHandler(View v) 
-    {
+		CardAdapter adapter = new CardAdapter(this, R.layout.creditcard_row,
+				R.drawable.ic_launcher, card_data);
 
-        RelativeLayout vwParentRow = (RelativeLayout)v.getParent();
-        TextView child = (TextView)vwParentRow.getChildAt(0);
-        Toast.makeText(getApplicationContext(), child.getText(),
+		ListView list = (ListView) findViewById(R.id.creditCards);
+		list.setAdapter(adapter);
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_card_management, menu);
+		return true;
+	}
+
+	public void removeHandler(View v) {
+
+		RelativeLayout vwParentRow = (RelativeLayout) v.getParent();
+		TextView child = (TextView) vwParentRow.getChildAt(0);
+		Toast.makeText(getApplicationContext(), child.getText(),
 				Toast.LENGTH_SHORT).show();
-      
-    }
+
+	}
 }
