@@ -2,7 +2,6 @@ package pt.traincompany.main;
 
 import pt.traincompany.account.AccountManager;
 import pt.traincompany.search.Search;
-import pt.traincompany.main.R;
 
 import android.os.Bundle;
 import android.app.Activity;
