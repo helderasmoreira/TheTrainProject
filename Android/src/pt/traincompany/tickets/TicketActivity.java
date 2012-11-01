@@ -1,8 +1,6 @@
-package tickets;
+package pt.traincompany.tickets;
 
 import pt.traincompany.main.R;
-import pt.traincompany.main.R.layout;
-import pt.traincompany.main.R.menu;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;

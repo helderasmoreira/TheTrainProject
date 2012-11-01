@@ -1,4 +1,4 @@
-package tickets;
+package pt.traincompany.tickets;
 
 import pt.traincompany.main.R;
 import android.app.Activity;
