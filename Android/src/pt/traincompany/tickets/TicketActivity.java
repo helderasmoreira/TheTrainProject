@@ -18,6 +18,12 @@ public class TicketActivity extends Activity {
 		TextView id = (TextView) findViewById(R.id.id);
 		id.setText(ticket.id + "");
 
+		TextView departure = (TextView) findViewById(R.id.departureTime);
+		departure.setText(ticket.departureTime + "");
+		
+		TextView arrival = (TextView) findViewById(R.id.arrivalTime);
+		arrival.setText(ticket.arrivalTime + "");
+		
 		TextView data = (TextView) findViewById(R.id.date);
 		data.setText(ticket.date);
 

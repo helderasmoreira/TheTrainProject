@@ -18,15 +18,15 @@ public class MyTickets extends Activity {
 		setContentView(R.layout.activity_my_tickets);
 
 		Ticket ticket_data[] = new Ticket[] {
-				new Ticket(1,"21/11", "Porto", 10, "S. Bento", 30.0, false),
-				new Ticket(2,"22/11", "Porte", 10, "S. Benta", 20.0, true),
-				new Ticket(3,"23/11", "Porta", 10, "S. Bente", 10.0, false), };
+				new Ticket(1,"9:00", "9:10","21/11", "Porto", 10, "S. Bento", 30.0, false),
+				new Ticket(2,"9:00","9:10","22/11", "Porte", 10, "S. Benta", 20.0, true),
+				new Ticket(3,"9:00","9:10","23/11", "Porta", 10, "S. Bente", 10.0, false), };
 
 		TicketAdapter adapter = new TicketAdapter(this, R.layout.ticket_row,
 				ticket_data);
 
 		final ListView list = (ListView) findViewById(R.id.myTickets);
-
+ 
 		View header = (View) getLayoutInflater().inflate(
 				R.layout.ticket_header, null);
 
