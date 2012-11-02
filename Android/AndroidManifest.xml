@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name="pt.traincompany.account.AccountManager"
-            android:label="@string/title_activity_account_manager" >
+            android:label="@string/title_activity_account_manager"
+            android:noHistory="true" >
         </activity>
          <activity
             android:name="pt.traincompany.search.Search"

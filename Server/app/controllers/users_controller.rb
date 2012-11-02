@@ -37,6 +37,42 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def login
+    @user = User.where("username = ?", params[:username])
+    if (!@user.nil? and @user.first.password == params[:password])
+      respond_to do |format|
+            @user.first["status"] = "OK"
+            format.json { render :json => @user.first }
+      end
+    else
+      respond_to do |format|
+            format.json { render :json => {:status => "FAILED"} }
+          end
+    end
+  end
+
+  def signup
+  
+    @user = User.where("username = ?", params[:username])
+    if @user.empty?
+
+      @new_user = User.new(:username => params[:username], :password => params[:password])
+
+      if @new_user.save
+          @new_user["status"] = "OK"
+          respond_to do |format|
+            format.json { render :json => @new_user }
+          end
+      end
+    else
+      respond_to do |format|
+            format.json { render :json => {:status => "FAILED"} }
+          end
+    end
+  end
+
+
+
   # POST /users
   # POST /users.json
   def create

@@ -1,8 +1,10 @@
 package pt.traincompany.main;
 
 import pt.traincompany.account.AccountManager;
+import pt.traincompany.account.CardManagement;
 import pt.traincompany.search.Search;
 import pt.traincompany.tickets.MyTickets;
+import pt.traincompany.utility.Configurations;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -47,7 +49,13 @@ public class Home extends Activity {
 		final ImageView login = (ImageView) findViewById(R.id.btnLogin);
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent myIntent = new Intent(Home.this, AccountManager.class);
+					
+				Intent myIntent;
+				if (Configurations.userId > 0)  
+					myIntent = new Intent(Home.this, CardManagement.class);
+				else
+					myIntent = new Intent(Home.this, AccountManager.class);
+				
 				Home.this.startActivity(myIntent);
 			}
 		});

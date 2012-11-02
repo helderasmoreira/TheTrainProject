@@ -16,6 +16,8 @@ TrainCompanyServer::Application.routes.draw do
   resources :users
 
   get "get_route", :to => "routes#get_route"
+  get "login", :to => "users#login"
+  get "signup", :to => "users#signup"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
