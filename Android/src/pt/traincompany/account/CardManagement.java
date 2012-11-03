@@ -13,33 +13,32 @@ import pt.traincompany.utility.Utility;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class CardManagement extends Activity {
 
-	ProgressDialog dialog;
+	public ProgressDialog dialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_card_management);
 
-		if (Utility.user_cards.size() > 0) {
-			CardAdapter adapter = new CardAdapter(
-					CardManagement.this, R.layout.creditcard_row,
-					R.drawable.ic_launcher,
-					Utility.user_cards
-							.toArray(new Card[Utility.user_cards
-									.size()]));
+		if (Configurations.userId > 0) {
+			CardAdapter adapter = new CardAdapter(CardManagement.this,
+					R.layout.creditcard_row, R.drawable.ic_launcher,
+					Utility.user_cards.toArray(new Card[Utility.user_cards
+							.size()]));
 
 			ListView list = (ListView) findViewById(R.id.creditCards);
 			list.setAdapter(adapter);
@@ -82,9 +81,42 @@ public class CardManagement extends Activity {
 		return true;
 	}
 
+	public void removeCardHandler(final View v) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				CardManagement.this);
+
+		builder.setPositiveButton("Eliminar",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						RelativeLayout vwParentRow = (RelativeLayout) v
+								.getParent();
+						TextView child = (TextView) vwParentRow.getChildAt(0);
+
+						RemoveCard rc = new RemoveCard(child.getText()
+								.toString());
+						new Thread(rc).start();
+					}
+				});
+
+		builder.setNegativeButton("Cancelar",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+					}
+				});
+
+		builder.setMessage("Tem a certeza que pretende eliminar o cartão?");
+		builder.setTitle("Confirmação");
+
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
 	class GetCardsByUserId implements Runnable {
 
 		public void run() {
+			
+			
 
 			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
 					.buildUpon();
@@ -108,29 +140,109 @@ public class CardManagement extends Activity {
 						Card c = new Card(id, number);
 						Utility.user_cards.add(c);
 					}
+					
+					runOnUiThread(new Runnable() {
+						public void run() {
+							dialog.dismiss();
+							CardAdapter adapter = new CardAdapter(
+									CardManagement.this, R.layout.creditcard_row,
+									R.drawable.ic_launcher,
+									Utility.user_cards
+											.toArray(new Card[Utility.user_cards
+													.size()]));
+
+							ListView list = (ListView) findViewById(R.id.creditCards);
+							list.setAdapter(adapter);
+						}
+					});
 
 				}
 
-				runOnUiThread(new Runnable() {
-					public void run() {
-						dialog.dismiss();
-						CardAdapter adapter = new CardAdapter(
-								CardManagement.this, R.layout.creditcard_row,
-								R.drawable.ic_launcher,
-								Utility.user_cards
-										.toArray(new Card[Utility.user_cards
-												.size()]));
-
-						ListView list = (ListView) findViewById(R.id.creditCards);
-						list.setAdapter(adapter);
-					}
-				});
+				
 			} catch (Exception e) {
 				communicationProblem();
 				CardManagement.this.finish();
 			}
 		}
 
+	}
+
+	class RemoveCard implements Runnable {
+
+		public String number;
+
+		public RemoveCard(String number) {
+			this.number = number;
+		}
+
+		public void run() {
+			
+			runOnUiThread(new Runnable() {
+				public void run() {
+				dialog = ProgressDialog.show(CardManagement.this, "",
+						"A comunicar com o servidor...", true);
+				}
+			});
+			
+			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
+					.buildUpon();
+			uri.path(Configurations.REMOVECARD);
+			uri.appendQueryParameter("format", Configurations.FORMAT);
+			uri.appendQueryParameter("number", number);
+
+			String response = null;
+
+			try {
+				response = Connection.getJSONLine(uri.build());
+
+				JSONObject info = new JSONObject(response);
+				String status = info.getString("status");
+
+				if (status.equals("OK")) {
+
+					for (Card c : Utility.user_cards)
+						if (c.number.equals(number))
+							Utility.user_cards.remove(c);
+
+					runOnUiThread(new Runnable() {
+						public void run() {
+
+							dialog.dismiss();
+
+							CardAdapter adapter = new CardAdapter(
+									CardManagement.this,
+									R.layout.creditcard_row,
+									R.drawable.ic_launcher,
+									Utility.user_cards
+											.toArray(new Card[Utility.user_cards
+													.size()]));
+
+							ListView list = (ListView) findViewById(R.id.creditCards);
+							list.setAdapter(adapter);
+
+							Toast.makeText(CardManagement.this,
+									"Cartão removido com sucesso!",
+									Toast.LENGTH_LONG).show();
+
+						}
+					});
+				} else {
+					runOnUiThread(new Runnable() {
+						public void run() {
+
+							dialog.dismiss();
+							Toast.makeText(
+									CardManagement.this,
+									"Não foi possível remover o cartão. Tente novamente.",
+									Toast.LENGTH_LONG).show();
+						}
+					});
+				}
+			} catch (Exception e) {
+				communicationProblem();
+				CardManagement.this.finish();
+			}
+		}
 	}
 
 	private void communicationProblem() {

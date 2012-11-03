@@ -1,8 +1,15 @@
 package pt.traincompany.account;
 
+import org.json.JSONObject;
+
 import pt.traincompany.main.R;
+import pt.traincompany.utility.Configurations;
+import pt.traincompany.utility.Connection;
+import pt.traincompany.utility.Utility;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,14 +56,7 @@ public class CardAdapter extends ArrayAdapter<Card> {
 		holder.imgIcon.setImageResource(this.icon);
 		holder.imgIcon.setTag(card);
 		
-		final ImageView removeCard = (ImageView) row.findViewById(R.id.removeCard);
-        removeCard.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Card card = (Card)removeCard.getTag();
-				Toast.makeText(context, card.number,
-						Toast.LENGTH_SHORT).show();
-			}
-		});
+		
 
 		return row;
 	}
@@ -65,5 +65,7 @@ public class CardAdapter extends ArrayAdapter<Card> {
 		ImageView imgIcon;
 		TextView txtNumber;
 	}
+	
+	
 
 }

@@ -44,6 +44,42 @@ class CardsController < ApplicationController
     end
   end
 
+  def addCard
+    @card = Card.where("number = ?", params[:number])
+    if @card.empty?
+
+      @new_card = Card.new(:number => params[:number], :card_type => params[:card_type], 
+        :validity => Date.parse(params[:validity]), 
+        :user_id => params[:user_id])
+
+      if @new_card.save
+          @new_card["status"] = "OK"
+          respond_to do |format|
+            format.json { render :json => @new_card }
+          end
+      end
+    else
+      respond_to do |format|
+            format.json { render :json => {:status => "FAILED"} }
+          end
+    end
+  end
+
+def removeCard
+  @card = Card.where("number = ?", params[:number])
+  if @card.empty?
+      respond_to do |format|
+          format.json { render :json => {:status => "FAILED"} }
+      end
+  else
+      @card.first.destroy
+      respond_to do |format|
+          format.json { render :json => {:status => "OK"} }
+      end
+  end
+end
+
+
 
   # POST /cards
   # POST /cards.json

@@ -19,6 +19,8 @@ TrainCompanyServer::Application.routes.draw do
   get "login", :to => "users#login"
   get "signup", :to => "users#signup"
   get "getCardsByUserId", :to => "cards#getByUserId"
+  get "addCardToUser", :to => "cards#addCard"
+  get "removeCard", :to => "cards#removeCard"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

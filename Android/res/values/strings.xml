@@ -17,4 +17,10 @@
     <string name="title_activity_my_tickets">Meus bilhetes</string>
     <string name="title_activity_ticket">Bilhete</string>
 
+    <string-array name="cardTypes">
+        <item>Visa</item>
+        <item>Master Card</item>
+        <item>Visa Electron</item>
+    </string-array>
+
 </resources>

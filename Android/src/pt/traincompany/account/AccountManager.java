@@ -1,13 +1,8 @@
 package pt.traincompany.account;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import pt.traincompany.main.R;
-import pt.traincompany.search.Search;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
 import android.net.Uri;
@@ -17,11 +12,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class AccountManager extends Activity {

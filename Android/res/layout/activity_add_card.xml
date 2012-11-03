@@ -42,13 +42,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nº segurança: " />
+                    android:text="Tipo cartão: " />
 
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                <Spinner
+                    android:id="@+id/cardType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" 
+                    android:entries="@array/cardTypes" />
+
             </TableRow>
             
               <TableRow
@@ -84,7 +85,7 @@
                     android:id="@+id/btnAddCard"
                     android:layout_width="133dp"
                     android:layout_height="wrap_content"
-                    android:text="Adicionar" />
+                    android:text="Adicionar cartão" />
 
             </TableRow>
         </TableLayout>

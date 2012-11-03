@@ -11,6 +11,8 @@ public class Configurations {
 	final public static String LOGIN = "login";
 	final public static String SIGNUP = "signup";
 	final public static String GETCARDSBYID = "getCardsByUserId";
+	final public static String ADDCARD = "addCardToUser";
+	final public static String REMOVECARD = "removeCard";
 	
 	public static String username;
 	public static String name;
