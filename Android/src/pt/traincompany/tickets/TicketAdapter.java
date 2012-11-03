@@ -51,7 +51,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
 		holder.txtPrice.setText(ticket.price + "");
 		
 		if (ticket.paid)
-			holder.imgIcon.setImageResource(R.drawable.ic_launcher);
+			holder.imgIcon.setImageResource(R.drawable.more);
 		else
 			holder.imgIcon.setImageResource(R.drawable.ic_launcher);
 

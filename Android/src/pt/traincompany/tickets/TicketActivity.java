@@ -47,6 +47,12 @@ public class TicketActivity extends Activity {
 		TextView duration = (TextView) findViewById(R.id.duration);
 		duration.setText(ticket.duration + " min");
 
+		ImageView paid = (ImageView) findViewById(R.id.paid);
+		if (ticket.paid)
+			paid.setImageResource(R.drawable.more);
+		else
+			paid.setImageResource(R.drawable.ic_launcher);
+		
 		ImageView qrCode = (ImageView) findViewById(R.id.qrCode);
 		URL newurl;
 		try {
