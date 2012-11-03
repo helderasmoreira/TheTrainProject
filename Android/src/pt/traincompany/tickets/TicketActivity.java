@@ -1,9 +1,17 @@
 package pt.traincompany.tickets;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import pt.traincompany.main.R;
+import pt.traincompany.utility.Configurations;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TicketActivity extends Activity {
@@ -20,10 +28,10 @@ public class TicketActivity extends Activity {
 
 		TextView departure = (TextView) findViewById(R.id.departureTime);
 		departure.setText(ticket.departureTime + "");
-		
+
 		TextView arrival = (TextView) findViewById(R.id.arrivalTime);
 		arrival.setText(ticket.arrivalTime + "");
-		
+
 		TextView data = (TextView) findViewById(R.id.date);
 		data.setText(ticket.date);
 
@@ -39,6 +47,17 @@ public class TicketActivity extends Activity {
 		TextView duration = (TextView) findViewById(R.id.duration);
 		duration.setText(ticket.duration + " min");
 
+		ImageView qrCode = (ImageView) findViewById(R.id.qrCode);
+		URL newurl;
+		try {
+			newurl = new URL(Configurations.QRCODE + ticket.id);
+			Bitmap bitmap = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+			qrCode.setImageBitmap(bitmap);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
