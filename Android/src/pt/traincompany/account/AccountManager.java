@@ -101,7 +101,6 @@ public class AccountManager extends Activity {
 			uri.appendQueryParameter("format", Configurations.FORMAT);
 			uri.appendQueryParameter("username", username);
 			uri.appendQueryParameter("password", password);
-			uri.build();
 
 			String response = null;
 

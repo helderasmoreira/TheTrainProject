@@ -10,6 +10,7 @@ public class Configurations {
 	final public static String GETROUTE = "get_route";
 	final public static String LOGIN = "login";
 	final public static String SIGNUP = "signup";
+	final public static String GETCARDSBYID = "getCardsByUserId";
 	
 	public static String username;
 	public static String name;

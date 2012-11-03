@@ -37,6 +37,14 @@ class CardsController < ApplicationController
     @card = Card.find(params[:id])
   end
 
+  def getByUserId
+    @cards = Card.where("user_id = ?", params[:userId])
+    respond_to do |format|
+            format.json { render :json => @cards }
+    end
+  end
+
+
   # POST /cards
   # POST /cards.json
   def create
