@@ -7,21 +7,28 @@ import java.net.URL;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TicketActivity extends Activity {
+
+	Ticket ticket;
+	Bitmap bitmap;
+	ProgressDialog dialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ticket);
 
-		Ticket ticket = (Ticket) getIntent().getExtras().get("ticket");
+		Ticket t = (Ticket) getIntent().getExtras().get("ticket");
+		this.ticket = t;
 
 		TextView id = (TextView) findViewById(R.id.id);
 		id.setText(ticket.id + "");
@@ -53,17 +60,40 @@ public class TicketActivity extends Activity {
 		else
 			paid.setImageResource(R.drawable.ic_launcher);
 		
-		ImageView qrCode = (ImageView) findViewById(R.id.qrCode);
-		URL newurl;
-		try {
-			newurl = new URL(Configurations.QRCODE + ticket.id);
-			Bitmap bitmap = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-			qrCode.setImageBitmap(bitmap);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		dialog = ProgressDialog.show(TicketActivity.this, "",
+				"A gerar identificador...", true);
+
+		new Thread(new Runnable() {
+			public void run() {
+
+				URL newurl;
+				try {
+					newurl = new URL(Configurations.QRCODE + ticket.id);
+					bitmap = BitmapFactory.decodeStream(newurl
+							.openConnection().getInputStream());
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+					dialog.dismiss();
+					Toast.makeText(TicketActivity.this,
+							"Ocorreu um erro ao gerar o QR Code...",
+							Toast.LENGTH_LONG).show();
+				} catch (IOException e) {
+					e.printStackTrace();
+					dialog.dismiss();
+					Toast.makeText(TicketActivity.this,
+							"Ocorreu um erro ao gerar o QR Code...",
+							Toast.LENGTH_LONG).show();
+				}
+
+				runOnUiThread(new Runnable() {
+					public void run() {
+						ImageView qrCode = (ImageView) findViewById(R.id.qrCode);
+						qrCode.setImageBitmap(bitmap);
+						dialog.dismiss();
+					}
+				});
+			}
+		}).start();
 	}
 
 	@Override

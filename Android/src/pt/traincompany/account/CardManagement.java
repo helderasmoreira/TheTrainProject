@@ -34,7 +34,7 @@ public class CardManagement extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_card_management);
 
-		if (Configurations.userId > 0) {
+		if (Configurations.cardsLoaded) {
 			CardAdapter adapter = new CardAdapter(CardManagement.this,
 					R.layout.creditcard_row, R.drawable.ic_launcher,
 					Utility.user_cards.toArray(new Card[Utility.user_cards
@@ -51,8 +51,12 @@ public class CardManagement extends Activity {
 		final Button addCard = (Button) findViewById(R.id.btnAddCard);
 		addCard.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent myIntent = new Intent(CardManagement.this, AddCard.class);
-				CardManagement.this.startActivity(myIntent);
+				
+				AddCard dialog = new AddCard(CardManagement.this);
+				dialog.setContentView(R.layout.activity_add_card);
+				dialog.setTitle("Adicionar cartão");
+				dialog.show();
+
 			}
 		});
 
@@ -64,6 +68,7 @@ public class CardManagement extends Activity {
 				Configurations.username = "";
 				Configurations.name = "";
 				Utility.user_cards = new ArrayList<Card>();
+				Configurations.cardsLoaded = false;
 
 				Toast.makeText(CardManagement.this,
 						"Logout efetuado com sucesso.", Toast.LENGTH_LONG)
@@ -140,6 +145,8 @@ public class CardManagement extends Activity {
 						Card c = new Card(id, number);
 						Utility.user_cards.add(c);
 					}
+					
+					Configurations.cardsLoaded = true;
 					
 					runOnUiThread(new Runnable() {
 						public void run() {

@@ -17,6 +17,7 @@ public class Configurations {
 	public static String username;
 	public static String name;
 	public static int userId = 0;
+	public static boolean cardsLoaded = false;
 
 	final public static String QRCODE = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=";
 }

@@ -11,18 +11,27 @@ import pt.traincompany.utility.Utility;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.Context;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class AddCard extends Activity {
+public class AddCard extends Dialog {
+	
+	Context context;
+
+	public AddCard(Context context) {
+		super(context);
+		this.context = context;
+		
+	}
 
 	ProgressDialog dialog;
 	
@@ -54,7 +63,7 @@ public class AddCard extends Activity {
 		addCard.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
-				dialog = ProgressDialog.show(AddCard.this, "",
+				dialog = ProgressDialog.show(context, "",
 						"A comunicar com o servidor...", true);
 
 				EditText number = (EditText) findViewById(R.id.cardNumber);
@@ -67,22 +76,18 @@ public class AddCard extends Activity {
 			}
 		});
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_add_card, menu);
-		return true;
-	}
 	
 	private void communicationProblem() {
 		dialog.dismiss();
-		runOnUiThread(new Runnable() {
+		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
-				Toast.makeText(AddCard.this,
+				Toast.makeText(context,
 						"A comunicação com o servidor falhou...",
 						Toast.LENGTH_LONG).show();
 			}
 		});
+		
+		AddCard.this.dismiss();
 	}
 
 	
@@ -121,24 +126,33 @@ public class AddCard extends Activity {
 					Card c = new Card(info.getInt("id"), number);
 					Utility.user_cards.add(c);
 					
-					runOnUiThread(new Runnable() {
+					((Activity) context).runOnUiThread(new Runnable() {
 						public void run() {
 
 							dialog.dismiss();
-							Toast.makeText(AddCard.this,
+							Toast.makeText(context,
 									"Cartão adicinado com sucesso!",
 									Toast.LENGTH_LONG).show();
+	
+							CardAdapter adapter = new CardAdapter(context,
+									R.layout.creditcard_row, R.drawable.ic_launcher,
+									Utility.user_cards.toArray(new Card[Utility.user_cards
+											.size()]));
+
+							ListView list = (ListView) ((Activity) context).findViewById(R.id.creditCards);
+							list.setAdapter(adapter);
 							
-							Intent i = new Intent(AddCard.this, CardManagement.class);
-							startActivity(i);
 						}
 					});
+					
+					AddCard.this.dismiss();
+					
 				}
 				else {
-					runOnUiThread(new Runnable() {
+					((Activity) context).runOnUiThread(new Runnable() {
 						public void run() {
 							dialog.dismiss();
-							Toast.makeText(AddCard.this,
+							Toast.makeText(context,
 									"Já existe um cartão com esse número.",
 									Toast.LENGTH_LONG).show();
 						}
@@ -146,7 +160,6 @@ public class AddCard extends Activity {
 				}
 			} catch (Exception e) {
 				communicationProblem();
-				AddCard.this.finish();
 			}
 		}
 	}

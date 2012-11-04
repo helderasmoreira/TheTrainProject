@@ -42,11 +42,6 @@
             android:noHistory="true" >
         </activity>
         <activity
-            android:name="pt.traincompany.account.AddCard"
-            android:label="@string/title_activity_add_card"
-            android:noHistory="true"  >
-        </activity>
-        <activity
             android:name="pt.traincompany.tickets.MyTickets"
             android:label="@string/title_activity_my_tickets" >
         </activity>
