@@ -3,9 +3,6 @@
 <table>
   <tr>
     <th>User</th>
-    <th>Route</th>
-    <th>Stop start</th>
-    <th>Stop end</th>
     <th>Date</th>
     <th>Price</th>
     <th>Paid</th>
@@ -17,9 +14,6 @@
 <% @tickets.each do |ticket| %>
   <tr>
     <td><%= ticket.user %></td>
-    <td><%= ticket.route %></td>
-    <td><%= ticket.stop_start %></td>
-    <td><%= ticket.stop_end %></td>
     <td><%= ticket.date %></td>
     <td><%= ticket.price %></td>
     <td><%= ticket.paid %></td>
