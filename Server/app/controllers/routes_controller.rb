@@ -57,27 +57,27 @@ class RoutesController < ApplicationController
     routes_possible.each do |route|
       if route.length == 1
         final_route = calculate_routes(from, to, route[0])
-        time1 = Time.parse(final_route[1][0][1])
-        time2 = Time.parse(final_route[1][-1][1])
+        time1 = Time.parse(final_route[2][0][1])
+        time2 = Time.parse(final_route[2][-1][1])
         duration = Time.at(time2.minus_with_coercion(time1)).utc.strftime("%H:%M") 
 
-        routes.push(["SIMPLE_ROUTE", final_route[1][0][1], final_route[1][-1][1], duration, final_route[0] ] + [final_route])
+        routes.push(["SIMPLE_ROUTE", final_route[2][0][1], final_route[2][-1][1], duration, final_route[1] ] + [final_route])
       else
         route1 = calculate_routes(from, Stop.find(route[1]), route[0])
         route2 = calculate_routes(Stop.find(route[1]), to, route[2])
         
         route1_time = Time.parse(route1[-1][-1][1])
-        route2_time = Time.parse(route2[1][0][1])
+        route2_time = Time.parse(route2[2][0][1])
 
-        time1 = Time.parse(route1[1][0][1])
+        time1 = Time.parse(route1[2][0][1])
         time2 = Time.parse(route2[-1][-1][-1])
 
         duration = Time.at(time2.minus_with_coercion(time1)).utc.strftime("%H:%M") 
         
         if route1_time > route2_time
-          routes.push(["DUAL_ROUTE_OTHER_DAY", time1.to_s(:time), time2.to_s(:time),  duration, route1[0] + route2[0], route1 + route2])
+          routes.push(["DUAL_ROUTE_OTHER_DAY", time1.to_s(:time), time2.to_s(:time),  duration, route1[1] + route2[1], route1 + route2])
         else
-          routes.push(["DUAL_ROUTE_SAME_DAY", time1.to_s(:time), time2.to_s(:time), duration, route1[0] + route2[0], route1 + route2])
+          routes.push(["DUAL_ROUTE_SAME_DAY", time1.to_s(:time), time2.to_s(:time), duration, route1[1] + route2[1], route1 + route2])
         end
 
         #route_final = []
@@ -101,7 +101,7 @@ class RoutesController < ApplicationController
     route_stop = RouteStop.where(:route_id => route_id)
     route_info = Route.find(route_id)
     first = false
-    price = [0.0]
+    price = [route_id, 0.0]
     previous = nil
     route_stop = route_stop.sort_by {|obj| obj.stop_order}
     route_stop.each do |stop|
@@ -119,7 +119,7 @@ class RoutesController < ApplicationController
           if d == nil
             d = Distance.where(:stop2_id => previous.id, :stop1_id => temp_stop.id).first
           end
-            price[0] += d.distance*price_per_km
+            price[1] += d.distance*price_per_km
         end
 
         previous = temp_stop

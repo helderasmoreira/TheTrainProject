@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121104141347) do
+ActiveRecord::Schema.define(:version => 20121104143227) do
 
   create_table "cards", :force => true do |t|
     t.string   "number"
@@ -78,16 +78,14 @@ ActiveRecord::Schema.define(:version => 20121104141347) do
   create_table "ticket_routes", :force => true do |t|
     t.integer  "ticket_id"
     t.integer  "route_id"
-    t.integer  "stop_start_id"
-    t.integer  "stop_end_id"
     t.date     "date"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "stop_start_order"
+    t.integer  "stop_end_order"
   end
 
   add_index "ticket_routes", ["route_id"], :name => "index_ticket_routes_on_route_id"
-  add_index "ticket_routes", ["stop_end_id"], :name => "index_ticket_routes_on_stop_end_id"
-  add_index "ticket_routes", ["stop_start_id"], :name => "index_ticket_routes_on_stop_start_id"
   add_index "ticket_routes", ["ticket_id"], :name => "index_ticket_routes_on_ticket_id"
 
   create_table "tickets", :force => true do |t|

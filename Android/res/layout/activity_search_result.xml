@@ -142,12 +142,20 @@
     </TableLayout>
 
       <Button
-          android:id="@+id/button1"
+          android:id="@+id/btnBuyTicket"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignLeft="@+id/textView6"
-          android:layout_below="@+id/search_results2_stations"
+          android:layout_below="@+id/datePickerTicket"
           android:layout_marginTop="20dp"
           android:text="Comprar Viagem" />
+
+      <DatePicker
+          android:id="@+id/datePickerTicket"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:layout_below="@+id/search_results2_stations"
+          android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

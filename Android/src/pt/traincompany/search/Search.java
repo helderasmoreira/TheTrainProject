@@ -60,7 +60,7 @@ public class Search extends Activity {
 				dialog.dismiss();
 				runOnUiThread(new Runnable() {
 					public void run() {
-						Toast.makeText(Search.this, "A estação de origem não pode ser igual à de destino.", Toast.LENGTH_LONG).show();
+						Toast.makeText(Search.this, "A esta√ß√£o de origem n√£o pode ser igual √† de destino.", Toast.LENGTH_LONG).show();
 				}});
 				return;
 			}
@@ -105,7 +105,7 @@ public class Search extends Activity {
 		dialog.dismiss();
 		runOnUiThread(new Runnable() {
 			public void run() {
-				Toast.makeText(Search.this, "A comunicação com o servidor falhou...", Toast.LENGTH_LONG).show();
+				Toast.makeText(Search.this, "A comunica√ß√£o com o servidor falhou...", Toast.LENGTH_LONG).show();
 		}});
 	}
 	

@@ -49,7 +49,7 @@ public class SearchResultAdapter extends ArrayAdapter<SearchResult> {
 		holder.txtFrom.setText(ticket.from);
 		holder.txtTo.setText(ticket.to);
 		holder.txtDuration.setText(ticket.duration);
-		holder.txtPrice.setText(ticket.price + "Û");
+		holder.txtPrice.setText(ticket.price + "â‚¬");
 		
 		holder.imgIcon.setImageResource(R.drawable.more);
 

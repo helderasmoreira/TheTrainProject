@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class TicketsController < ApplicationController
   # GET /tickets
   # GET /tickets.json
@@ -8,6 +9,29 @@ class TicketsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @tickets }
     end
+  end
+
+  def verify_ticket
+    route_id = params[:route_id]
+    stop_start = params[:stop_start]
+    stop_end = params[:stop_end]
+    date = params[:date]
+    date = Time.parse(date).strftime("%Y-%m-%d")
+
+    stop_start_order = RouteStop.where(:route_id => route_id, :stop_id => Stop.where(:location => stop_start).first).first.stop_order
+    stop_end_order = RouteStop.where(:route_id => route_id, :stop_id => Stop.where(:location => stop_end).first).first.stop_order
+
+    tickets_from_route = TicketRoute.where(["route_id = ? and stop_start_order >= ? and stop_end_order <= ? and date = ?", route_id, stop_start_order, stop_end_order, date])
+
+    response = ["yes"]
+    if tickets_from_route.length > 0
+     response[0] = "no"
+    end
+
+    respond_to do |format|
+      format.json { render json: response }
+    end
+
   end
 
   # GET /tickets/1
