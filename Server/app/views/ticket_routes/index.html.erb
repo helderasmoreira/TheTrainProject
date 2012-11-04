@@ -1,0 +1,31 @@
+<h1>Listing ticket_routes</h1>
+
+<table>
+  <tr>
+    <th>Ticket</th>
+    <th>Route</th>
+    <th>Stop start</th>
+    <th>Stop end</th>
+    <th>Date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @ticket_routes.each do |ticket_route| %>
+  <tr>
+    <td><%= ticket_route.ticket %></td>
+    <td><%= ticket_route.route %></td>
+    <td><%= ticket_route.stop_start %></td>
+    <td><%= ticket_route.stop_end %></td>
+    <td><%= ticket_route.date %></td>
+    <td><%= link_to 'Show', ticket_route %></td>
+    <td><%= link_to 'Edit', edit_ticket_route_path(ticket_route) %></td>
+    <td><%= link_to 'Destroy', ticket_route, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Ticket route', new_ticket_route_path %>

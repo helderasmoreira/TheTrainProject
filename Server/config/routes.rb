@@ -1,4 +1,6 @@
 TrainCompanyServer::Application.routes.draw do
+  resources :ticket_routes
+
   resources :prices
 
   resources :tickets
