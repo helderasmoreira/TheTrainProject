@@ -65,8 +65,19 @@ public class AddCard extends Dialog {
 				
 
 				EditText number = (EditText) findViewById(R.id.cardNumber);
+				EditText cvv = (EditText) findViewById(R.id.cvv);
 
-				if (!number.getText().toString().equals("")) {
+				if (number.getText().toString().equals("") || number.getText().toString().trim().length() < 16) {
+					Toast.makeText(context,
+							"O número do cartão não é válido!",
+							Toast.LENGTH_LONG).show();
+				}
+				else if (cvv.getText().toString().equals("") || cvv.getText().toString().trim().length() < 3) {
+					Toast.makeText(context,
+							"O número de segurança não é válido!",
+							Toast.LENGTH_LONG).show();
+				}
+				else {
 					Spinner type = (Spinner) findViewById(R.id.cardType);
 					
 					dialog = ProgressDialog.show(context, "",
@@ -74,7 +85,7 @@ public class AddCard extends Dialog {
 
 					DatePicker date = (DatePicker) findViewById(R.id.expiryDate);
 					AddCardToUser ac = new AddCardToUser(number.getText()
-							.toString(), type.getSelectedItem().toString(),
+							.toString(), cvv.getText().toString(), type.getSelectedItem().toString(),
 							date.getMonth(), date.getYear());
 					new Thread(ac).start();
 				}
@@ -97,11 +108,12 @@ public class AddCard extends Dialog {
 
 	class AddCardToUser implements Runnable {
 
-		public String number, type;
+		public String number, type, cvv;
 		public int month, year;
 
-		public AddCardToUser(String number, String type, int month, int year) {
+		public AddCardToUser(String number, String cvv, String type, int month, int year) {
 			this.number = number;
+			this.cvv = cvv;
 			this.type = type;
 			this.month = month;
 			this.year = year;
@@ -114,6 +126,7 @@ public class AddCard extends Dialog {
 			uri.appendQueryParameter("format", Configurations.FORMAT);
 			uri.appendQueryParameter("number", number);
 			uri.appendQueryParameter("type", type);
+			uri.appendQueryParameter("cvv", cvv);
 			uri.appendQueryParameter("user_id", Configurations.userId + "");
 			uri.appendQueryParameter("validity", "1-" + month + "-" + year);
 

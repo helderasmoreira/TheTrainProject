@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121104143227) do
+ActiveRecord::Schema.define(:version => 20121105112441) do
 
   create_table "cards", :force => true do |t|
     t.string   "number"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20121104143227) do
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "cvv"
   end
 
   add_index "cards", ["user_id"], :name => "index_cards_on_user_id"

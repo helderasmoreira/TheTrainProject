@@ -50,7 +50,7 @@ class CardsController < ApplicationController
 
       @new_card = Card.new(:number => params[:number], :card_type => params[:card_type], 
         :validity => Date.parse(params[:validity]), 
-        :user_id => params[:user_id])
+        :user_id => params[:user_id], :cvv => params[:cvv])
 
       if @new_card.save
           @new_card["status"] = "OK"
