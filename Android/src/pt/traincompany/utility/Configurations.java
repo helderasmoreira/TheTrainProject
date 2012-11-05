@@ -2,7 +2,7 @@ package pt.traincompany.utility;
 
 public class Configurations {
 	
-	final public static String AUTHORITY = "192.168.1.101:3000";
+	final public static String AUTHORITY = "172.30.71.16:3000";
 	final public static String SCHEME = "http";
 	final public static String FORMAT = "json";
 	
@@ -14,6 +14,10 @@ public class Configurations {
 	final public static String ADDCARD = "addCardToUser";
 	final public static String REMOVECARD = "removeCard";
 	final public static String VERIFYTICKET = "verifyTicket";
+	final public static String SIMPLE_ROUTE = "SIMPLE_ROUTE";
+	final public static String DUAL_ROUTE_OTHER_DAY = "DUAL_ROUTE_OTHER_DAY";
+	final public static String DUAL_ROUTE_SAME_DAY = "DUAL_ROUTE_SAME_DAY";
+	
 	
 	public static String username;
 	public static String name;
