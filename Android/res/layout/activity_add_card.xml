@@ -1,94 +1,114 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal" >
 
-    
-   <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal" >
 
         <TableLayout
-            android:id="@+id/tableLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <TableRow
-                android:id="@+id/tableRow1"
-                android:gravity="center_vertical|center_horizontal" >
+            <TableLayout
+                android:id="@+id/tableLayout10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nº cartão: " />
-
-                <EditText
-                    android:id="@+id/cardNumber"
+                <TableRow
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" >
+                    android:gravity="center_vertical|center_horizontal" >
 
-                    <requestFocus />
-                </EditText>
-            </TableRow>
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Nº cartão: " />
+                </TableRow>
 
-            <TableRow
-                android:id="@+id/tableRow2"
-                android:layout_marginTop="20dp"
-                android:gravity="center_vertical|center_horizontal" >
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="200dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|center_horizontal" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tipo cartão: " />
+                    <EditText
+                        android:id="@+id/cardNumber"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" >
 
-                <Spinner
-                    android:id="@+id/cardType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" 
-                    android:entries="@array/cardTypes" />
+                        <requestFocus />
+                    </EditText>
+                </TableRow>
 
-            </TableRow>
-            
-              <TableRow
-                  android:id="@+id/tableRow2"
-                  android:layout_marginTop="20dp"
-                  android:gravity="center_vertical|center_horizontal" >
+                <TableRow
+                    android:layout_width="200dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|center_horizontal" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Validade:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Tipo cartão: " />
+                </TableRow>
 
-                <DatePicker
-                    android:id="@+id/expiryDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-        </TableLayout>
+                <TableRow
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|center_horizontal" >
 
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" >
+                    <Spinner
+                        android:id="@+id/cardType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/cardTypes" />
+                </TableRow>
 
-            <TableRow
-                android:id="@+id/tableRow4"
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|center_horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Validade:" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|center_horizontal" >
+
+                    <DatePicker
+                        android:id="@+id/expiryDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:gravity="center_horizontal" >
+                android:layout_marginTop="10dp" >
 
-                <Button
-                    android:id="@+id/btnAddCard"
-                    android:layout_width="133dp"
+                <TableRow
+                    android:id="@+id/tableRow4"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Adicionar cartão" />
+                    android:gravity="center_horizontal" >
 
-            </TableRow>
+                    <Button
+                        android:id="@+id/btnAddCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Adicionar cartão" />
+                </TableRow>
+            </TableLayout>
         </TableLayout>
-    </TableLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

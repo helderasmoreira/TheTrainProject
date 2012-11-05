@@ -51,7 +51,7 @@ public class CardManagement extends Activity {
 		final Button addCard = (Button) findViewById(R.id.btnAddCard);
 		addCard.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				
+
 				AddCard dialog = new AddCard(CardManagement.this);
 				dialog.setContentView(R.layout.activity_add_card);
 				dialog.setTitle("Adicionar cartão");
@@ -94,6 +94,7 @@ public class CardManagement extends Activity {
 		builder.setPositiveButton("Eliminar",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
+
 						RelativeLayout vwParentRow = (RelativeLayout) v
 								.getParent();
 						TextView child = (TextView) vwParentRow.getChildAt(0);
@@ -120,8 +121,6 @@ public class CardManagement extends Activity {
 	class GetCardsByUserId implements Runnable {
 
 		public void run() {
-			
-			
 
 			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
 					.buildUpon();
@@ -136,36 +135,31 @@ public class CardManagement extends Activity {
 
 				JSONArray info = new JSONArray(response);
 
-				if (info.length() > 0) {
-
-					for (int i = 0; i < info.length(); i++) {
-						JSONObject card = info.getJSONObject(i);
-						String number = card.getString("number");
-						int id = card.getInt("id");
-						Card c = new Card(id, number);
-						Utility.user_cards.add(c);
-					}
-					
-					Configurations.cardsLoaded = true;
-					
-					runOnUiThread(new Runnable() {
-						public void run() {
-							dialog.dismiss();
-							CardAdapter adapter = new CardAdapter(
-									CardManagement.this, R.layout.creditcard_row,
-									R.drawable.ic_launcher,
-									Utility.user_cards
-											.toArray(new Card[Utility.user_cards
-													.size()]));
-
-							ListView list = (ListView) findViewById(R.id.creditCards);
-							list.setAdapter(adapter);
-						}
-					});
-
+				for (int i = 0; i < info.length(); i++) {
+					JSONObject card = info.getJSONObject(i);
+					String number = card.getString("number");
+					int id = card.getInt("id");
+					Card c = new Card(id, number);
+					Utility.user_cards.add(c);
 				}
 
-				
+				Configurations.cardsLoaded = true;
+
+				runOnUiThread(new Runnable() {
+					public void run() {
+						dialog.dismiss();
+						CardAdapter adapter = new CardAdapter(
+								CardManagement.this, R.layout.creditcard_row,
+								R.drawable.ic_launcher,
+								Utility.user_cards
+										.toArray(new Card[Utility.user_cards
+												.size()]));
+
+						ListView list = (ListView) findViewById(R.id.creditCards);
+						list.setAdapter(adapter);
+					}
+				});
+
 			} catch (Exception e) {
 				communicationProblem();
 				CardManagement.this.finish();
@@ -183,14 +177,14 @@ public class CardManagement extends Activity {
 		}
 
 		public void run() {
-			
+
 			runOnUiThread(new Runnable() {
 				public void run() {
-				dialog = ProgressDialog.show(CardManagement.this, "",
-						"A comunicar com o servidor...", true);
+					dialog = ProgressDialog.show(CardManagement.this, "",
+							"A comunicar com o servidor...", true);
 				}
 			});
-			
+
 			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
 					.buildUpon();
 			uri.path(Configurations.REMOVECARD);
@@ -247,7 +241,6 @@ public class CardManagement extends Activity {
 				}
 			} catch (Exception e) {
 				communicationProblem();
-				CardManagement.this.finish();
 			}
 		}
 	}
