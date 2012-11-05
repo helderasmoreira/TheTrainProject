@@ -24,17 +24,17 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AddCard extends Dialog {
-	
+
 	Context context;
 
 	public AddCard(Context context) {
 		super(context);
 		this.context = context;
-		
+
 	}
 
 	ProgressDialog dialog;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,26 +57,31 @@ public class AddCard extends Dialog {
 		} catch (IllegalAccessException e) {
 			Log.d("ERROR", e.getMessage());
 		}
-		
 
 		final Button addCard = (Button) findViewById(R.id.btnAddCard);
 		addCard.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
-				dialog = ProgressDialog.show(context, "",
-						"A comunicar com o servidor...", true);
+				
 
 				EditText number = (EditText) findViewById(R.id.cardNumber);
-				Spinner type = (Spinner) findViewById(R.id.cardType);
-				
-				DatePicker date = (DatePicker) findViewById(R.id.expiryDate);
-				AddCardToUser ac = new AddCardToUser(number.getText().toString(), type.getSelectedItem().toString(), date.getMonth(), date.getYear());
-				new Thread(ac).start();
-				
+
+				if (!number.getText().toString().equals("")) {
+					Spinner type = (Spinner) findViewById(R.id.cardType);
+					
+					dialog = ProgressDialog.show(context, "",
+							"A comunicar com o servidor...", true);
+
+					DatePicker date = (DatePicker) findViewById(R.id.expiryDate);
+					AddCardToUser ac = new AddCardToUser(number.getText()
+							.toString(), type.getSelectedItem().toString(),
+							date.getMonth(), date.getYear());
+					new Thread(ac).start();
+				}
 			}
 		});
 	}
-	
+
 	private void communicationProblem() {
 		dialog.dismiss();
 		((Activity) context).runOnUiThread(new Runnable() {
@@ -86,11 +91,10 @@ public class AddCard extends Dialog {
 						Toast.LENGTH_LONG).show();
 			}
 		});
-		
+
 		AddCard.this.dismiss();
 	}
 
-	
 	class AddCardToUser implements Runnable {
 
 		public String number, type;
@@ -110,8 +114,8 @@ public class AddCard extends Dialog {
 			uri.appendQueryParameter("format", Configurations.FORMAT);
 			uri.appendQueryParameter("number", number);
 			uri.appendQueryParameter("type", type);
-			uri.appendQueryParameter("user_id", Configurations.userId+"");
-			uri.appendQueryParameter("validity", "1-"+month+"-"+year);
+			uri.appendQueryParameter("user_id", Configurations.userId + "");
+			uri.appendQueryParameter("validity", "1-" + month + "-" + year);
 
 			String response = null;
 
@@ -122,10 +126,10 @@ public class AddCard extends Dialog {
 				String status = info.getString("status");
 
 				if (status.equals("OK")) {
-					
+
 					Card c = new Card(info.getInt("id"), number);
 					Utility.user_cards.add(c);
-					
+
 					((Activity) context).runOnUiThread(new Runnable() {
 						public void run() {
 
@@ -133,22 +137,25 @@ public class AddCard extends Dialog {
 							Toast.makeText(context,
 									"Cartão adicinado com sucesso!",
 									Toast.LENGTH_LONG).show();
-	
-							CardAdapter adapter = new CardAdapter(context,
-									R.layout.creditcard_row, R.drawable.ic_launcher,
-									Utility.user_cards.toArray(new Card[Utility.user_cards
-											.size()]));
 
-							ListView list = (ListView) ((Activity) context).findViewById(R.id.creditCards);
+							CardAdapter adapter = new CardAdapter(
+									context,
+									R.layout.creditcard_row,
+									R.drawable.ic_launcher,
+									Utility.user_cards
+											.toArray(new Card[Utility.user_cards
+													.size()]));
+
+							ListView list = (ListView) ((Activity) context)
+									.findViewById(R.id.creditCards);
 							list.setAdapter(adapter);
-							
+
 						}
 					});
-					
+
 					AddCard.this.dismiss();
-					
-				}
-				else {
+
+				} else {
 					((Activity) context).runOnUiThread(new Runnable() {
 						public void run() {
 							dialog.dismiss();
