@@ -3,6 +3,7 @@ package pt.traincompany.main;
 import pt.traincompany.account.AccountManager;
 import pt.traincompany.account.CardManagement;
 import pt.traincompany.search.Search;
+import pt.traincompany.searchHistory.MyHistory;
 import pt.traincompany.tickets.MyTickets;
 import pt.traincompany.utility.Configurations;
 
@@ -13,7 +14,6 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class Home extends Activity {
 
@@ -22,6 +22,8 @@ public class Home extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_home);
+		
+		this.deleteDatabase(Configurations.THE_TRAIN_PROJECT_DB);
 		
 		Configurations.userId = PreferenceManager.getDefaultSharedPreferences(Home.this).getInt("userId", 0);
 		Configurations.username = PreferenceManager.getDefaultSharedPreferences(Home.this).getString("username", "");
@@ -38,8 +40,8 @@ public class Home extends Activity {
 		final ImageView historic = (ImageView) findViewById(R.id.btnHistoric);
 		historic.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "historic",
-						Toast.LENGTH_SHORT).show();
+				Intent myIntent = new Intent(Home.this, MyHistory.class);
+				Home.this.startActivity(myIntent);
 			}
 		});
 

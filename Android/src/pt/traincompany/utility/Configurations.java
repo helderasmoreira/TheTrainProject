@@ -2,7 +2,7 @@ package pt.traincompany.utility;
 
 public class Configurations {
 	
-	final public static String AUTHORITY = "172.30.58.145:3000";
+	final public static String AUTHORITY = "192.168.10.3:3000";
 	final public static String SCHEME = "http";
 	final public static String FORMAT = "json";
 	
@@ -27,5 +27,6 @@ public class Configurations {
 	public static boolean cardsLoaded = false;
 
 	final public static String QRCODE = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=";
+	final public static String THE_TRAIN_PROJECT_DB = "TheTrainProject.db";
 	
 }

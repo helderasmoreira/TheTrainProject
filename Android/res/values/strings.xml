@@ -23,4 +23,6 @@
         <item>Visa Electron</item>
     </string-array>
 
+    <string name="title_activity_my_history">Histórico de pesquisas</string>
+
 </resources>

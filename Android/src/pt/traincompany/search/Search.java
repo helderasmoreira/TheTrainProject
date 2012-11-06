@@ -6,12 +6,15 @@ import java.util.List;
 import org.json.JSONArray;
 
 import pt.traincompany.main.R;
+import pt.traincompany.searchHistory.SearchHistoryHelper;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
 import pt.traincompany.utility.Utility;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -45,10 +48,28 @@ public class Search extends Activity {
     	search.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				dialog.show();
+				updateDatabase();
 				SearchServer search = new SearchServer();
 				new Thread(search).start();
 			}
 		});
+	}
+	
+	public void updateDatabase() {
+
+		SearchHistoryHelper helper = new SearchHistoryHelper(Search.this);
+
+		SQLiteDatabase db = helper.getWritableDatabase();
+		
+		ContentValues cv = new ContentValues();
+		cv.put("departure", (String) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem());
+		cv.put("arrival", (String) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem());
+		cv.put("hours", 1);
+		cv.put("minutes", 1);
+		
+		db.update("SearchHistory", cv, "date = (SELECT min(date) FROM SearchHistory)", null);
+
+		db.close();
 	}
 	
 	class SearchServer implements Runnable {
