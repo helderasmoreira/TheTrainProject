@@ -6,7 +6,12 @@ import java.util.Calendar;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import pt.traincompany.account.AccountManager;
+import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
+import pt.traincompany.tickets.MyTickets;
+import pt.traincompany.tickets.Ticket;
+import pt.traincompany.tickets.TicketActivity;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
 import pt.traincompany.utility.Utility;
@@ -14,6 +19,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -24,6 +30,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class SearchResultExtended extends Activity {
@@ -48,7 +55,7 @@ public class SearchResultExtended extends Activity {
 		strFrom = bundle.getString("from");
 		strTo = bundle.getString("to");
 		setTitle(bundle.getString("from") + " > " + bundle.getString("to"));
-
+		
 		try {
 			int pos = bundle.getInt("position");
 
@@ -78,8 +85,6 @@ public class SearchResultExtended extends Activity {
 
 			for (int i = 0; i < stations.length(); i += 3) {
 				route_ids.add(stations.getInt(i));
-				// double price_temp = stations.getDouble(i+1);
-				// int route_id = stations.getDouble(i);
 				JSONArray stations_temp = stations.getJSONArray(i + 2);
 
 				for (int j = 0; j < stations_temp.length(); j++) {
@@ -149,29 +154,43 @@ public class SearchResultExtended extends Activity {
 		Button buyTicket = (Button) findViewById(R.id.btnBuyTicket);
 		buyTicket.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if(Configurations.userId == 0)
-					
-				dialog = ProgressDialog.show(SearchResultExtended.this, "",
-						"A comunicar com o servidor...", true);
-				final Calendar c = Calendar.getInstance();
-				int mYear = c.get(Calendar.YEAR);
-				int mMonth = c.get(Calendar.MONTH);
-				int mDay = c.get(Calendar.DAY_OF_MONTH);
-				c.set(mYear, mMonth, mDay);
-
-				DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerTicket);
-
-				final Calendar c2 = Calendar.getInstance();
-				c2.set(datePicker.getYear(), datePicker.getMonth(),
-						datePicker.getDayOfMonth());
-
-				if (c2.after(c)) {
-					CheckTicket checkTicket = new CheckTicket(c2);
-					new Thread(checkTicket).start();
+				if(Configurations.userId == 0) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							SearchResultExtended.this);
+					builder.setMessage("Pretende fazer login?")
+							.setTitle("Login")
+							.setPositiveButton("Sim",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog2, int id) {
+											Intent myIntent = new Intent(SearchResultExtended.this, AccountManager.class);
+											SearchResultExtended.this.startActivity(myIntent);
+										}
+									}).setNegativeButton("Não", null);
+					builder.show();
 				} else {
-					makeToast("Não pode comprar bilhete para essa data...");
+					
+					dialog = ProgressDialog.show(SearchResultExtended.this, "",
+							"A comunicar com o servidor...", true);
+					final Calendar c = Calendar.getInstance();
+					int mYear = c.get(Calendar.YEAR);
+					int mMonth = c.get(Calendar.MONTH);
+					int mDay = c.get(Calendar.DAY_OF_MONTH);
+					c.set(mYear, mMonth, mDay);
+	
+					DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerTicket);
+	
+					final Calendar c2 = Calendar.getInstance();
+					c2.set(datePicker.getYear(), datePicker.getMonth(),
+							datePicker.getDayOfMonth());
+	
+					if (c2.after(c)) {
+						CheckTicket checkTicket = new CheckTicket(c2);
+						new Thread(checkTicket).start();
+					} else {
+						makeToast("Não pode comprar bilhete para essa data...");
+					}
 				}
-
 			}
 		});
 	}
@@ -229,6 +248,7 @@ public class SearchResultExtended extends Activity {
 									new DialogInterface.OnClickListener() {
 										public void onClick(
 												DialogInterface dialog2, int id) {
+											dialog.dismiss();
 											dialog = ProgressDialog.show(
 													SearchResultExtended.this,
 													"",
@@ -238,7 +258,12 @@ public class SearchResultExtended extends Activity {
 													c1);
 											new Thread(buyTicket).start();
 										}
-									}).setNegativeButton("Não", null);
+									}).setNegativeButton("Não", new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog2, int id) {
+											dialog.dismiss();
+										}
+									});
 					builder.show();
 				}
 			});
@@ -248,6 +273,7 @@ public class SearchResultExtended extends Activity {
 
 	class BuyTicket implements Runnable {
 		Calendar c2;
+		private int ticket_id;
 
 		public BuyTicket(Calendar c1) {
 			c2 = c1;
@@ -274,7 +300,7 @@ public class SearchResultExtended extends Activity {
 			try {
 				response = Connection.getJSONLine(uri.build());
 				JSONArray response_array = new JSONArray(response);
-				int id = response_array.getInt(0);
+				ticket_id = response_array.getInt(0);
 				
 				for (int i = 0; i < route_ids.size(); i++) {
 					if (type_route.equals(Configurations.DUAL_ROUTE_OTHER_DAY)
@@ -295,7 +321,7 @@ public class SearchResultExtended extends Activity {
 											+ (c2.get(Calendar.MONTH) + 1)
 											+ "-" + c2.get(Calendar.YEAR))
 							.appendQueryParameter("user_id", Configurations.userId + "")
-							.appendQueryParameter("ticket_id", id + "")
+							.appendQueryParameter("ticket_id", ticket_id + "")
 							.build();
 
 					response = null;
@@ -305,8 +331,46 @@ public class SearchResultExtended extends Activity {
 						makeToast("A comunicação com o servidor falhou...");
 					}
 				}
+				
+				dialog.dismiss();
+				runOnUiThread(new Runnable() {
+					public void run() {
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								SearchResultExtended.this);
+						builder.setMessage(
+								"Pretende ver os detalhes do bilhete? Tem de pagá-lo até 24h antes da partida.")
+								.setTitle("Reserva efetuada")
+								.setPositiveButton("Sim",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog2,
+													int id2) {
+												Ticket t = new Ticket(
+														ticket_id,
+														strDepartureTime,
+														strArrivalTime,
+														c2.get(Calendar.DAY_OF_MONTH)
+																+ "-"
+																+ (c2.get(Calendar.MONTH) + 1)
+																+ "-"
+																+ c2.get(Calendar.YEAR),
+														strFrom, strDuration,
+														strTo, price_double,
+														false);
+												Intent i = new Intent(
+														SearchResultExtended.this,
+														TicketActivity.class);
+												i.putExtra("ticket", (Ticket) t);
+												SearchResultExtended.this
+														.startActivity(i);
+											}
+										}).setNegativeButton("Não", null);
+						builder.show();
+					}
+				});
 
-				makeToast("Reserva efetuada com sucesso...");
+				
+				//makeToast("Reserva efetuada com sucesso...");
 
 			} catch (Exception e) {
 				// REVERT ALL
