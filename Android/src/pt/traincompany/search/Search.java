@@ -24,6 +24,7 @@ import android.widget.Toast;
 public class Search extends Activity {
 	
 	ProgressDialog dialog;
+	TimePicker dp;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,10 @@ public class Search extends Activity {
                 "A comunicar com o servidor...", true);
 		GetStations gs = new GetStations();
     	new Thread(gs).start();
+    	
+    	dp = (TimePicker) findViewById(R.id.timePicker1);
+		dp.setCurrentHour(0);
+		dp.setCurrentMinute(0);
 		
     	Button search = (Button) findViewById(R.id.btnSearch);
     	search.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +65,7 @@ public class Search extends Activity {
 				dialog.dismiss();
 				runOnUiThread(new Runnable() {
 					public void run() {
-						Toast.makeText(Search.this, "A estação de origem não pode ser igual à de destino.", Toast.LENGTH_LONG).show();
+						Toast.makeText(Search.this, "A estação de origem não pode ser igual à de destino.", Toast.LENGTH_SHORT).show();
 				}});
 				return;
 			}
@@ -69,26 +74,34 @@ public class Search extends Activity {
 			uri.path(Configurations.GETROUTE)
 				.appendQueryParameter("from", from)
 				.appendQueryParameter("to", to)
+				.appendQueryParameter("hour", dp.getCurrentHour()+":"+dp.getCurrentMinute())
 				.appendQueryParameter("format", Configurations.FORMAT).build();
 			
 			String response = null;
 			try {
 				response = Connection.getJSONLine(uri.build());
 				Utility.search_results = new JSONArray(response);
-				Utility.search_data = new SearchResult[Utility.search_results.length()];
-
-				for(int i = 0; i < Utility.search_results.length(); i++) {
-					JSONArray route = (JSONArray) Utility.search_results.get(i);
-					Utility.search_data[i] = new SearchResult(route.getString(1), route.getString(2), route.getString(3), route.getDouble(4));
+				if(Utility.search_results.length() == 0)
+					runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(Search.this, "Não foram encontradas viagens...", Toast.LENGTH_SHORT).show();	
+						}});
+				else {
+					Utility.search_data = new SearchResult[Utility.search_results.length()];
+	
+					for(int i = 0; i < Utility.search_results.length(); i++) {
+						JSONArray route = (JSONArray) Utility.search_results.get(i);
+						Utility.search_data[i] = new SearchResult(route.getString(1), route.getString(2), route.getString(3), route.getDouble(4));
+					}
+					
+					Bundle b = new Bundle();
+					b.putString("from", from);
+					b.putString("to", to);
+					
+					Intent myIntent = new Intent(Search.this, SearchResults.class);
+					myIntent.putExtras(b);
+					Search.this.startActivity(myIntent);
 				}
-				
-				Bundle b = new Bundle();
-				b.putString("from", from);
-				b.putString("to", to);
-				
-				Intent myIntent = new Intent(Search.this, SearchResults.class);
-				myIntent.putExtras(b);
-				Search.this.startActivity(myIntent);
 			}
 			catch(Exception e) {
 				communicationProblem();
