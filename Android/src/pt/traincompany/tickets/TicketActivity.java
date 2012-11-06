@@ -11,7 +11,6 @@ import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,10 +33,10 @@ public class TicketActivity extends Activity {
 		id.setText(ticket.id + "");
 
 		TextView departure = (TextView) findViewById(R.id.departureTime);
-		departure.setText(ticket.departureTime + "");
+		departure.setText(ticket.departureTime);
 
 		TextView arrival = (TextView) findViewById(R.id.arrivalTime);
-		arrival.setText(ticket.arrivalTime + "");
+		arrival.setText(ticket.arrivalTime);
 
 		TextView data = (TextView) findViewById(R.id.date);
 		data.setText(ticket.date);
@@ -52,7 +51,7 @@ public class TicketActivity extends Activity {
 		price.setText(ticket.price + " €");
 
 		TextView duration = (TextView) findViewById(R.id.duration);
-		duration.setText(ticket.duration + " min");
+		duration.setText(ticket.duration);
 
 		ImageView paid = (ImageView) findViewById(R.id.paid);
 		if (ticket.paid)
@@ -94,11 +93,5 @@ public class TicketActivity extends Activity {
 				});
 			}
 		}).start();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_ticket, menu);
-		return true;
 	}
 }

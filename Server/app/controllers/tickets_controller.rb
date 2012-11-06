@@ -34,6 +34,14 @@ class TicketsController < ApplicationController
 
   end
 
+  def getByUserId
+    tickets = Ticket.where("user_id = ?", params[:user_id])
+    respond_to do |format|
+      format.json { render json: tickets }
+    end
+  end
+
+
   # GET /tickets/1
   # GET /tickets/1.json
   def show

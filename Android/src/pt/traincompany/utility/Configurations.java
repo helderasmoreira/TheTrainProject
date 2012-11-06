@@ -17,6 +17,7 @@ public class Configurations {
 	final public static String SIMPLE_ROUTE = "SIMPLE_ROUTE";
 	final public static String DUAL_ROUTE_OTHER_DAY = "DUAL_ROUTE_OTHER_DAY";
 	final public static String DUAL_ROUTE_SAME_DAY = "DUAL_ROUTE_SAME_DAY";
+	final public static String GETTICKETSBYID = "getTicketsByUserId";
 	
 	
 	public static String username;
