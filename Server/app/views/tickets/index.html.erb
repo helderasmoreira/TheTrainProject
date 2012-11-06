@@ -3,7 +3,6 @@
 <table>
   <tr>
     <th>User</th>
-    <th>Date</th>
     <th>Price</th>
     <th>Paid</th>
     <th></th>
@@ -14,7 +13,6 @@
 <% @tickets.each do |ticket| %>
   <tr>
     <td><%= ticket.user %></td>
-    <td><%= ticket.date %></td>
     <td><%= ticket.price %></td>
     <td><%= ticket.paid %></td>
     <td><%= link_to 'Show', ticket %></td>

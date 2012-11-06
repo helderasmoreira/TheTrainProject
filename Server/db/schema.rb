@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121105114145) do
+ActiveRecord::Schema.define(:version => 20121106154046) do
 
   create_table "cards", :force => true do |t|
     t.string   "number"
@@ -93,8 +93,13 @@ ActiveRecord::Schema.define(:version => 20121105114145) do
     t.integer  "user_id"
     t.float    "price"
     t.boolean  "paid"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "departureTime"
+    t.string   "arrivalTime"
+    t.string   "duration"
+    t.string   "departure"
+    t.string   "arrival"
   end
 
   add_index "tickets", ["user_id"], :name => "index_tickets_on_user_id"

@@ -24,6 +24,8 @@ TrainCompanyServer::Application.routes.draw do
   get "addCardToUser", :to => "cards#addCard"
   get "removeCard", :to => "cards#removeCard"
   get "verifyTicket", :to => "tickets#verify_ticket"
+  get "newTicket", :to => "tickets#new_ticket"
+  get "addTicketRoutes", :to => "ticket_routes#new_ticket"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

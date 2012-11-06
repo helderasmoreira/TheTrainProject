@@ -1,4 +1,18 @@
 class TicketRoutesController < ApplicationController
+
+
+  def new_ticket
+    route_id = params[:route_id]
+    stop_start = params[:stop_start]
+    stop_end = params[:stop_end]
+    stop_start_order = RouteStop.where(:route_id => route_id, :stop_id => Stop.where(:location => stop_start).first).first.stop_order
+    stop_end_order = RouteStop.where(:route_id => route_id, :stop_id => Stop.where(:location => stop_end).first).first.stop_order
+
+    ticket_route = TicketRoute.create(:ticket_id => params[:ticket_id], :date => params[:date], :route_id => params[:route_id], :stop_start_order => stop_start_order, :stop_end_order => stop_end_order)
+
+    render :nothing => true
+  end
+
   # GET /ticket_routes
   # GET /ticket_routes.json
   def index

@@ -11,6 +11,20 @@ class TicketsController < ApplicationController
     end
   end
 
+  def new_ticket
+    ticket = Ticket.create(:price => params[:price], 
+      :user_id => params[:user_id], 
+      :paid => false,
+      :departureTime => params[:departureTime],
+      :arrivalTime => params[:arrivalTime],
+      :duration => params[:duration],
+      :departure => params[:departure],
+      :arrival => params[:arrival])
+    respond_to do |format|
+      format.json { render json: [ticket.id] }
+    end
+  end
+
   def verify_ticket
     route_id = params[:route_id]
     stop_start = params[:stop_start]

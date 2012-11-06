@@ -1,8 +1,6 @@
 class Ticket < ActiveRecord::Base
   	belongs_to :route
 	belongs_to :user
-	belongs_to :stop_start, :class_name => "Stop"
-	belongs_to :stop_end, :class_name => "Stop"
 	has_many :ticket_routes
-  	attr_accessible :date, :paid, :price, :route_id, :user_id, :stop_start_id, :stop_end_id
+  	attr_accessible :paid, :price, :user_id, :departureTime, :arrivalTime, :duration, :departure, :arrival
 end

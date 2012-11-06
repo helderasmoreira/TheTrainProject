@@ -201,14 +201,14 @@ public class CardManagement extends Activity {
 
 				if (status.equals("OK")) {
 
-					for (Card c : Utility.user_cards)
-						if (c.number.equals(number))
-							Utility.user_cards.remove(c);
-
 					runOnUiThread(new Runnable() {
 						public void run() {
 
 							dialog.dismiss();
+							
+							for (Card c : Utility.user_cards)
+								if (c.number.equals(number))
+									Utility.user_cards.remove(c);
 
 							CardAdapter adapter = new CardAdapter(
 									CardManagement.this,
