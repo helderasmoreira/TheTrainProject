@@ -15,8 +15,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -68,6 +70,10 @@ public class CardManagement extends Activity {
 				Configurations.name = "";
 				Utility.user_cards = new ArrayList<Card>();
 				Configurations.cardsLoaded = false;
+				
+				Editor editor = PreferenceManager.getDefaultSharedPreferences(CardManagement.this).edit();
+				editor.clear();
+				editor.commit();
 
 				Toast.makeText(CardManagement.this,
 						"Logout efetuado com sucesso.", Toast.LENGTH_LONG)

@@ -7,6 +7,7 @@ import pt.traincompany.tickets.MyTickets;
 import pt.traincompany.utility.Configurations;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -21,6 +22,10 @@ public class Home extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_home);
+		
+		Configurations.userId = PreferenceManager.getDefaultSharedPreferences(Home.this).getInt("userId", 0);
+		Configurations.username = PreferenceManager.getDefaultSharedPreferences(Home.this).getString("username", "");
+		Configurations.name = PreferenceManager.getDefaultSharedPreferences(Home.this).getString("name", "");
 
 		final ImageView search = (ImageView) findViewById(R.id.btnSearch);
 		search.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +56,8 @@ public class Home extends Activity {
 			public void onClick(View v) {
 					
 				Intent myIntent;
+				
+				
 				if (Configurations.userId > 0)  
 					myIntent = new Intent(Home.this, CardManagement.class);
 				else

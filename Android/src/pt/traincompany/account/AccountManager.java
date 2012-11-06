@@ -2,14 +2,17 @@ package pt.traincompany.account;
 
 import org.json.JSONObject;
 
+import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +27,8 @@ public class AccountManager extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_account_manager);
 
+		
+		
 		final Button login = (Button) findViewById(R.id.btnLogin);
 		login.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -100,6 +105,13 @@ public class AccountManager extends Activity {
 					Configurations.userId = Integer.parseInt(info.getString("id")); 
 					Configurations.username = username;
 					Configurations.name = info.getString("name");
+					
+					Editor editor = PreferenceManager.getDefaultSharedPreferences(AccountManager.this).edit();
+			        editor.putInt("userId", Configurations.userId);
+			        editor.putString("username", Configurations.username);
+			        editor.putString("name", Configurations.name);
+			        editor.commit();
+							
 							
 					runOnUiThread(new Runnable() {
 						public void run() {
@@ -109,7 +121,7 @@ public class AccountManager extends Activity {
 									"Login efetuado com sucesso!",
 									Toast.LENGTH_LONG).show();
 							
-							Intent i = new Intent(AccountManager.this, CardManagement.class);
+							Intent i = new Intent(AccountManager.this, Home.class);
 							startActivity(i);
 						}
 					});
@@ -162,6 +174,12 @@ public class AccountManager extends Activity {
 					Configurations.userId = Integer.parseInt(info.getString("id")); 
 					Configurations.username = username;
 					Configurations.name = info.getString("name");
+					
+					Editor editor = PreferenceManager.getDefaultSharedPreferences(AccountManager.this).edit();
+			        editor.putInt("userId", Configurations.userId);
+			        editor.putString("username", Configurations.username);
+			        editor.putString("name", Configurations.name);
+			        editor.commit();
 							
 					runOnUiThread(new Runnable() {
 						public void run() {
