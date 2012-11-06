@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121106154046) do
+ActiveRecord::Schema.define(:version => 20121106161918) do
 
   create_table "cards", :force => true do |t|
     t.string   "number"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20121106154046) do
     t.string   "duration"
     t.string   "departure"
     t.string   "arrival"
+    t.string   "date"
   end
 
   add_index "tickets", ["user_id"], :name => "index_tickets_on_user_id"

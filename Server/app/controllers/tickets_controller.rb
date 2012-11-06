@@ -19,7 +19,8 @@ class TicketsController < ApplicationController
       :arrivalTime => params[:arrivalTime],
       :duration => params[:duration],
       :departure => params[:departure],
-      :arrival => params[:arrival])
+      :arrival => params[:arrival],
+      :date => params[:date])
     respond_to do |format|
       format.json { render json: [ticket.id] }
     end
@@ -47,6 +48,14 @@ class TicketsController < ApplicationController
     end
 
   end
+
+  def getByUserId
+    tickets = Ticket.where(:user_id => params[:user_id])
+    respond_to do |format|
+      format.json { render json: tickets }
+    end
+  end
+
 
   # GET /tickets/1
   # GET /tickets/1.json

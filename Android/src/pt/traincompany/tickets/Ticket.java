@@ -9,7 +9,7 @@ public class Ticket implements Serializable {
 	public String date;
 	public String from;
 	public String to;
-	public int duration;
+	public String duration;
 	public double price;
 	public String departureTime;
 	public String arrivalTime;
@@ -19,7 +19,7 @@ public class Ticket implements Serializable {
 		super();
 	}
 
-	public Ticket(int id, String departureTime, String arrivalTime,  String date, String from, int duration, String to, double price, boolean paid) {
+	public Ticket(int id, String departureTime, String arrivalTime,  String date, String from, String duration, String to, double price, boolean paid) {
 		super();
 		this.id = id;
 		this.date = date;
