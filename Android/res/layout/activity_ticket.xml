@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
@@ -149,7 +149,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25" />
             </TableRow>
-
+   <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" >
             <TableRow
                 android:id="@+id/tableRow6"
                 android:layout_marginTop="20dp"
@@ -185,6 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </TableRow>
+               </TableLayout>
         </TableLayout>
 
         <TableLayout

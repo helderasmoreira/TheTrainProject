@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import pt.traincompany.account.CardManagement;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
@@ -28,6 +29,12 @@ public class MyTickets extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_tickets);
+		
+		dialog = ProgressDialog.show(MyTickets.this, "",
+				"A comunicar com o servidor...", true);
+		
+		GetTicketsByUserId tickets = new GetTicketsByUserId();
+		new Thread(tickets).start();
 
 		final ListView list = (ListView) findViewById(R.id.myTickets);
 		list.setOnItemClickListener(new OnItemClickListener() {
@@ -52,7 +59,7 @@ public class MyTickets extends Activity {
 					.buildUpon();
 			uri.path(Configurations.GETTICKETSBYID);
 			uri.appendQueryParameter("format", Configurations.FORMAT);
-			uri.appendQueryParameter("userId", Configurations.userId + "");
+			uri.appendQueryParameter("user_id", Configurations.userId + "");
 
 			String response = null;
 
