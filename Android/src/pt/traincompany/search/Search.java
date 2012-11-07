@@ -1,6 +1,7 @@
 package pt.traincompany.search;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -71,6 +72,7 @@ public class Search extends Activity {
 		cv.put("arrival", (String) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem());
 		cv.put("hours", dp.getCurrentHour());
 		cv.put("minutes", dp.getCurrentMinute());
+		cv.put("date",Calendar.getInstance().getTimeInMillis());
 		
 		db.update("SearchHistory", cv, "date = (SELECT min(date) FROM SearchHistory)", null);
 

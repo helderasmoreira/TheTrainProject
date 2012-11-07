@@ -121,8 +121,7 @@ public class AccountManager extends Activity {
 									"Login efetuado com sucesso!",
 									Toast.LENGTH_LONG).show();
 							
-							Intent i = new Intent(AccountManager.this, Home.class);
-							startActivity(i);
+							AccountManager.this.finish();
 						}
 					});
 				}

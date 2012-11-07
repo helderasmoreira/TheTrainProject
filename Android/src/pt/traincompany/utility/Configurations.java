@@ -2,7 +2,7 @@ package pt.traincompany.utility;
 
 public class Configurations {
 	
-	final public static String AUTHORITY = "192.168.10.3:3000";
+	final public static String AUTHORITY = "172.30.80.237:3000";
 	final public static String SCHEME = "http";
 	final public static String FORMAT = "json";
 	
