@@ -1,9 +1,7 @@
 package pt.traincompany.searchHistory;
 
-import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
 import pt.traincompany.search.Search;
-import pt.traincompany.tickets.MyTickets;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SearchQueryAdapter extends ArrayAdapter<SearchQuery> {
 	

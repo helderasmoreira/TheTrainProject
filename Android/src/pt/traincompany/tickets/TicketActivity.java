@@ -3,12 +3,8 @@ package pt.traincompany.tickets;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-
 import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
-import pt.traincompany.search.Search;
-import pt.traincompany.search.SearchResultExtended;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
 import pt.traincompany.utility.Utility;

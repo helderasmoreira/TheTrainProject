@@ -2,7 +2,6 @@ package pt.traincompany.account;
 
 import org.json.JSONObject;
 
-import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;

@@ -3,15 +3,11 @@ package pt.traincompany.search;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import pt.traincompany.account.AccountManager;
-import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
-import pt.traincompany.tickets.MyTickets;
 import pt.traincompany.tickets.Ticket;
 import pt.traincompany.tickets.TicketActivity;
 import pt.traincompany.utility.Configurations;
@@ -32,7 +28,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class SearchResultExtended extends Activity {

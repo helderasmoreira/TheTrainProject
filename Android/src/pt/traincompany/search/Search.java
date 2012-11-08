@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -205,6 +204,7 @@ public class Search extends Activity {
 				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 				runOnUiThread(new Runnable() {
+					@SuppressWarnings("unchecked")
 					public void run() {
 						Spinner spinner = (Spinner) findViewById(R.id.spinner1);
 						spinner.setAdapter(adapter);
