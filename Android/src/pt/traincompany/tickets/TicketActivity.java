@@ -3,6 +3,13 @@ package pt.traincompany.tickets;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import pt.traincompany.account.Card;
+import pt.traincompany.account.CardAdapter;
 import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
@@ -62,8 +69,13 @@ public class TicketActivity extends Activity {
 		duration.setText(ticket.duration);
 
 		ImageView paid = (ImageView) findViewById(R.id.paid);
-		if (ticket.paid)
+		if (ticket.paid) {
+			Button cancel = (Button) findViewById(R.id.btnDeleteTicket);
+			cancel.setVisibility(View.INVISIBLE);
+			Button pay = (Button) findViewById(R.id.btnPayTicket);
+			pay.setVisibility(View.INVISIBLE);
 			paid.setImageResource(R.drawable.pago);
+		}
 		else
 			paid.setImageResource(R.drawable.delete);
 			
@@ -127,6 +139,19 @@ public class TicketActivity extends Activity {
 			}
 		});
 		
+		Button pay = (Button) findViewById(R.id.btnPayTicket);
+		pay.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				dialog = ProgressDialog.show(TicketActivity.this, "",
+						"A comunicar com o servidor...", true);
+				dialog.setCancelable(true);
+				GetCardsByUserId get = new GetCardsByUserId();
+				new Thread(get).start();
+			}
+		});
+		
+		
+		
 	}
 	
 	class CancelTicket implements Runnable {
@@ -169,5 +194,98 @@ public class TicketActivity extends Activity {
 						Toast.LENGTH_SHORT).show();
 			}
 		});
+	}
+	
+	class GetCardsByUserId implements Runnable {
+
+		public void run() {
+
+			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
+					.buildUpon();
+			uri.path(Configurations.GETCARDSBYID);
+			uri.appendQueryParameter("format", Configurations.FORMAT);
+			uri.appendQueryParameter("userId", Configurations.userId + "");
+
+			String response = null;
+
+			try {
+				response = Connection.getJSONLine(uri.build());
+
+				JSONArray info = new JSONArray(response);
+
+				for (int i = 0; i < info.length(); i++) {
+					JSONObject card = info.getJSONObject(i);
+					String number = card.getString("number");
+					int id = card.getInt("id");
+					Card c = new Card(id, number);
+					Utility.user_cards = new ArrayList<Card>();
+					Utility.user_cards.add(c);
+				}
+
+				Configurations.cardsLoaded = true;
+
+				runOnUiThread(new Runnable() {
+					public void run() {
+						dialog.dismiss();
+						CardAdapter adapter = new CardAdapter(
+								TicketActivity.this, R.layout.creditcard_row2,
+								R.drawable.ic_launcher,
+								Utility.user_cards
+										.toArray(new Card[Utility.user_cards
+												.size()]));
+						AlertDialog.Builder builder = new AlertDialog.Builder(TicketActivity.this);
+					    builder.setTitle("Escolha um cartão")
+					           .setAdapter(adapter, new DialogInterface.OnClickListener() {
+					               public void onClick(DialogInterface dialog2, int which) {
+					            	   dialog = ProgressDialog.show(TicketActivity.this, "",
+												"A pagar o bilhete...", true);
+					            	   PayTicket pt = new PayTicket();
+					            	   new Thread(pt).start();
+					           }
+					    });
+					    builder.show();
+					    
+					}
+				});
+
+			} catch (Exception e) {
+				communicationProblem();
+			}
+		}
+
+	}
+	
+	class PayTicket implements Runnable {
+
+		public void run() {
+			
+			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
+					.buildUpon();
+			uri.path(Configurations.PAYTICKET);
+			uri.appendQueryParameter("id", ticket.id + "");
+			uri.appendQueryParameter("format", Configurations.FORMAT);
+
+			String response = null;
+
+			try {
+				response = Connection.getJSONLine(uri.build());
+				JSONArray info = new JSONArray(response);
+				if(info.getString(0).equals("paid")) {
+					makeToast("Cartão pago com sucesso...");
+					ticket.paid = true;
+					ImageView paid = (ImageView) findViewById(R.id.paid);
+					paid.setImageResource(R.drawable.pago);
+					Button cancel = (Button) findViewById(R.id.btnDeleteTicket);
+					cancel.setVisibility(View.INVISIBLE);
+					Button pay = (Button) findViewById(R.id.btnPayTicket);
+					pay.setVisibility(View.INVISIBLE);
+				}
+				else
+					makeToast("Occorreu um erro com a operação...");
+			}
+			catch(Exception e) {
+				makeToast("Occorreu um erro com a operação...");
+			}
+		}
 	}
 }

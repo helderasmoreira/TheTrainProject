@@ -117,6 +117,22 @@ class TicketsController < ApplicationController
     end
   end
 
+  def pay
+    ticket = Ticket.find(params[:id])
+    result = ["paid"]
+
+    if Random.rand(200) > 150
+      result = ["error"]
+    else
+      ticket.paid = true
+      ticket.save
+    end
+
+    respond_to do |format|
+        format.json { render json: result}
+    end
+  end
+
   def cancel
     @ticket = Ticket.find(params[:id])
     @ticket.destroy
