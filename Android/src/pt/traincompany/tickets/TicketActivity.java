@@ -70,7 +70,7 @@ public class TicketActivity extends Activity {
 			paid.setImageResource(R.drawable.pago);
 		else
 			paid.setImageResource(R.drawable.delete);
-		
+			
 		dialog = ProgressDialog.show(TicketActivity.this, "",
 				"A gerar identificador...", true);
 		dialog.setCancelable(true);
