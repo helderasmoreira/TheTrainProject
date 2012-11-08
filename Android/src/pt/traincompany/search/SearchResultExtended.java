@@ -1,12 +1,18 @@
 package pt.traincompany.search;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import pt.traincompany.account.AccountManager;
+import pt.traincompany.account.Card;
+import pt.traincompany.account.CardAdapter;
 import pt.traincompany.main.R;
 import pt.traincompany.tickets.Ticket;
 import pt.traincompany.tickets.TicketActivity;
@@ -43,6 +49,7 @@ public class SearchResultExtended extends Activity {
 	private String strDepartureTime;
 	private String strArrivalTime;
 	private String strDuration;
+	private int ticket_id;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -191,7 +198,14 @@ public class SearchResultExtended extends Activity {
 					int mMonth = c.get(Calendar.MONTH);
 					int mDay = c.get(Calendar.DAY_OF_MONTH);
 					c.set(mYear, mMonth, mDay);
-	
+					SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
+					
+					try {
+						Date d = tf.parse(strDepartureTime);
+						c.set(Calendar.HOUR_OF_DAY, d.getHours());
+						c.set(Calendar.MINUTE, d.getMinutes());
+					} catch (ParseException e) {}
+					
 					DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerTicket);
 	
 					final Calendar c2 = Calendar.getInstance();
@@ -250,6 +264,7 @@ public class SearchResultExtended extends Activity {
 					free_spots = response_array.getInt(1);
 				} catch (Exception e) {
 					makeToast("A comunicação com o servidor falhou...");
+					return;
 				}
 			}
 
@@ -289,7 +304,7 @@ public class SearchResultExtended extends Activity {
 
 	class BuyTicket implements Runnable {
 		Calendar c2;
-		private int ticket_id;
+		
 
 		public BuyTicket(Calendar c1) {
 			c2 = c1;
@@ -349,6 +364,50 @@ public class SearchResultExtended extends Activity {
 				dialog.dismiss();
 				runOnUiThread(new Runnable() {
 					public void run() {
+						Calendar c = Calendar.getInstance();
+						c.add(Calendar.DAY_OF_MONTH, 1);
+						
+						if(c2.after(c))
+							reservationDone();
+						else
+							reservationDonePayNow();
+					}
+					
+					
+					private void reservationDonePayNow() {
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								SearchResultExtended.this);
+						builder.setMessage(
+								"Como estamos próximos da data, tem de pagar o bilhete agora. Pretende fazê-lo?")
+								.setTitle("Reserva efetuada")
+								.setPositiveButton("Sim",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog2,
+													int id2) {
+												dialog = ProgressDialog.show(SearchResultExtended.this, "",
+														"A comunicar com o servidor...", true);
+												dialog.setCancelable(true);
+												GetCardsByUserId gc = new GetCardsByUserId();
+												new Thread(gc).start();
+											}
+										}).setNegativeButton("Não", new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog2,
+													int id2) {
+												dialog = ProgressDialog.show(SearchResultExtended.this, "",
+														"A cancelar o bilhete...", true);
+												dialog.setCancelable(true);
+												CancelTicket search = new CancelTicket();
+												new Thread(search).start();
+												
+											}
+										});
+						
+						builder.show();
+					}
+					
+					private void reservationDone() {
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								SearchResultExtended.this);
 						builder.setMessage(
@@ -399,4 +458,134 @@ public class SearchResultExtended extends Activity {
 			}
 		});
 	}
+	
+	class PayTicket implements Runnable {
+
+		public void run() {
+			
+			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
+					.buildUpon();
+			uri.path(Configurations.PAYTICKET);
+			uri.appendQueryParameter("id", ticket_id + "");
+			uri.appendQueryParameter("format", Configurations.FORMAT);
+
+			String response = null;
+
+			try {
+				response = Connection.getJSONLine(uri.build());
+				JSONArray info = new JSONArray(response);
+				if(info.getString(0).equals("paid")) {
+					makeToast("Bilhete pago com sucesso...");
+				}
+				else {
+					makeToast("Occorreu um erro com a operação...");
+					dialog = ProgressDialog.show(SearchResultExtended.this, "",
+							"A cancelar o bilhete...", true);
+					dialog.setCancelable(true);
+					CancelTicket search = new CancelTicket();
+					new Thread(search).start();
+				}
+				
+			}
+			catch(Exception e) {
+				makeToast("Occorreu um erro com a operação...");
+				dialog = ProgressDialog.show(SearchResultExtended.this, "",
+						"A cancelar o bilhete...", true);
+				dialog.setCancelable(true);
+				CancelTicket search = new CancelTicket();
+				new Thread(search).start();
+			}
+		}
+	}
+	
+	public class GetCardsByUserId implements Runnable {
+
+		public void run() {
+
+			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
+					.buildUpon();
+			uri.path(Configurations.GETCARDSBYID);
+			uri.appendQueryParameter("format", Configurations.FORMAT);
+			uri.appendQueryParameter("userId", Configurations.userId + "");
+
+			String response = null;
+
+			try {
+				response = Connection.getJSONLine(uri.build());
+
+				JSONArray info = new JSONArray(response);
+
+				for (int i = 0; i < info.length(); i++) {
+					JSONObject card = info.getJSONObject(i);
+					String number = card.getString("number");
+					int id = card.getInt("id");
+					Card c = new Card(id, number);
+					Utility.user_cards = new ArrayList<Card>();
+					Utility.user_cards.add(c);
+				}
+
+				Configurations.cardsLoaded = true;
+
+				runOnUiThread(new Runnable() {
+					public void run() {
+						dialog.dismiss();
+						CardAdapter adapter = new CardAdapter(
+								SearchResultExtended.this, R.layout.creditcard_row2,
+								R.drawable.ic_launcher,
+								Utility.user_cards
+										.toArray(new Card[Utility.user_cards
+												.size()]));
+						AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultExtended.this);
+					    builder.setTitle("Escolha um cartão")
+					           .setAdapter(adapter, new DialogInterface.OnClickListener() {
+					               public void onClick(DialogInterface dialog2, int which) {
+					            	   dialog = ProgressDialog.show(SearchResultExtended.this, "",
+												"A pagar o bilhete...", true);
+					            	   PayTicket pt = new PayTicket();
+					            	   new Thread(pt).start();
+					           }
+					    });
+					    builder.show();
+					    
+					}
+				});
+
+			} catch (Exception e) {
+				communicationProblem();
+			}
+		}
+	}
+	
+	private void communicationProblem() {
+		if(dialog != null) dialog.dismiss();
+		runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(SearchResultExtended.this, "A comunicação com o servidor falhou...", Toast.LENGTH_LONG).show();
+		}});
+	}
+	
+	class CancelTicket implements Runnable {
+
+		public void run() {
+			
+			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY).buildUpon();
+			uri.path(Configurations.CANCELTICKET)
+				.appendQueryParameter("id", ticket_id+"")
+				.build();
+			
+			try {
+				Connection.getJSONLine(uri.build());
+				makeToast("Bilhete cancelado com sucesso...");
+				
+			}
+			catch(Exception e) {
+				communicationProblem();
+			}
+		}
+
+	}
 }
+
+
+	
+

@@ -196,7 +196,7 @@ public class TicketActivity extends Activity {
 		});
 	}
 	
-	class GetCardsByUserId implements Runnable {
+	public class GetCardsByUserId implements Runnable {
 
 		public void run() {
 
@@ -255,7 +255,7 @@ public class TicketActivity extends Activity {
 
 	}
 	
-	class PayTicket implements Runnable {
+	public class PayTicket implements Runnable {
 
 		public void run() {
 			
@@ -271,14 +271,21 @@ public class TicketActivity extends Activity {
 				response = Connection.getJSONLine(uri.build());
 				JSONArray info = new JSONArray(response);
 				if(info.getString(0).equals("paid")) {
-					makeToast("Cartão pago com sucesso...");
 					ticket.paid = true;
-					ImageView paid = (ImageView) findViewById(R.id.paid);
-					paid.setImageResource(R.drawable.pago);
-					Button cancel = (Button) findViewById(R.id.btnDeleteTicket);
-					cancel.setVisibility(View.INVISIBLE);
-					Button pay = (Button) findViewById(R.id.btnPayTicket);
-					pay.setVisibility(View.INVISIBLE);
+					runOnUiThread(new Runnable() {
+					public void run() {
+							ImageView paid = (ImageView) findViewById(R.id.paid);
+							paid.setImageResource(R.drawable.pago);
+							
+							Button cancel = (Button) findViewById(R.id.btnDeleteTicket);
+							cancel.setVisibility(View.INVISIBLE);
+							
+							Button pay = (Button) findViewById(R.id.btnPayTicket);
+							pay.setVisibility(View.INVISIBLE);
+							
+							makeToast("Bilhete pago com sucesso...");
+					}});
+								
 				}
 				else
 					makeToast("Occorreu um erro com a operação...");

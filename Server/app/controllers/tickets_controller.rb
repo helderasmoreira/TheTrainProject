@@ -33,6 +33,21 @@ class TicketsController < ApplicationController
     date = params[:date]
     date = Time.parse(date).strftime("%Y-%m-%d")
 
+    date_now = Time.now.strftime("%Y-%m-%d")
+
+    if date == date_now
+      t = Route.find(params[:route_id]).starts
+      t2 = Time.now
+      t1 = t.change(:month => 1, :day => 1, :year => 2000)
+      t2 = t2.change(:month => 1, :day => 1, :year => 2000)
+      if t <= t2
+        respond_to do |format|
+          format.json { render json: ["no"] }
+        end
+        return
+      end
+    end 
+
     stop_start_order = RouteStop.where(:route_id => route_id, :stop_id => Stop.where(:location => stop_start).first).first.stop_order
     stop_end_order = RouteStop.where(:route_id => route_id, :stop_id => Stop.where(:location => stop_end).first).first.stop_order
 
@@ -51,7 +66,9 @@ class TicketsController < ApplicationController
   end
 
   def getByUserId
-    tickets = Ticket.where(:user_id => params[:user_id])
+
+    tickets = Ticket.where(["user_id = ? AND paid = ?", params[:user_id], false])
+
     respond_to do |format|
       format.json { render json: tickets }
     end
