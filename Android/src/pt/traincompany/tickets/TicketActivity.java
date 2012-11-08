@@ -73,6 +73,7 @@ public class TicketActivity extends Activity {
 			
 		dialog = ProgressDialog.show(TicketActivity.this, "",
 				"A gerar identificador...", true);
+		dialog.setCancelable(true);
 
 		new Thread(new Runnable() {
 			public void run() {
@@ -121,6 +122,7 @@ public class TicketActivity extends Activity {
 											int id2) {
 										dialog = ProgressDialog.show(TicketActivity.this, "",
 												"A cancelar o bilhete...", true);
+										dialog.setCancelable(true);
 										CancelTicket search = new CancelTicket();
 										new Thread(search).start();
 									}

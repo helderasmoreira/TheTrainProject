@@ -23,6 +23,7 @@ public class MyHistory extends Activity {
 
 		dialog = ProgressDialog.show(MyHistory.this, "",
 				"A comunicar com o servidor...", true);
+		dialog.setCancelable(true);
 		
 		ArrayList<SearchQuery> queries = readDatabase();
 		

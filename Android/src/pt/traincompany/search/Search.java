@@ -34,7 +34,6 @@ public class Search extends Activity {
 	TimePicker dp;
 	Bundle bundle;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,8 +45,10 @@ public class Search extends Activity {
 		hour.setIs24HourView(true);
 
 		// adds stations
-		dialog = ProgressDialog.show(Search.this, "",
-				"A comunicar com o servidor...", true);
+		dialog = ProgressDialog.show(Search.this, "", 
+                "A comunicar com o servidor...", true);
+		dialog.setCancelable(true);
+
 		GetStations gs = new GetStations();
 		new Thread(gs).start();
 

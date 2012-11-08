@@ -98,6 +98,7 @@ public class AddCard extends Dialog {
 					
 					dialog = ProgressDialog.show(context, "",
 							"A comunicar com o servidor...", true);
+					dialog.setCancelable(true);
 
 					DatePicker date = (DatePicker) findViewById(R.id.expiryDate);
 					AddCardToUser ac = new AddCardToUser(number.getText()

@@ -46,6 +46,7 @@ public class CardManagement extends Activity {
 		} else {
 			dialog = ProgressDialog.show(CardManagement.this, "",
 					"A comunicar com o servidor...", true);
+			dialog.setCancelable(true);
 			GetCardsByUserId get = new GetCardsByUserId();
 			new Thread(get).start();
 		}
