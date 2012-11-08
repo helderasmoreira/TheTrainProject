@@ -21,11 +21,13 @@ public class Configurations {
 	final public static String BUYTICKET = "newTicket";
 	final public static String ADDTICKETROUTES = "addTicketRoutes";
 	final public static String CANCELTICKET = "cancelTicket";
+	final public static String PAYTICKET = "payTicket";
 	
 	public static String username;
 	public static String name;
 	public static int userId = 0;
 	public static boolean cardsLoaded = false;
+	
 	
 
 	final public static String QRCODE = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=";

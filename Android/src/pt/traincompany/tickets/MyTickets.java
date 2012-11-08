@@ -50,7 +50,6 @@ public class MyTickets extends Activity {
 				}
 			}
 		});
-
 	}
 
 	class GetTicketsByUserId implements Runnable {
