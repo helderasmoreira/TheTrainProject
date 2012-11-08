@@ -1,16 +1,12 @@
 package pt.traincompany.main;
 
-import org.json.JSONArray;
-
 import pt.traincompany.account.AccountManager;
 import pt.traincompany.account.CardManagement;
 import pt.traincompany.map.Map;
 import pt.traincompany.search.Search;
 import pt.traincompany.searchHistory.MyHistory;
-import pt.traincompany.searchHistory.SearchHistoryHelper;
 import pt.traincompany.tickets.MyTickets;
 import pt.traincompany.utility.Configurations;
-import pt.traincompany.utility.Connection;
 import pt.traincompany.utility.Utility;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,7 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -38,7 +33,7 @@ public class Home extends Activity {
 		setContentView(R.layout.activity_home);
 		
 		this.deleteDatabase(Configurations.THE_TRAIN_PROJECT_DB);
-		SearchHistoryHelper helper = new SearchHistoryHelper(Home.this);
+		DatabaseHelper helper = new DatabaseHelper(Home.this);
 		Configurations.databaseHelper = helper;
 		
 		Configurations.userId = PreferenceManager.getDefaultSharedPreferences(Home.this).getInt("userId", 0);
@@ -56,7 +51,7 @@ public class Home extends Activity {
 		final ImageView historic = (ImageView) findViewById(R.id.btnHistoric);
 		historic.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				SearchHistoryHelper helper = new SearchHistoryHelper(Home.this);
+				DatabaseHelper helper = new DatabaseHelper(Home.this);
 				SQLiteDatabase db = helper.getWritableDatabase();
 				Cursor cursor = db.query("SearchHistory",
 						new String[] { "departure, arrival, hours, date" }, "departure IS NOT NULL AND arrival IS NOT NULL", null, null,
@@ -74,14 +69,9 @@ public class Home extends Activity {
 		final ImageView myTickets = (ImageView) findViewById(R.id.btnMyTickets);
 		myTickets.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				dialog = ProgressDialog.show(Home.this, "",
-						"A comunicar com o servidor...", true);
-				dialog.setCancelable(true);
-			
-				GetTicketsByUserId gt = new GetTicketsByUserId();
 				
-				Thread t = new Thread(gt);
-				t.start();
+				Intent myIntent = new Intent(Home.this, MyTickets.class);
+				Home.this.startActivity(myIntent);
 				
 			}
 		});
@@ -137,46 +127,5 @@ public class Home extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_home, menu);
 		return true;
-	}
-	
-	class GetTicketsByUserId implements Runnable {
-
-		public void run() {
-
-			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
-					.buildUpon();
-			uri.path(Configurations.GETTICKETSBYID);
-			uri.appendQueryParameter("format", Configurations.FORMAT);
-			uri.appendQueryParameter("user_id", Configurations.userId + "");
-
-			String response = null;
-
-			try {
-				response = Connection.getJSONLine(uri.build());
-				JSONArray info = new JSONArray(response);
-				if(info.length() > 0) {
-					Utility.tickets = info;
-					dialog.dismiss();
-					Intent myIntent = new Intent(Home.this, MyTickets.class);
-					Home.this.startActivity(myIntent);
-				}
-				else {
-					makeToast("Não tem bilhetes...");
-				}
-					
-			}
-			catch(Exception e) {}
-		}
-	}
-	
-	private void makeToast(final String message) {
-		runOnUiThread(new Runnable() {
-			public void run() {
-				if (dialog != null)
-					dialog.dismiss();
-				Toast.makeText(Home.this, message,
-						Toast.LENGTH_LONG).show();
-			}
-		});
 	}
 }

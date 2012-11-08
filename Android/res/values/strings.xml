@@ -25,5 +25,7 @@
     </string-array>
 
     <string name="title_activity_my_history">Histórico de pesquisas</string>
+    <string name="title_activity_my_tickets_unpaid">MyTicketsUnpaid</string>
+    <string name="title_activity_my_tickets_paid">MyTicketsPaid</string>
 
 </resources>

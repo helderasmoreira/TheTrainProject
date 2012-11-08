@@ -1,6 +1,6 @@
 package pt.traincompany.utility;
 
-import pt.traincompany.searchHistory.SearchHistoryHelper;
+import pt.traincompany.main.DatabaseHelper;
 
 public class Configurations {
 	
@@ -28,7 +28,7 @@ public class Configurations {
 	public static String name;
 	public static int userId = 0;
 	public static boolean cardsLoaded = false;
-	public static SearchHistoryHelper databaseHelper;
+	public static DatabaseHelper databaseHelper;
 	
 
 	final public static String QRCODE = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=";

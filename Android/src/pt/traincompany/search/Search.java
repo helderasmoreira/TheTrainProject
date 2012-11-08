@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import pt.traincompany.main.DatabaseHelper;
 import pt.traincompany.main.R;
-import pt.traincompany.searchHistory.SearchHistoryHelper;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
 import pt.traincompany.utility.Utility;
@@ -70,7 +70,7 @@ public class Search extends Activity {
 
 	public void updateDatabase() {
 
-		SearchHistoryHelper helper = Configurations.databaseHelper;
+		DatabaseHelper helper = Configurations.databaseHelper;
 
 		SQLiteDatabase db = helper.getWritableDatabase();
 
