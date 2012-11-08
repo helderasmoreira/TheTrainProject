@@ -1,13 +1,19 @@
 package pt.traincompany.searchHistory;
 
+import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
+import pt.traincompany.search.Search;
+import pt.traincompany.tickets.MyTickets;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SearchQueryAdapter extends ArrayAdapter<SearchQuery> {
 	
@@ -43,7 +49,26 @@ public class SearchQueryAdapter extends ArrayAdapter<SearchQuery> {
 		} else {
 			holder = (ResultHolder) row.getTag();
 		}
+		
+		final View row2 = row;
+		row2.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
 
+				Intent myIntent = new Intent(v.getContext(), Search.class);
+				Bundle bundle = new Bundle();
+				
+				ResultHolder query = (ResultHolder) row2.getTag();
+				
+				bundle.putString("from", query.txtFrom.getText().toString());
+				bundle.putString("to", query.txtTo.getText().toString());
+				bundle.putString("time", query.txtTime.getText().toString());
+				bundle.putBoolean("fromHistory", true);
+				myIntent.putExtras(bundle);
+				
+				v.getContext().startActivity(myIntent);
+			}
+		});
+		
 		SearchQuery query = data[position];
 		holder.txtFrom.setText(query.from);
 		holder.txtTo.setText(query.to);

@@ -40,6 +40,8 @@ public class Home extends Activity {
 		setContentView(R.layout.activity_home);
 		
 		this.deleteDatabase(Configurations.THE_TRAIN_PROJECT_DB);
+		SearchHistoryHelper helper = new SearchHistoryHelper(Home.this);
+		Configurations.databaseHelper = helper;
 		
 		Configurations.userId = PreferenceManager.getDefaultSharedPreferences(Home.this).getInt("userId", 0);
 		Configurations.username = PreferenceManager.getDefaultSharedPreferences(Home.this).getString("username", "");

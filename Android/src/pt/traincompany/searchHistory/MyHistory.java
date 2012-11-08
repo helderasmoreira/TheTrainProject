@@ -3,6 +3,7 @@ package pt.traincompany.searchHistory;
 import java.util.ArrayList;
 
 import pt.traincompany.main.R;
+import pt.traincompany.utility.Configurations;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.database.Cursor;
@@ -47,7 +48,7 @@ public class MyHistory extends Activity {
 
 		ArrayList<SearchQuery> history = new ArrayList<SearchQuery>();
 
-		SearchHistoryHelper helper = new SearchHistoryHelper(MyHistory.this);
+		SearchHistoryHelper helper = Configurations.databaseHelper;
 		SQLiteDatabase db = helper.getWritableDatabase();
 		Cursor cursor = db.query("SearchHistory",
 				new String[] { "departure, arrival, hours, date" }, "departure IS NOT NULL AND arrival IS NOT NULL", null, null,
