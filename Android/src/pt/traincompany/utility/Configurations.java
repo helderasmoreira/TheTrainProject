@@ -1,5 +1,7 @@
 package pt.traincompany.utility;
 
+import pt.traincompany.searchHistory.SearchHistoryHelper;
+
 public class Configurations {
 	
 	final public static String AUTHORITY = "172.30.21.85:3000";
@@ -27,6 +29,7 @@ public class Configurations {
 	public static String name;
 	public static int userId = 0;
 	public static boolean cardsLoaded = false;
+	public static SearchHistoryHelper databaseHelper;
 	
 	
 

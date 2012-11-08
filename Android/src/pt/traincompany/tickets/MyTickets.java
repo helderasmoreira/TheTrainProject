@@ -5,15 +5,11 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import pt.traincompany.account.CardManagement;
 import pt.traincompany.main.R;
-import pt.traincompany.utility.Configurations;
-import pt.traincompany.utility.Connection;
 import pt.traincompany.utility.Utility;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
