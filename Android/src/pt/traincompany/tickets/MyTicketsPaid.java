@@ -59,7 +59,7 @@ public class MyTicketsPaid extends Activity {
 			SQLiteDatabase db = helper.getWritableDatabase();
 			Cursor cursor = db
 					.query("Ticket",
-							new String[] { "id, date, from, to, duration, price, departureTime, arrivalTime" },
+							new String[] { "id, date, departure, arrival, duration, price, departureTime, arrivalTime" },
 							null, null, null, null, null);
 			if (cursor.moveToFirst()) {
 				do {

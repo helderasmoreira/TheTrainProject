@@ -38,7 +38,7 @@ class CardsController < ApplicationController
   end
 
   def getByUserId
-    @cards = Card.where("user_id = ?", params[:userId])
+    @cards = Card.where("user_id = ? AND paid = ?", params[:userId], false)
     respond_to do |format|
             format.json { render :json => @cards }
     end
