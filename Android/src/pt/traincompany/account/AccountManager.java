@@ -70,7 +70,7 @@ public class AccountManager extends Activity {
 			public void run() {
 				Toast.makeText(AccountManager.this,
 						"A comunicação com o servidor falhou...",
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -119,7 +119,7 @@ public class AccountManager extends Activity {
 							dialog.dismiss();
 							Toast.makeText(AccountManager.this,
 									"Login efetuado com sucesso!",
-									Toast.LENGTH_LONG).show();
+									Toast.LENGTH_SHORT).show();
 							
 							AccountManager.this.finish();
 						}
@@ -131,7 +131,7 @@ public class AccountManager extends Activity {
 							dialog.dismiss();
 							Toast.makeText(AccountManager.this,
 									"Dados errados! Tente registar-se primeiro.",
-									Toast.LENGTH_LONG).show();
+									Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
@@ -186,7 +186,7 @@ public class AccountManager extends Activity {
 							dialog.dismiss();
 							Toast.makeText(AccountManager.this,
 									"Registo e login efetuado com sucesso!",
-									Toast.LENGTH_LONG).show();
+									Toast.LENGTH_SHORT).show();
 							
 							Intent i = new Intent(AccountManager.this, CardManagement.class);
 							startActivity(i);
@@ -199,7 +199,7 @@ public class AccountManager extends Activity {
 							dialog.dismiss();
 							Toast.makeText(AccountManager.this,
 									"Já existe um utilizador com esse username.",
-									Toast.LENGTH_LONG).show();
+									Toast.LENGTH_SHORT).show();
 						}
 					});
 				}

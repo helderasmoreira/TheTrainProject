@@ -45,7 +45,7 @@ public class AddCard extends Dialog {
 		try {
 			Field f[] = picker.getClass().getDeclaredFields();
 			for (Field field : f) {
-				if (field.getName().equals("mDayPicker")) {
+				if (field.getName().equals("mDayPicker") || field.getName().equals("mDaySpinner")) {
 					field.setAccessible(true);
 					Object dayPicker = field.get(picker);
 					((View) dayPicker).setVisibility(View.GONE);

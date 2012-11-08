@@ -39,7 +39,8 @@ class TicketsController < ApplicationController
     tickets_from_route = TicketRoute.where(["route_id = ? and stop_start_order >= ? and stop_end_order <= ? and date = ?", route_id, stop_start_order, stop_end_order, date])
 
     response = ["yes"]
-    if tickets_from_route.length > 0
+    response[1] = 200 - tickets_from_route.length
+    if tickets_from_route.length > 200
      response[0] = "no"
     end
 
@@ -114,6 +115,18 @@ class TicketsController < ApplicationController
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def cancel
+    @ticket = Ticket.find(params[:id])
+    @ticket.destroy
+
+    ticket_routes = TicketRoute.where(:ticket_id => params[:id])
+    ticket_routes.each do |ticket_route|
+      ticket_route.destroy
+    end
+
+    render :nothing => true
   end
 
   # DELETE /tickets/1

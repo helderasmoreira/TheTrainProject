@@ -48,12 +48,12 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
 		holder.txtDate.setText(ticket.date);
 		holder.txtFrom.setText(ticket.from);
 		holder.txtTo.setText(ticket.to);
-		holder.txtPrice.setText(ticket.price + "");
+		holder.txtPrice.setText(ticket.price + "€");
 		
 		if (ticket.paid)
-			holder.imgIcon.setImageResource(R.drawable.more);
+			holder.imgIcon.setImageResource(R.drawable.pago);
 		else
-			holder.imgIcon.setImageResource(R.drawable.ic_launcher);
+			holder.imgIcon.setImageResource(R.drawable.delete);
 
 		return row;
 	}

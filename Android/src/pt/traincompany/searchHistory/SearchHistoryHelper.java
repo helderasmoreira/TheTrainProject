@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SearchHistoryHelper extends SQLiteOpenHelper {
 
 	public long offset = 0;
-	public final String CREATE = "CREATE TABLE SearchHistory (id INTEGER PRIMARY KEY AUTOINCREMENT, departure TEXT, arrival TEXT, hours INTEGER, minutes INTEGER, date BIGINT)";
-	public final String FILLDUMMY = "INSERT INTO SearchHistory(departure, arrival, hours, minutes, date) VALUES (NULL, NULL, NULL, NULL,"+  offset + ")";
+	public final String CREATE = "CREATE TABLE SearchHistory (id INTEGER PRIMARY KEY AUTOINCREMENT, departure TEXT, arrival TEXT, hours TEXT, date BIGINT)";
+	public final String FILLDUMMY = "INSERT INTO SearchHistory(departure, arrival, hours, date) VALUES (NULL, NULL, NULL, NULL,"+  offset + ")";
 	
 	
 	public SearchHistoryHelper(Context context) {
@@ -23,7 +23,7 @@ public class SearchHistoryHelper extends SQLiteOpenHelper {
 		db.execSQL(CREATE);
 		for(int i = 1; i<=20; i++) {
 			offset = Calendar.getInstance().getTimeInMillis()+i;
-			 String FILLDUMMY = "INSERT INTO SearchHistory(departure, arrival, hours, minutes, date) VALUES (NULL, NULL, NULL, NULL,"+  offset + ")";
+			 String FILLDUMMY = "INSERT INTO SearchHistory(departure, arrival, hours, date) VALUES (NULL, NULL, NULL,"+  offset + ")";
 			db.execSQL(FILLDUMMY);
 		}
 	}
@@ -32,6 +32,5 @@ public class SearchHistoryHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS SearchHistory");
 		onCreate(db);
-
 	}
 }

@@ -76,11 +76,12 @@ class RoutesController < ApplicationController
         time2 = Time.parse(route2[-1][-1][-1])
 
         duration = Time.at(time2.minus_with_coercion(time1)).utc.strftime("%H:%M") 
+        time_between = Time.at(Time.parse(route2[-1][0][1]).minus_with_coercion(Time.parse(route1[-1][-1][1]))).utc.strftime("%H:%M") 
         
         if route1_time > route2_time and time1 >= hour
-          routes.push(["DUAL_ROUTE_OTHER_DAY", time1.to_s(:time), time2.to_s(:time),  duration, route1[1] + route2[1], route1 + route2])
+          routes.push(["DUAL_ROUTE_OTHER_DAY", time1.to_s(:time), time2.to_s(:time),  duration, route1[1] + route2[1], route1 + route2, time_between])
         elsif time1 >= hour
-          routes.push(["DUAL_ROUTE_SAME_DAY", time1.to_s(:time), time2.to_s(:time), duration, route1[1] + route2[1], route1 + route2])
+          routes.push(["DUAL_ROUTE_SAME_DAY", time1.to_s(:time), time2.to_s(:time), duration, route1[1] + route2[1], route1 + route2, time_between])
         end
 
         #route_final = []

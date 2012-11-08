@@ -2,7 +2,7 @@
 
     <string name="app_name">TrainCompany</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_home">Home</string>
+    <string name="title_activity_home">The Train Project</string>
     <string name="btnSearchText">Consultar Horários</string>
     <string name="btnHistoricText">Histórico Pesquisas</string>
     <string name="btnMyTicketsText">Meus Bilhetes</string>
@@ -16,6 +16,7 @@
     <string name="title_activity_add_card">Adicionar cartão</string>
     <string name="title_activity_my_tickets">Meus bilhetes</string>
     <string name="title_activity_ticket">Bilhete</string>
+    <string name="title_activity_map">Mapa da rede</string>
 
     <string-array name="cardTypes">
         <item>Visa</item>

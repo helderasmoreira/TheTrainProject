@@ -1,7 +1,9 @@
 package pt.traincompany.search;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,16 +130,32 @@ public class SearchResultExtended extends Activity {
 							LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT));
 					tr.setGravity(Gravity.CENTER_HORIZONTAL);
+					
+					TableRow tr2 = new TableRow(this);
+					tr2.setLayoutParams(new LayoutParams(
+							LayoutParams.WRAP_CONTENT,
+							LayoutParams.WRAP_CONTENT));
+					tr2.setGravity(Gravity.CENTER_HORIZONTAL);
 
 					TextView b = new TextView(this);
 					b.setText("Transição entre comboios...");
 					b.setLayoutParams(new LayoutParams(
 							LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT));
+					
+					TextView b2 = new TextView(this);
+					b2.setText("Tempo de espera: "+ info.getString(6));
+					b2.setLayoutParams(new LayoutParams(
+							LayoutParams.WRAP_CONTENT,
+							LayoutParams.WRAP_CONTENT));
 
 					tr.addView(b);
+					tr2.addView(b2);
 
 					tl.addView(tr, new TableLayout.LayoutParams(
+							LayoutParams.WRAP_CONTENT,
+							LayoutParams.WRAP_CONTENT));
+					tl.addView(tr2, new TableLayout.LayoutParams(
 							LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT));
 				}
@@ -184,7 +202,7 @@ public class SearchResultExtended extends Activity {
 					c2.set(datePicker.getYear(), datePicker.getMonth(),
 							datePicker.getDayOfMonth());
 	
-					if (c2.after(c)) {
+					if (c2.after(c) || c2.compareTo(c) == 0) {
 						CheckTicket checkTicket = new CheckTicket(c2);
 						new Thread(checkTicket).start();
 					} else {
@@ -198,6 +216,7 @@ public class SearchResultExtended extends Activity {
 	class CheckTicket implements Runnable {
 		Calendar c2;
 		Calendar c1;
+		private int free_spots;
 
 		public CheckTicket(Calendar c2) {
 			this.c2 = c2;
@@ -212,6 +231,7 @@ public class SearchResultExtended extends Activity {
 					c2.add(Calendar.DAY_OF_MONTH, 1);
 				Uri.Builder uri = Uri.parse(
 						"http://" + Configurations.AUTHORITY).buildUpon();
+				SimpleDateFormat tf = new SimpleDateFormat("dd-MM-yyyy");
 				uri.path(Configurations.VERIFYTICKET)
 						.appendQueryParameter("route_id", route_ids.get(i) + "")
 						.appendQueryParameter("stop_start",
@@ -219,9 +239,7 @@ public class SearchResultExtended extends Activity {
 						.appendQueryParameter("stop_end", stop_ends.get(i) + "")
 						.appendQueryParameter(
 								"date",
-								c2.get(Calendar.DAY_OF_MONTH) + "-"
-										+ (c2.get(Calendar.MONTH) + 1) + "-"
-										+ c2.get(Calendar.YEAR) + "-")
+								tf.format(c2.getTime()))
 						.appendQueryParameter("format", Configurations.FORMAT)
 						.build();
 
@@ -233,6 +251,7 @@ public class SearchResultExtended extends Activity {
 						makeToast("Já não há bilhetes para esta viagem...");
 						return;
 					}
+					free_spots = response_array.getInt(1);
 				} catch (Exception e) {
 					makeToast("A comunicação com o servidor falhou...");
 				}
@@ -242,7 +261,7 @@ public class SearchResultExtended extends Activity {
 				public void run() {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							SearchResultExtended.this);
-					builder.setMessage("Pretende reservar o bilhete?")
+					builder.setMessage("Pretende reservar o bilhete? Ainda há " + free_spots + " lugares livres.")
 							.setTitle("Confirmação")
 							.setPositiveButton("Sim",
 									new DialogInterface.OnClickListener() {
@@ -282,6 +301,7 @@ public class SearchResultExtended extends Activity {
 		public void run() {
 			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
 					.buildUpon();
+			SimpleDateFormat tf = new SimpleDateFormat("dd-MM-yyyy");
 			uri.path(Configurations.BUYTICKET)
 					.appendQueryParameter("user_id", Configurations.userId +"")
 					.appendQueryParameter("price", price_double + "")
@@ -290,9 +310,7 @@ public class SearchResultExtended extends Activity {
 					.appendQueryParameter("duration", strDuration + "")
 					.appendQueryParameter("departure", strFrom + "")
 					.appendQueryParameter("arrival", strTo + "")
-					.appendQueryParameter("date", c2.get(Calendar.DAY_OF_MONTH) + "-"
-							+ (c2.get(Calendar.MONTH) + 1)
-							+ "-" + c2.get(Calendar.YEAR))
+					.appendQueryParameter("date", tf.format(c2.getTime()))
 					.appendQueryParameter("format", Configurations.FORMAT)
 					.build();
 
@@ -306,6 +324,7 @@ public class SearchResultExtended extends Activity {
 					if (type_route.equals(Configurations.DUAL_ROUTE_OTHER_DAY)
 							&& i > 0)
 						c2.add(Calendar.DAY_OF_MONTH, 1);
+					
 					uri = Uri.parse("http://" + Configurations.AUTHORITY)
 							.buildUpon();
 					uri.path(Configurations.ADDTICKETROUTES)
@@ -317,9 +336,7 @@ public class SearchResultExtended extends Activity {
 									stop_ends.get(i) + "")
 							.appendQueryParameter(
 									"date",
-									c2.get(Calendar.DAY_OF_MONTH) + "-"
-											+ (c2.get(Calendar.MONTH) + 1)
-											+ "-" + c2.get(Calendar.YEAR))
+									tf.format(c2.getTime()))
 							.appendQueryParameter("user_id", Configurations.userId + "")
 							.appendQueryParameter("ticket_id", ticket_id + "")
 							.build();
@@ -345,15 +362,12 @@ public class SearchResultExtended extends Activity {
 											public void onClick(
 													DialogInterface dialog2,
 													int id2) {
+												SimpleDateFormat tf = new SimpleDateFormat("dd-MM-yyyy");
 												Ticket t = new Ticket(
 														ticket_id,
 														strDepartureTime,
 														strArrivalTime,
-														c2.get(Calendar.DAY_OF_MONTH)
-																+ "-"
-																+ (c2.get(Calendar.MONTH) + 1)
-																+ "-"
-																+ c2.get(Calendar.YEAR),
+														tf.format(c2.getTime()),
 														strFrom, strDuration,
 														strTo, price_double,
 														false);
@@ -384,7 +398,7 @@ public class SearchResultExtended extends Activity {
 				if (dialog != null)
 					dialog.dismiss();
 				Toast.makeText(SearchResultExtended.this, message,
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

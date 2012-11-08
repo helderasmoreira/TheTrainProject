@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:onClick="removeCardHandler"
         android:layout_marginRight="40dp"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/delete" />
 
 </RelativeLayout>

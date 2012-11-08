@@ -1,7 +1,9 @@
 package pt.traincompany.search;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -54,7 +56,6 @@ public class Search extends Activity {
     	search.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				dialog.show();
-				updateDatabase();
 				SearchServer search = new SearchServer();
 				new Thread(search).start();
 			}
@@ -70,8 +71,13 @@ public class Search extends Activity {
 		ContentValues cv = new ContentValues();
 		cv.put("departure", (String) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem());
 		cv.put("arrival", (String) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem());
-		cv.put("hours", dp.getCurrentHour());
-		cv.put("minutes", dp.getCurrentMinute());
+		
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.HOUR_OF_DAY, dp.getCurrentHour());
+		c.set(Calendar.MINUTE, dp.getCurrentMinute());
+
+		SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
+		cv.put("hours", tf.format(c.getTime()));
 		cv.put("date",Calendar.getInstance().getTimeInMillis());
 		
 		db.update("SearchHistory", cv, "date = (SELECT min(date) FROM SearchHistory)", null);
@@ -92,6 +98,7 @@ public class Search extends Activity {
 				}});
 				return;
 			}
+			updateDatabase();
 				
 			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY).buildUpon();
 			uri.path(Configurations.GETROUTE)

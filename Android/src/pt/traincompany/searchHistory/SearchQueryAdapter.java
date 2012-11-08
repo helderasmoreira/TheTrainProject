@@ -37,7 +37,6 @@ public class SearchQueryAdapter extends ArrayAdapter<SearchQuery> {
 			holder = new ResultHolder();
 			holder.txtFrom = (TextView) row.findViewById(R.id.from);
 			holder.txtTo = (TextView) row.findViewById(R.id.to);
-			holder.txtDate = (TextView) row.findViewById(R.id.date);
 			holder.txtTime = (TextView) row.findViewById(R.id.time);
 			
 			row.setTag(holder);
@@ -48,7 +47,6 @@ public class SearchQueryAdapter extends ArrayAdapter<SearchQuery> {
 		SearchQuery query = data[position];
 		holder.txtFrom.setText(query.from);
 		holder.txtTo.setText(query.to);
-		holder.txtDate.setText(query.date);
 		holder.txtTime.setText(query.time);
 		
 		return row;
@@ -57,7 +55,6 @@ public class SearchQueryAdapter extends ArrayAdapter<SearchQuery> {
 	static class ResultHolder {
 		TextView txtFrom;
 		TextView txtTo;
-		TextView txtDate;
 		TextView txtTime;
 	}
 

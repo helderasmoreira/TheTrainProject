@@ -45,8 +45,8 @@ public class CardAdapter extends ArrayAdapter<Card> {
 
 		Card card = data[position];
 		holder.txtNumber.setText(card.number);
-		holder.imgIcon.setImageResource(this.icon);
-		holder.imgIcon.setTag(card);
+		//holder.imgIcon.setImageResource(this.icon);
+		//holder.imgIcon.setTag(card);
 		
 		
 

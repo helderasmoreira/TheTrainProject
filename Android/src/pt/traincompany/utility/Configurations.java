@@ -2,7 +2,7 @@ package pt.traincompany.utility;
 
 public class Configurations {
 	
-	final public static String AUTHORITY = "172.30.80.237:3000";
+	final public static String AUTHORITY = "192.168.1.101:3000";
 	final public static String SCHEME = "http";
 	final public static String FORMAT = "json";
 	
@@ -20,11 +20,13 @@ public class Configurations {
 	final public static String GETTICKETSBYID = "getTicketsByUserId";
 	final public static String BUYTICKET = "newTicket";
 	final public static String ADDTICKETROUTES = "addTicketRoutes";
+	final public static String CANCELTICKET = "cancelTicket";
 	
 	public static String username;
 	public static String name;
 	public static int userId = 0;
 	public static boolean cardsLoaded = false;
+	
 
 	final public static String QRCODE = "https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=";
 	final public static String THE_TRAIN_PROJECT_DB = "TheTrainProject.db";

@@ -9,6 +9,7 @@ import pt.traincompany.account.CardManagement;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
+import pt.traincompany.utility.Utility;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -54,19 +55,8 @@ public class MyTickets extends Activity {
 	class GetTicketsByUserId implements Runnable {
 
 		public void run() {
-
-			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
-					.buildUpon();
-			uri.path(Configurations.GETTICKETSBYID);
-			uri.appendQueryParameter("format", Configurations.FORMAT);
-			uri.appendQueryParameter("user_id", Configurations.userId + "");
-
-			String response = null;
-
 			try {
-				response = Connection.getJSONLine(uri.build());
-
-				JSONArray info = new JSONArray(response);
+				JSONArray info = Utility.tickets;
 
 				for (int i = 0; i < info.length(); i++) {
 					JSONObject ticket = info.getJSONObject(i);

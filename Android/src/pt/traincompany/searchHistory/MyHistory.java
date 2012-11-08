@@ -50,13 +50,13 @@ public class MyHistory extends Activity {
 		SearchHistoryHelper helper = new SearchHistoryHelper(MyHistory.this);
 		SQLiteDatabase db = helper.getWritableDatabase();
 		Cursor cursor = db.query("SearchHistory",
-				new String[] { "departure, arrival, hours, minutes, date" }, "departure IS NOT NULL AND arrival IS NOT NULL", null, null,
+				new String[] { "departure, arrival, hours, date" }, "departure IS NOT NULL AND arrival IS NOT NULL", null, null,
 				null, "date DESC");
 		
 		if (cursor.moveToFirst()) {
 			do{
 				SearchQuery s = new SearchQuery(cursor.getString(0),
-						cursor.getString(1), cursor.getString(2) + ":" + cursor.getString(3), cursor.getString(4));
+						cursor.getString(1), cursor.getString(2), cursor.getString(3));
 				history.add(s);
 			}while (cursor.moveToNext());
 		}
