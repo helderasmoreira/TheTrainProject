@@ -33,6 +33,7 @@ public class MyTickets extends Activity {
 		
 		dialog = ProgressDialog.show(MyTickets.this, "",
 				"A comunicar com o servidor...", true);
+		dialog.setCancelable(true);
 		
 		GetTicketsByUserId tickets = new GetTicketsByUserId();
 		new Thread(tickets).start();

@@ -45,6 +45,7 @@ public class Search extends Activity {
 		// adds stations
 		dialog = ProgressDialog.show(Search.this, "", 
                 "A comunicar com o servidor...", true);
+		dialog.setCancelable(true);
 		GetStations gs = new GetStations();
     	new Thread(gs).start();
     	

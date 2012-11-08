@@ -190,6 +190,7 @@ public class SearchResultExtended extends Activity {
 					
 					dialog = ProgressDialog.show(SearchResultExtended.this, "",
 							"A comunicar com o servidor...", true);
+					dialog.setCancelable(true);
 					final Calendar c = Calendar.getInstance();
 					int mYear = c.get(Calendar.YEAR);
 					int mMonth = c.get(Calendar.MONTH);
@@ -273,6 +274,7 @@ public class SearchResultExtended extends Activity {
 													"",
 													"A efetuar a reserva...",
 													true);
+											dialog.setCancelable(true);
 											BuyTicket buyTicket = new BuyTicket(
 													c1);
 											new Thread(buyTicket).start();

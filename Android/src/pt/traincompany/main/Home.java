@@ -76,8 +76,13 @@ public class Home extends Activity {
 			public void onClick(View v) {
 				dialog = ProgressDialog.show(Home.this, "",
 						"A comunicar com o servidor...", true);
+				dialog.setCancelable(true);
+			
 				GetTicketsByUserId gt = new GetTicketsByUserId();
-				new Thread(gt).start();
+				
+				Thread t = new Thread(gt);
+				t.start();
+				
 			}
 		});
 
