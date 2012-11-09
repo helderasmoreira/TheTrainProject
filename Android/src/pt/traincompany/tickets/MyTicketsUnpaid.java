@@ -51,7 +51,24 @@ public class MyTicketsUnpaid extends Activity {
 				}
 			}
 		});
+		
+		View header = (View) getLayoutInflater().inflate(
+				R.layout.ticket_header, null);
 
+		list.addHeaderView(header);
+
+	}
+	
+	@Override
+	public void onRestart() {
+		super.onRestart();
+		dialog = ProgressDialog.show(MyTicketsUnpaid.this, "",
+				"A comunicar com o servidor...", true);
+		dialog.setCancelable(true);
+
+		GetTicketsByUserId tickets = new GetTicketsByUserId();
+		new Thread(tickets).start();
+		
 	}
 
 	class GetTicketsByUserId implements Runnable {
@@ -70,6 +87,8 @@ public class MyTicketsUnpaid extends Activity {
 
 				response = Connection.getJSONLine(uri.build());
 				JSONArray info = new JSONArray(response);
+				
+				userTickets.clear();
 
 				for (int i = 0; i < info.length(); i++) {
 					JSONObject ticket = info.getJSONObject(i);
@@ -99,10 +118,7 @@ public class MyTicketsUnpaid extends Activity {
 
 						final ListView list = (ListView) findViewById(R.id.myTicketsUnpaid);
 
-						View header = (View) getLayoutInflater().inflate(
-								R.layout.ticket_header, null);
-
-						list.addHeaderView(header);
+						
 						list.setAdapter(adapter);
 					}
 				});
