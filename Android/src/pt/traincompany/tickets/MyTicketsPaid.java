@@ -27,7 +27,7 @@ public class MyTicketsPaid extends Activity {
 		setContentView(R.layout.activity_my_tickets_paid);
 
 		dialog = ProgressDialog.show(MyTicketsPaid.this, "",
-				"A comunicar com o servidor...", true);
+				"A comunicar com a base de dados local...", true);
 		dialog.setCancelable(true);
 
 		GetTicketsByUserId tickets = new GetTicketsByUserId();

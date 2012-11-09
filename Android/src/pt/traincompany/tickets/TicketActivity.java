@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import pt.traincompany.account.Card;
 import pt.traincompany.account.CardAdapter;
+import pt.traincompany.main.DatabaseHelper;
 import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
@@ -18,8 +19,10 @@ import pt.traincompany.utility.Utility;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -75,10 +78,9 @@ public class TicketActivity extends Activity {
 			Button pay = (Button) findViewById(R.id.btnPayTicket);
 			pay.setVisibility(View.INVISIBLE);
 			paid.setImageResource(R.drawable.pago);
-		}
-		else
+		} else
 			paid.setImageResource(R.drawable.delete);
-			
+
 		dialog = ProgressDialog.show(TicketActivity.this, "",
 				"A gerar identificador...", true);
 		dialog.setCancelable(true);
@@ -89,8 +91,8 @@ public class TicketActivity extends Activity {
 				URL newurl;
 				try {
 					newurl = new URL(Configurations.QRCODE + ticket.id);
-					bitmap = BitmapFactory.decodeStream(newurl
-							.openConnection().getInputStream());
+					bitmap = BitmapFactory.decodeStream(newurl.openConnection()
+							.getInputStream());
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 					dialog.dismiss();
@@ -114,7 +116,7 @@ public class TicketActivity extends Activity {
 				});
 			}
 		}).start();
-		
+
 		Button cancel = (Button) findViewById(R.id.btnDeleteTicket);
 		cancel.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -126,10 +128,12 @@ public class TicketActivity extends Activity {
 						.setPositiveButton("Sim",
 								new DialogInterface.OnClickListener() {
 									public void onClick(
-											DialogInterface dialog2,
-											int id2) {
-										dialog = ProgressDialog.show(TicketActivity.this, "",
-												"A cancelar o bilhete...", true);
+											DialogInterface dialog2, int id2) {
+										dialog = ProgressDialog
+												.show(TicketActivity.this,
+														"",
+														"A cancelar o bilhete...",
+														true);
 										dialog.setCancelable(true);
 										CancelTicket search = new CancelTicket();
 										new Thread(search).start();
@@ -138,7 +142,7 @@ public class TicketActivity extends Activity {
 				builder.show();
 			}
 		});
-		
+
 		Button pay = (Button) findViewById(R.id.btnPayTicket);
 		pay.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -149,53 +153,54 @@ public class TicketActivity extends Activity {
 				new Thread(get).start();
 			}
 		});
-		
-		
-		
+
 	}
-	
+
 	class CancelTicket implements Runnable {
 
 		public void run() {
-			
-			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY).buildUpon();
+
+			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
+					.buildUpon();
 			uri.path(Configurations.CANCELTICKET)
-				.appendQueryParameter("id", ticket.id+"")
-				.build();
-			
+					.appendQueryParameter("id", ticket.id + "").build();
+
 			try {
 				Connection.getJSONLine(uri.build());
 				makeToast("Bilhete cancelado com sucesso...");
 				Utility.from_cancel_ticket = true;
 				Intent myIntent = new Intent(TicketActivity.this, Home.class);
 				TicketActivity.this.startActivity(myIntent);
-			}
-			catch(Exception e) {
+			} catch (Exception e) {
 				communicationProblem();
 			}
 		}
 
 	}
-	
+
 	private void communicationProblem() {
-		if(dialog != null) dialog.dismiss();
+		if (dialog != null)
+			dialog.dismiss();
 		runOnUiThread(new Runnable() {
 			public void run() {
-				Toast.makeText(TicketActivity.this, "A comunicação com o servidor falhou...", Toast.LENGTH_LONG).show();
-		}});
+				Toast.makeText(TicketActivity.this,
+						"A comunicação com o servidor falhou...",
+						Toast.LENGTH_LONG).show();
+			}
+		});
 	}
-	
+
 	private void makeToast(final String message) {
 		runOnUiThread(new Runnable() {
 			public void run() {
 				if (dialog != null)
 					dialog.dismiss();
-				Toast.makeText(TicketActivity.this, message,
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(TicketActivity.this, message, Toast.LENGTH_SHORT)
+						.show();
 			}
 		});
 	}
-	
+
 	public class GetCardsByUserId implements Runnable {
 
 		public void run() {
@@ -233,18 +238,21 @@ public class TicketActivity extends Activity {
 								Utility.user_cards
 										.toArray(new Card[Utility.user_cards
 												.size()]));
-						AlertDialog.Builder builder = new AlertDialog.Builder(TicketActivity.this);
-					    builder.setTitle("Escolha um cartão")
-					           .setAdapter(adapter, new DialogInterface.OnClickListener() {
-					               public void onClick(DialogInterface dialog2, int which) {
-					            	   dialog = ProgressDialog.show(TicketActivity.this, "",
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								TicketActivity.this);
+						builder.setTitle("Escolha um cartão").setAdapter(
+								adapter, new DialogInterface.OnClickListener() {
+									public void onClick(
+											DialogInterface dialog2, int which) {
+										dialog = ProgressDialog.show(
+												TicketActivity.this, "",
 												"A pagar o bilhete...", true);
-					            	   PayTicket pt = new PayTicket();
-					            	   new Thread(pt).start();
-					           }
-					    });
-					    builder.show();
-					    
+										PayTicket pt = new PayTicket();
+										new Thread(pt).start();
+									}
+								});
+						builder.show();
+
 					}
 				});
 
@@ -254,11 +262,11 @@ public class TicketActivity extends Activity {
 		}
 
 	}
-	
+
 	public class PayTicket implements Runnable {
 
 		public void run() {
-			
+
 			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
 					.buildUpon();
 			uri.path(Configurations.PAYTICKET);
@@ -270,27 +278,42 @@ public class TicketActivity extends Activity {
 			try {
 				response = Connection.getJSONLine(uri.build());
 				JSONArray info = new JSONArray(response);
-				if(info.getString(0).equals("paid")) {
+				if (info.getString(0).equals("paid")) {
 					ticket.paid = true;
 					runOnUiThread(new Runnable() {
-					public void run() {
+						public void run() {
 							ImageView paid = (ImageView) findViewById(R.id.paid);
 							paid.setImageResource(R.drawable.pago);
-							
+
 							Button cancel = (Button) findViewById(R.id.btnDeleteTicket);
 							cancel.setVisibility(View.INVISIBLE);
-							
+
 							Button pay = (Button) findViewById(R.id.btnPayTicket);
 							pay.setVisibility(View.INVISIBLE);
-							
+
+							// save ticket to paid list (db)
+							ContentValues value = new ContentValues();
+							value.put("id", ticket.id);
+							value.put("date", ticket.date);
+							value.put("departure", ticket.from);
+							value.put("arrival", ticket.to);
+							value.put("duration", ticket.duration);
+							value.put("price", ticket.price);
+							value.put("departureTime", ticket.departureTime);
+							value.put("arrivalTime", ticket.arrivalTime);
+
+							SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
+							db.insert("Ticket", null, value);
+							db.close();
+
 							makeToast("Bilhete pago com sucesso...");
-					}});
-								
-				}
-				else
+
+						}
+					});
+
+				} else
 					makeToast("Occorreu um erro com a operação...");
-			}
-			catch(Exception e) {
+			} catch (Exception e) {
 				makeToast("Occorreu um erro com a operação...");
 			}
 		}
