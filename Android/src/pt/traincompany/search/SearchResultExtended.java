@@ -369,7 +369,7 @@ public class SearchResultExtended extends Activity {
 						
 						if(c2.after(c))
 							reservationDone();
-						else
+						else 
 							reservationDonePayNow();
 					}
 					
@@ -522,6 +522,11 @@ public class SearchResultExtended extends Activity {
 					Card c = new Card(id, number);
 					Utility.user_cards = new ArrayList<Card>();
 					Utility.user_cards.add(c);
+				}
+				
+				if(Utility.user_cards.size() == 0) {
+					makeToast("Adicione primeiro um cartão...");
+					return;
 				}
 
 				Configurations.cardsLoaded = true;
