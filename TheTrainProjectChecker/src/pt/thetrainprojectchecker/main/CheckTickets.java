@@ -1,13 +1,16 @@
 package pt.thetrainprojectchecker.main;
 
+import pt.thetrainprojectchecker.database.DatabaseHelper;
+import pt.thetrainprojectchecker.result.Result;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class CheckTickets extends Activity {
 
@@ -33,16 +36,29 @@ public class CheckTickets extends Activity {
 				}
 			}
 		});
+	
 	}
 	
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT");
-                Toast.makeText(CheckTickets.this, contents, Toast.LENGTH_SHORT).show();
+               
+                DatabaseHelper databaseHelper = new DatabaseHelper(CheckTickets.this);
+				SQLiteDatabase db = databaseHelper.getWritableDatabase();
+				
+				Cursor cursor = db.query("Ticket", new String[] {"id"}, "id = ?", new String[] {contents}, null, null, null);
+				Bundle bundle = new Bundle();
+				if (cursor.moveToFirst())
+					bundle.putBoolean("success", true);
+				else
+					bundle.putBoolean("success", false);
+				db.close();
+				Intent i = new Intent(CheckTickets.this, Result.class);
+				i.putExtras(bundle);
+				startActivity(i);  
             }
         }
 	}

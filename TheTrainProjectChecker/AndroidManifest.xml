@@ -7,12 +7,11 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
 
-      <uses-permission android:name="android.permission.INTERNET" />
-    
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name">
-          
+        android:label="@string/app_name" >
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home" >
@@ -25,7 +24,10 @@
         <activity
             android:name=".CheckTickets"
             android:label="@string/title_activity_check_tickets" >
-        
+        </activity>
+        <activity
+            android:name="pt.thetrainprojectchecker.result.Result"
+            android:label="@string/title_activity_success" >
         </activity>
     </application>
 
