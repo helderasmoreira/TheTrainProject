@@ -12,13 +12,14 @@
 
         <TableRow
             android:id="@+id/tableRow1"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="20dp" >
 
-            <Button
+            <ImageView
                 android:id="@+id/btnCheckTickets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inspecionar bilhetes" />
+                android:src="@drawable/check" />
 
         </TableRow>
 
@@ -26,11 +27,11 @@
             android:id="@+id/tableRow2"
             android:gravity="center_horizontal" >
             
-             <Button
-                android:id="@+id/btnGetTickets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Obter bilhetes do servidor" />
+             <ImageView
+                 android:id="@+id/btnGetTickets"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/download" />
 
         </TableRow>
     </TableLayout>

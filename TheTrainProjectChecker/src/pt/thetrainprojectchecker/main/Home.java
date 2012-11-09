@@ -17,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class Home extends Activity { 
@@ -28,7 +29,7 @@ public class Home extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         
-        Button check = (Button) findViewById(R.id.btnCheckTickets);
+        ImageView check = (ImageView) findViewById(R.id.btnCheckTickets);
         check.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				
@@ -37,7 +38,7 @@ public class Home extends Activity {
 			}
         });
         
-        Button getTickets = (Button) findViewById(R.id.btnGetTickets);
+        ImageView getTickets = (ImageView) findViewById(R.id.btnGetTickets);
         getTickets.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				
