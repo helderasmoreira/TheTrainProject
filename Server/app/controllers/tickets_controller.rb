@@ -69,6 +69,26 @@ class TicketsController < ApplicationController
 
     tickets = Ticket.where(["user_id = ? AND paid = ?", params[:user_id], false])
 
+    tickets.each do |ticket|
+      t1 = Time.now
+      t2 = Time.parse(ticket.date)
+      t3 = Time.parse(ticket.departureTime)
+      t4 = Time.utc(t2.year, t2.month, t2.day, t3.hour, t3.min)
+      t1 = t1 + 1.day
+
+      if t4 <= t1
+        ticket.destroy
+        ticket_routes = TicketRoute.where(:ticket_id => ticket.id)
+        
+        ticket_routes.each do |ticket_route|
+          ticket_route.destroy
+        end
+      end
+    end
+
+    tickets = Ticket.where(["user_id = ? AND paid = ?", params[:user_id], false])
+
+
     respond_to do |format|
       format.json { render json: tickets }
     end
