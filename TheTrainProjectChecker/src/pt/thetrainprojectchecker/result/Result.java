@@ -3,6 +3,7 @@ package pt.thetrainprojectchecker.result;
 import pt.thetrainprojectchecker.main.R;
 import android.os.Bundle;
 import android.app.Activity;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Result extends Activity {
@@ -12,10 +13,10 @@ public class Result extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         
-        TextView tx = (TextView) findViewById(R.id.editText1);
+        ImageView tx = (ImageView) findViewById(R.id.editText1);
         if (getIntent().getExtras().getBoolean("success"))
-        	tx.setText("Success!");
+        	tx.setImageResource(R.drawable.approve);
         else
-        	tx.setText("Inuccess!");
+        	tx.setImageResource(R.drawable.disapprove);
     }
 }
