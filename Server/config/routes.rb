@@ -29,6 +29,7 @@ TrainCompanyServer::Application.routes.draw do
   get "getTicketsByUserId", :to => "tickets#getByUserId"
   get "cancelTicket", :to => "tickets#cancel"
   get "payTicket", :to => "tickets#pay"
+  get "getPaidTicketsByUserId", :to => "tickets#getPaidByUserId"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
