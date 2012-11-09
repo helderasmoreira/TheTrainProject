@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -22,9 +23,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class Home extends Activity {
-	
+
 	ProgressDialog dialog;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,6 +51,8 @@ public class Home extends Activity {
 		final ImageView historic = (ImageView) findViewById(R.id.btnHistoric);
 		historic.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				
+				
 				DatabaseHelper helper = new DatabaseHelper(Home.this);
 				SQLiteDatabase db = helper.getWritableDatabase();
 				Cursor cursor = db.query("SearchHistory",
@@ -62,6 +65,7 @@ public class Home extends Activity {
 					Intent myIntent = new Intent(Home.this, MyHistory.class);
 					Home.this.startActivity(myIntent);
 				}
+		
 			}
 		});
 
@@ -121,4 +125,6 @@ public class Home extends Activity {
 		}
 
 	}
+	
+
 }
