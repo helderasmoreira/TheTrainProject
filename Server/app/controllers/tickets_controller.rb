@@ -27,6 +27,25 @@ class TicketsController < ApplicationController
   end
 
   def verify_ticket
+    tickets = Ticket.where(["paid = ?", false])
+
+    tickets.each do |ticket|
+      t1 = Time.now
+      t2 = Time.parse(ticket.date)
+      t3 = Time.parse(ticket.departureTime)
+      t4 = Time.utc(t2.year, t2.month, t2.day, t3.hour, t3.min)
+      t1 = t1 + 1.day
+
+      if t4 <= t1
+        ticket.destroy
+        ticket_routes = TicketRoute.where(:ticket_id => ticket.id)
+        
+        ticket_routes.each do |ticket_route|
+          ticket_route.destroy
+        end
+      end
+    end
+
     route_id = params[:route_id]
     stop_start = params[:stop_start]
     stop_end = params[:stop_end]

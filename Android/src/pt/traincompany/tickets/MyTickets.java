@@ -23,14 +23,14 @@ public class MyTickets extends TabActivity {
 		TabHost tabHost = getTabHost();
 
 		TabSpec unpaid = tabHost.newTabSpec("unpaid");
-		unpaid.setIndicator("Unpaid",
-				getResources().getDrawable(R.drawable.ic_launcher));
+		unpaid.setIndicator("Por pagar",
+				null);
 		Intent i = new Intent(this, MyTicketsUnpaid.class);
 		unpaid.setContent(i);
 
 		TabSpec paid = tabHost.newTabSpec("paid");
-		paid.setIndicator("Paid",
-				getResources().getDrawable(R.drawable.ic_launcher));
+		paid.setIndicator("Pagos",
+				null);
 		Intent i2 = new Intent(this, MyTicketsPaid.class);
 		paid.setContent(i2);
 

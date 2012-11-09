@@ -30,13 +30,6 @@ public class MyTicketsUnpaid extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_tickets_unpaid);
 
-		dialog = ProgressDialog.show(MyTicketsUnpaid.this, "",
-				"A comunicar com o servidor...", true);
-		dialog.setCancelable(true);
-
-		GetTicketsByUserId tickets = new GetTicketsByUserId();
-		new Thread(tickets).start();
-
 		final ListView list = (ListView) findViewById(R.id.myTicketsUnpaid);
 
 		list.setOnItemClickListener(new OnItemClickListener() {
@@ -61,8 +54,8 @@ public class MyTicketsUnpaid extends Activity {
 	}
 	
 	@Override
-	public void onRestart() {
-		super.onRestart();
+	public void onResume() {
+		super.onResume();
 		dialog = ProgressDialog.show(MyTicketsUnpaid.this, "",
 				"A comunicar com o servidor...", true);
 		dialog.setCancelable(true);

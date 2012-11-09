@@ -22,8 +22,10 @@ import pt.traincompany.utility.Utility;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -50,6 +52,7 @@ public class SearchResultExtended extends Activity {
 	private String strArrivalTime;
 	private String strDuration;
 	private int ticket_id;
+	private String date;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -207,14 +210,16 @@ public class SearchResultExtended extends Activity {
 					} catch (ParseException e) {}
 					
 					DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerTicket);
-	
-					final Calendar c2 = Calendar.getInstance();
-					c2.set(datePicker.getYear(), datePicker.getMonth(),
+					
+					c.set(datePicker.getYear(), datePicker.getMonth(),
 							datePicker.getDayOfMonth());
+					
+					final Calendar c2 = Calendar.getInstance();
 	
-					if (c2.after(c) || c2.compareTo(c) == 0) {
-						CheckTicket checkTicket = new CheckTicket(c2);
+					if (c.after(c2) || c2.compareTo(c) == 0) {
+						CheckTicket checkTicket = new CheckTicket(c);
 						new Thread(checkTicket).start();
+						
 					} else {
 						makeToast("Não pode comprar bilhete para essa data...");
 					}
@@ -242,6 +247,7 @@ public class SearchResultExtended extends Activity {
 				Uri.Builder uri = Uri.parse(
 						"http://" + Configurations.AUTHORITY).buildUpon();
 				SimpleDateFormat tf = new SimpleDateFormat("dd-MM-yyyy");
+				date = tf.format(c2.getTime());  
 				uri.path(Configurations.VERIFYTICKET)
 						.appendQueryParameter("route_id", route_ids.get(i) + "")
 						.appendQueryParameter("stop_start",
@@ -270,6 +276,7 @@ public class SearchResultExtended extends Activity {
 
 			runOnUiThread(new Runnable() {
 				public void run() {
+					if(dialog != null) dialog.dismiss();
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							SearchResultExtended.this);
 					builder.setMessage("Pretende reservar o bilhete? Ainda há " + free_spots + " lugares livres.")
@@ -365,6 +372,8 @@ public class SearchResultExtended extends Activity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						Calendar c = Calendar.getInstance();
+						c.set(Calendar.HOUR_OF_DAY, c2.get(Calendar.HOUR_OF_DAY));
+						c.set(Calendar.MINUTE, c2.get(Calendar.MINUTE));
 						c.add(Calendar.DAY_OF_MONTH, 1);
 						
 						if(c2.after(c))
@@ -476,6 +485,21 @@ public class SearchResultExtended extends Activity {
 				JSONArray info = new JSONArray(response);
 				if(info.getString(0).equals("paid")) {
 					makeToast("Bilhete pago com sucesso...");
+					
+					// save ticket to paid list (db)
+					ContentValues value = new ContentValues();
+					value.put("id", ticket_id);
+					value.put("date", date);
+					value.put("departure", strFrom);
+					value.put("arrival", strTo);
+					value.put("duration", strDuration);
+					value.put("price", price_double + "");
+					value.put("departureTime", strDepartureTime);
+					value.put("arrivalTime", strArrivalTime);
+
+					SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
+					db.insert("Ticket", null, value);
+					db.close();
 				}
 				else {
 					makeToast("Occorreu um erro com a operação...");

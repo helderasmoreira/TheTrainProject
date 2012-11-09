@@ -246,6 +246,7 @@ public class Search extends Activity {
 
 			} catch (Exception e) {
 				communicationProblem();
+				Search.this.finish();
 			}
 		}
 	}
