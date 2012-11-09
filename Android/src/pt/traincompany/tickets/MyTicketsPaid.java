@@ -56,13 +56,46 @@ public class MyTicketsPaid extends Activity {
 				}
 			}
 		});
+		
+		View header = (View) getLayoutInflater().inflate(
+				R.layout.ticket_header, null);
+		
+		list.addHeaderView(header);
 
+	}
+	
+	@Override
+	public void onRestart() {
+		super.onRestart();
+		dialog = ProgressDialog.show(MyTicketsPaid.this, "",
+				"A comunicar com a base de dados local...", true);
+		dialog.setCancelable(true);
+
+		GetTicketsByUserId tickets = new GetTicketsByUserId();
+		new Thread(tickets).start();
+
+		final ListView list = (ListView) findViewById(R.id.myTicketsPaid);
+		list.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				if (position > 0) {
+					Intent i = new Intent(MyTicketsPaid.this,
+							TicketActivity.class);
+					i.putExtra("ticket",
+							(Ticket) list.getItemAtPosition(position));
+					startActivity(i);
+				}
+			}
+		});
 	}
 
 	class GetTicketsByUserId implements Runnable {
 
 		public void run() {
-
+			
+			userTickets = new ArrayList<Ticket>();
+			
 			// FILL USER TICKETS FROM DB
 			DatabaseHelper helper = Configurations.databaseHelper;
 			SQLiteDatabase db = helper.getWritableDatabase();
@@ -92,10 +125,6 @@ public class MyTicketsPaid extends Activity {
 
 					final ListView list = (ListView) findViewById(R.id.myTicketsPaid);
 
-					View header = (View) getLayoutInflater().inflate(
-							R.layout.ticket_header, null);
-
-					list.addHeaderView(header);
 					list.setAdapter(adapter);
 				}
 			});
@@ -104,21 +133,11 @@ public class MyTicketsPaid extends Activity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_my_tickets_paid, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.load_paid_from_server:
-			Toast.makeText(MyTicketsPaid.this, "click", Toast.LENGTH_SHORT)
-					.show();
-			break;
-		}
-		return super.onOptionsItemSelected(item);
+	public void loadFromServer() {
+		dialog = ProgressDialog.show(MyTicketsPaid.this, "",
+				"A comunicar com o servidor...", true);
+		GetTicketsByUserIdFromServer thread = new GetTicketsByUserIdFromServer();
+		new Thread(thread).start();
 	}
 
 	class GetTicketsByUserIdFromServer implements Runnable {
@@ -137,6 +156,8 @@ public class MyTicketsPaid extends Activity {
 
 				response = Connection.getJSONLine(uri.build());
 				JSONArray info = new JSONArray(response);
+				
+				userTickets.clear();
 
 				for (int i = 0; i < info.length(); i++) {
 					JSONObject ticket = info.getJSONObject(i);
@@ -155,26 +176,28 @@ public class MyTicketsPaid extends Activity {
 							departure, duration, arrival, price, paid);
 					userTickets.add(t);
 					
-					SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
-					db.execSQL("DELETE FROM Ticket;");
 					
-					for(Ticket ti : userTickets) {
-						
-						ContentValues value = new ContentValues();
-						value.put("id", ti.id);
-						value.put("date", ti.date);
-						value.put("departure", ti.from);
-						value.put("arrival", ti.to);
-						value.put("duration", ti.duration);
-						value.put("price", ti.price);
-						value.put("departureTime", ti.departureTime);
-						value.put("arrivalTime", ti.arrivalTime);
+				}
+				
+				SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
+				db.execSQL("DELETE FROM Ticket;");
+				
+				for(Ticket ti : userTickets) {
+					
+					ContentValues value = new ContentValues();
+					value.put("id", ti.id);
+					value.put("date", ti.date);
+					value.put("departure", ti.from);
+					value.put("arrival", ti.to);
+					value.put("duration", ti.duration);
+					value.put("price", ti.price);
+					value.put("departureTime", ti.departureTime);
+					value.put("arrivalTime", ti.arrivalTime);
 
-						db = Configurations.databaseHelper.getWritableDatabase();
-						db.insert("Ticket", null, value);
-						db.close();
-						
-					}
+					db = Configurations.databaseHelper.getWritableDatabase();
+					db.insert("Ticket", null, value);
+					db.close();
+					
 				}
 
 				runOnUiThread(new Runnable() {
@@ -185,12 +208,9 @@ public class MyTicketsPaid extends Activity {
 								userTickets.toArray(new Ticket[userTickets
 										.size()]));
 
-						final ListView list = (ListView) findViewById(R.id.myTicketsUnpaid);
+						final ListView list = (ListView) findViewById(R.id.myTicketsPaid);
 
-						View header = (View) getLayoutInflater().inflate(
-								R.layout.ticket_header, null);
-
-						list.addHeaderView(header);
+						
 						list.setAdapter(adapter);
 					}
 				});
