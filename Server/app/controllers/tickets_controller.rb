@@ -87,11 +87,17 @@ class TicketsController < ApplicationController
 
   def getPaid
 
-    date = Date.today - 15
+    time =  Time.now - 15.days
+    tickets = Ticket.where("paid = ?", true)
 
-    dateSQL = date.strftime("%d-%m-%Y")
+    old_tickets = []
+    tickets.each do |ticket|
+      if Time.parse(ticket.date) <= time
+        old_tickets.push(ticket)
+      end
+    end
 
-    tickets = Ticket.where(["paid = ? AND date > ?", true, dateSQL])
+    tickets = tickets-old_tickets
 
     respond_to do |format|
       format.json { render json: tickets }
