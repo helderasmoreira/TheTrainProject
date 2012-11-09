@@ -15,21 +15,21 @@ Server/log/*.log
 Server/tmp
 
 # built application files
-TheTrainProject/*.apk
-TheTrainProject/*.ap_
+Android/*.apk
+Android/*.ap_
 
 # files for the dex VM
-TheTrainProject/*.dex
+Android/*.dex
 
 # Java class files
-TheTrainProject/*.class
+Android/*.class
 
 # generated files
-TheTrainProject/bin/
-TheTrainProject/gen/
+Android/bin/
+Android/gen/
 
 # Local configuration file (sdk path, etc)
-TheTrainProject/local.properties
+Android/local.properties
 
 
 

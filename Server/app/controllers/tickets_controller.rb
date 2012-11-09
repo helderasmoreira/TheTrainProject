@@ -68,7 +68,11 @@ class TicketsController < ApplicationController
 
   def getPaid
 
-    tickets = Ticket.where("paid = ?", true)
+    date = Date.today - 15
+
+    dateSQL = date.strftime("%d-%m-%Y")
+
+    tickets = Ticket.where(["paid = ? AND date > ?", true, dateSQL])
 
     respond_to do |format|
       format.json { render json: tickets }
