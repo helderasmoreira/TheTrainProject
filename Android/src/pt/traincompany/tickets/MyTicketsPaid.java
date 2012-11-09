@@ -2,17 +2,26 @@ package pt.traincompany.tickets;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import pt.traincompany.main.DatabaseHelper;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;
+import pt.traincompany.utility.Connection;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -100,7 +109,7 @@ public class MyTicketsPaid extends Activity {
 							cursor.getString(6), cursor.getString(7),
 							cursor.getString(1), cursor.getString(2),
 							cursor.getString(4), cursor.getString(3),
-							cursor.getDouble(5),true);
+							cursor.getDouble(5), true);
 					userTickets.add(t);
 				} while (cursor.moveToNext());
 			}
@@ -122,6 +131,107 @@ public class MyTicketsPaid extends Activity {
 
 		}
 
+	}
+
+	public void loadFromServer() {
+		dialog = ProgressDialog.show(MyTicketsPaid.this, "",
+				"A comunicar com o servidor...", true);
+		GetTicketsByUserIdFromServer thread = new GetTicketsByUserIdFromServer();
+		new Thread(thread).start();
+	}
+
+	class GetTicketsByUserIdFromServer implements Runnable {
+
+		public void run() {
+
+			Uri.Builder uri = Uri.parse("http://" + Configurations.AUTHORITY)
+					.buildUpon();
+			uri.path(Configurations.GETPAIDTICKETSBYID);
+			uri.appendQueryParameter("format", Configurations.FORMAT);
+			uri.appendQueryParameter("user_id", Configurations.userId + "");
+
+			String response = null;
+
+			try {
+
+				response = Connection.getJSONLine(uri.build());
+				JSONArray info = new JSONArray(response);
+				
+				userTickets.clear();
+
+				for (int i = 0; i < info.length(); i++) {
+					JSONObject ticket = info.getJSONObject(i);
+
+					int id = ticket.getInt("id");
+					String departureTime = ticket.getString("departureTime");
+					String arrivalTime = ticket.getString("arrivalTime");
+					String arrival = ticket.getString("arrival");
+					String departure = ticket.getString("departure");
+					String date = ticket.getString("date");
+					String duration = ticket.getString("duration");
+					double price = ticket.getDouble("price");
+					boolean paid = ticket.getBoolean("paid");
+
+					Ticket t = new Ticket(id, departureTime, arrivalTime, date,
+							departure, duration, arrival, price, paid);
+					userTickets.add(t);
+					
+					
+				}
+				
+				SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
+				db.execSQL("DELETE FROM Ticket;");
+				
+				for(Ticket ti : userTickets) {
+					
+					ContentValues value = new ContentValues();
+					value.put("id", ti.id);
+					value.put("date", ti.date);
+					value.put("departure", ti.from);
+					value.put("arrival", ti.to);
+					value.put("duration", ti.duration);
+					value.put("price", ti.price);
+					value.put("departureTime", ti.departureTime);
+					value.put("arrivalTime", ti.arrivalTime);
+
+					db = Configurations.databaseHelper.getWritableDatabase();
+					db.insert("Ticket", null, value);
+					db.close();
+					
+				}
+
+				runOnUiThread(new Runnable() {
+					public void run() {
+						dialog.dismiss();
+						TicketAdapter adapter = new TicketAdapter(
+								MyTicketsPaid.this, R.layout.ticket_row,
+								userTickets.toArray(new Ticket[userTickets
+										.size()]));
+
+						final ListView list = (ListView) findViewById(R.id.myTicketsPaid);
+
+						
+						list.setAdapter(adapter);
+					}
+				});
+
+			} catch (Exception e) {
+				communicationProblem();
+				MyTicketsPaid.this.finish();
+			}
+		}
+
+	}
+	
+	private void communicationProblem() {
+		dialog.dismiss();
+		runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(MyTicketsPaid.this,
+						"A comunicação com o servidor falhou...",
+						Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 
 }

@@ -312,7 +312,7 @@ public class TicketActivity extends Activity {
 					});
 
 				} else
-					makeToast("Occorreu um erro com a operação...");
+					makeToast("O pagamento foi recusado...");
 			} catch (Exception e) {
 				makeToast("Occorreu um erro com a operação...");
 			}
