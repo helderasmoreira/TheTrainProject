@@ -27,7 +27,7 @@ public class MyTicketsPaid extends Activity {
 		setContentView(R.layout.activity_my_tickets_paid);
 
 		dialog = ProgressDialog.show(MyTicketsPaid.this, "",
-				"A comunicar com o servidor...", true);
+				"A comunicar com a base de dados local...", true);
 		dialog.setCancelable(true);
 
 		GetTicketsByUserId tickets = new GetTicketsByUserId();
@@ -47,13 +47,46 @@ public class MyTicketsPaid extends Activity {
 				}
 			}
 		});
+		
+		View header = (View) getLayoutInflater().inflate(
+				R.layout.ticket_header, null);
+		
+		list.addHeaderView(header);
 
+	}
+	
+	@Override
+	public void onRestart() {
+		super.onRestart();
+		dialog = ProgressDialog.show(MyTicketsPaid.this, "",
+				"A comunicar com a base de dados local...", true);
+		dialog.setCancelable(true);
+
+		GetTicketsByUserId tickets = new GetTicketsByUserId();
+		new Thread(tickets).start();
+
+		final ListView list = (ListView) findViewById(R.id.myTicketsPaid);
+		list.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				if (position > 0) {
+					Intent i = new Intent(MyTicketsPaid.this,
+							TicketActivity.class);
+					i.putExtra("ticket",
+							(Ticket) list.getItemAtPosition(position));
+					startActivity(i);
+				}
+			}
+		});
 	}
 
 	class GetTicketsByUserId implements Runnable {
 
 		public void run() {
-
+			
+			userTickets = new ArrayList<Ticket>();
+			
 			// FILL USER TICKETS FROM DB
 			DatabaseHelper helper = Configurations.databaseHelper;
 			SQLiteDatabase db = helper.getWritableDatabase();
@@ -83,10 +116,6 @@ public class MyTicketsPaid extends Activity {
 
 					final ListView list = (ListView) findViewById(R.id.myTicketsPaid);
 
-					View header = (View) getLayoutInflater().inflate(
-							R.layout.ticket_header, null);
-
-					list.addHeaderView(header);
 					list.setAdapter(adapter);
 				}
 			});
