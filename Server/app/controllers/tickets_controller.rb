@@ -66,6 +66,15 @@ class TicketsController < ApplicationController
 
   end
 
+  def getPaid
+
+    tickets = Ticket.where("paid = ?", true)
+
+    respond_to do |format|
+      format.json { render json: tickets }
+    end
+  end
+
   def getByUserId
 
     tickets = Ticket.where(["user_id = ? AND paid = ?", params[:user_id], false])

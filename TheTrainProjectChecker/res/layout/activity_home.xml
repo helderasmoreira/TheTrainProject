@@ -18,7 +18,7 @@
                 android:id="@+id/btnCheckTickets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Obter bilhetes do servidor" />
+                android:text="Inspecionar bilhetes" />
 
         </TableRow>
 
@@ -30,7 +30,7 @@
                 android:id="@+id/btnGetTickets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inspecionar bilhetes" />
+                android:text="Obter bilhetes do servidor" />
 
         </TableRow>
     </TableLayout>
