@@ -12,13 +12,14 @@
 
         <TableRow
             android:id="@+id/tableRow1"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="20dp" >
 
-            <Button
+            <ImageView
                 android:id="@+id/btnQRCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="QR Code" />
+                android:src="@drawable/qrcode" />
 
         </TableRow>
 
@@ -26,11 +27,11 @@
             android:id="@+id/tableRow2"
             android:gravity="center_horizontal" >
             
-             <Button
+             <ImageView
                 android:id="@+id/btnNFC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NFC" />
+                android:src="@drawable/nfc" />
 
         </TableRow>
     </TableLayout>

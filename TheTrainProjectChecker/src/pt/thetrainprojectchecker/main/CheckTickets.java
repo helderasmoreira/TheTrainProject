@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class CheckTickets extends Activity {
@@ -17,7 +18,7 @@ public class CheckTickets extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_check_tickets);
 
-		Button qrCode = (Button) findViewById(R.id.btnQRCode);
+		ImageView qrCode = (ImageView) findViewById(R.id.btnQRCode);
 		qrCode.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
