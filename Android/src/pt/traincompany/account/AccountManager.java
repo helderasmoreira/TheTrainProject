@@ -136,7 +136,6 @@ public class AccountManager extends Activity {
 				}
 			} catch (Exception e) {
 				communicationProblem();
-				AccountManager.this.finish();
 			}
 		}
 	}
@@ -204,7 +203,6 @@ public class AccountManager extends Activity {
 				}
 			} catch (Exception e) {
 				communicationProblem();
-				AccountManager.this.finish();
 			}
 		}
 	}

@@ -1,14 +1,16 @@
 package pt.traincompany.tickets;
 
 import pt.traincompany.main.R;
-import android.app.Activity;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
-import android.widget.Toast;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
 public class MyTickets extends TabActivity {
@@ -34,6 +36,19 @@ public class MyTickets extends TabActivity {
 
 		tabHost.addTab(paid);
 		tabHost.addTab(unpaid);
+
+		tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+
+			public void onTabChanged(String tabName) {
+				if (tabName.equals("unpaid")) {
+					ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+					NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+					if (activeNetworkInfo == null) {
+						getTabHost().setCurrentTab(0);
+					}
+				}
+			}
+		});
 
 	}
 

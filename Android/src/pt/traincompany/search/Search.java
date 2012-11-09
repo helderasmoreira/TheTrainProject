@@ -174,7 +174,7 @@ public class Search extends Activity {
 			public void run() {
 				Toast.makeText(Search.this,
 						"A comunicação com o servidor falhou...",
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -246,7 +246,6 @@ public class Search extends Activity {
 
 			} catch (Exception e) {
 				communicationProblem();
-				Search.this.finish();
 			}
 		}
 	}

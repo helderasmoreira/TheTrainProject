@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import pt.traincompany.account.Card;
 import pt.traincompany.account.CardAdapter;
-import pt.traincompany.main.DatabaseHelper;
 import pt.traincompany.main.Home;
 import pt.traincompany.main.R;
 import pt.traincompany.utility.Configurations;

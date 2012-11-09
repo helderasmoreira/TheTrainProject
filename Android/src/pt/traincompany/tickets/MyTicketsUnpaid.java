@@ -10,6 +10,7 @@ import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -70,7 +71,7 @@ public class MyTicketsUnpaid extends Activity {
 		new Thread(tickets).start();
 		
 	}
-
+	
 	class GetTicketsByUserId implements Runnable {
 
 		public void run() {
@@ -125,7 +126,12 @@ public class MyTicketsUnpaid extends Activity {
 
 			} catch (Exception e) {
 				communicationProblem();
-				MyTicketsUnpaid.this.finish();
+				runOnUiThread(new Runnable() {
+					public void run() {
+						((TabActivity)getParent()).getTabHost().setCurrentTab(0);
+					}
+				});
+				
 			}
 		}
 
@@ -137,7 +143,7 @@ public class MyTicketsUnpaid extends Activity {
 			public void run() {
 				Toast.makeText(MyTicketsUnpaid.this,
 						"A comunicação com o servidor falhou...",
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
