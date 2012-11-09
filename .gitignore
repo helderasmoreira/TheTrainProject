@@ -31,5 +31,24 @@ Android/gen/
 # Local configuration file (sdk path, etc)
 Android/local.properties
 
+
+
+# built application files
+TheTrainProjectChecker/*.apk
+TheTrainProjectChecker/*.ap_
+
+# files for the dex VM
+TheTrainProjectChecker/*.dex
+
+# Java class files
+TheTrainProjectChecker/*.class
+
+# generated files
+TheTrainProjectChecker/bin/
+TheTrainProjectChecker/gen/
+
+# Local configuration file (sdk path, etc)
+TheTrainProjectChecker/local.properties
+
 # .DS_Store file
 .DS_Store
