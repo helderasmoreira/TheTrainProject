@@ -13,6 +13,5 @@ public class Utility {
 	public static JSONArray search_results;
 	public static ArrayList<Card> user_cards = new ArrayList<Card>();
 	public static JSONArray tickets;
-	public static boolean from_cancel_ticket = false;
 
 }

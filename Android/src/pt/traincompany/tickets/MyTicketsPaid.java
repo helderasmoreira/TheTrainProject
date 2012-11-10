@@ -100,7 +100,7 @@ public class MyTicketsPaid extends Activity {
 			Cursor cursor = db
 					.query("Ticket",
 							new String[] { "id, date, departure, arrival, duration, price, departureTime, arrivalTime" },
-							null, null, null, null, null);
+							"userId = ?", new String[] {Configurations.userId+""}, null, null, null);
 			if (cursor.moveToFirst()) {
 				do {
 					Ticket t = new Ticket(cursor.getInt(0),
@@ -191,6 +191,7 @@ public class MyTicketsPaid extends Activity {
 					value.put("price", ti.price);
 					value.put("departureTime", ti.departureTime);
 					value.put("arrivalTime", ti.arrivalTime);
+					value.put("userId", Configurations.userId+"");
 
 					db = Configurations.databaseHelper.getWritableDatabase();
 					db.insert("Ticket", null, value);

@@ -498,6 +498,7 @@ public class SearchResultExtended extends Activity {
 					value.put("price", price_double + "");
 					value.put("departureTime", strDepartureTime);
 					value.put("arrivalTime", strArrivalTime);
+					value.put("userId", Configurations.userId+"");
 
 					SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
 					db.insert("Ticket", null, value);

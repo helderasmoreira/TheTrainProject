@@ -7,7 +7,6 @@ import pt.traincompany.utility.Configurations;
 import pt.traincompany.utility.Connection;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,8 +24,6 @@ public class AccountManager extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_account_manager);
-
-		
 		
 		final Button login = (Button) findViewById(R.id.btnLogin);
 		login.setOnClickListener(new View.OnClickListener() {
@@ -186,8 +183,7 @@ public class AccountManager extends Activity {
 									"Registo e login efetuado com sucesso!",
 									Toast.LENGTH_SHORT).show();
 							
-							Intent i = new Intent(AccountManager.this, CardManagement.class);
-							startActivity(i);
+							AccountManager.this.finish();
 						}
 					});
 				}

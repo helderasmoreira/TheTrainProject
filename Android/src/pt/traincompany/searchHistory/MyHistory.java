@@ -53,7 +53,7 @@ public class MyHistory extends Activity {
 		DatabaseHelper helper = Configurations.databaseHelper;
 		SQLiteDatabase db = helper.getWritableDatabase();
 		Cursor cursor = db.query("SearchHistory",
-				new String[] { "departure, arrival, hours, date" }, "departure IS NOT NULL AND arrival IS NOT NULL", null, null,
+				new String[] { "departure, arrival, hours, date" }, "departure IS NOT NULL AND arrival IS NOT NULL and userId = ?", new String[] {Configurations.userId+""}, null,
 				null, "date DESC");
 		
 		if (cursor.moveToFirst()) {

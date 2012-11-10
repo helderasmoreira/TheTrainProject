@@ -87,12 +87,13 @@ class TicketsController < ApplicationController
 
   def getPaid
 
-    time =  Time.now - 15.days
+    time =  Time.now + 15.days 
+    time2 = Time.now - 15.days
     tickets = Ticket.where("paid = ?", true)
 
     old_tickets = []
     tickets.each do |ticket|
-      if Time.parse(ticket.date) <= time
+      if Time.parse(ticket.date) >= time or Time.parse(ticket.date) <= time2
         old_tickets.push(ticket)
       end
     end

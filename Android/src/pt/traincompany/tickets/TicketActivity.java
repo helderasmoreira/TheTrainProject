@@ -172,9 +172,7 @@ public class TicketActivity extends Activity {
 			try {
 				Connection.getJSONLine(uri.build());
 				makeToast("Bilhete cancelado com sucesso...");
-				Utility.from_cancel_ticket = true;
-				Intent myIntent = new Intent(TicketActivity.this, Home.class);
-				TicketActivity.this.startActivity(myIntent);
+				TicketActivity.this.finish();
 			} catch (Exception e) {
 				communicationProblem();
 			}
@@ -310,6 +308,7 @@ public class TicketActivity extends Activity {
 							value.put("price", ticket.price);
 							value.put("departureTime", ticket.departureTime);
 							value.put("arrivalTime", ticket.arrivalTime);
+							value.put("userId", Configurations.userId + "");
 
 							SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
 							db.insert("Ticket", null, value);

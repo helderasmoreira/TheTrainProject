@@ -15,7 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -52,19 +51,24 @@ public class Home extends Activity {
 		historic.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				
-				
-				DatabaseHelper helper = new DatabaseHelper(Home.this);
-				SQLiteDatabase db = helper.getWritableDatabase();
-				Cursor cursor = db.query("SearchHistory",
-						new String[] { "departure, arrival, hours, date" }, "departure IS NOT NULL AND arrival IS NOT NULL", null, null,
-						null, "date DESC");
-				
-				if(!cursor.moveToFirst())
-					Toast.makeText(Home.this, "Não tem histórico...", Toast.LENGTH_SHORT).show();
-				else {
-					Intent myIntent = new Intent(Home.this, MyHistory.class);
-					Home.this.startActivity(myIntent);
+				if (Configurations.userId > 0) {
+					DatabaseHelper helper = new DatabaseHelper(Home.this);
+					SQLiteDatabase db = helper.getWritableDatabase();
+					Cursor cursor = db.query("SearchHistory",
+							new String[] { "departure, arrival, hours, date" }, "departure IS NOT NULL AND arrival IS NOT NULL AND userId = ?", new String[]{Configurations.userId+""}, null,
+							null, "date DESC");
+					
+					if(!cursor.moveToFirst())
+						Toast.makeText(Home.this, "Não tem histórico...", Toast.LENGTH_SHORT).show();
+					else {
+						Intent myIntent = new Intent(Home.this, MyHistory.class);
+						Home.this.startActivity(myIntent);
+					}
+					
+					db.close();
 				}
+				else
+					Toast.makeText(Home.this, "Tem que efetuar primeiro login...", Toast.LENGTH_SHORT).show();
 		
 			}
 		});
@@ -73,9 +77,12 @@ public class Home extends Activity {
 		myTickets.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				
-				Intent myIntent = new Intent(Home.this, MyTickets.class);
-				Home.this.startActivity(myIntent);
-				
+				if (Configurations.userId > 0) {
+					Intent myIntent = new Intent(Home.this, MyTickets.class);
+					Home.this.startActivity(myIntent);	
+				}
+				else
+					Toast.makeText(Home.this, "Tem que efetuar primeiro login...", Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -118,12 +125,6 @@ public class Home extends Activity {
 				Home.this.startActivity(myIntent);
 			}
 		});
-		
-		if(Utility.from_cancel_ticket) {
-			Utility.from_cancel_ticket = false;
-			myTickets.performClick();
-		}
-
 	}
 	
 

@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,17 +45,17 @@ public class Search extends Activity {
 		hour.setIs24HourView(true);
 
 		// adds stations
-		dialog = ProgressDialog.show(Search.this, "", 
-                "A comunicar com o servidor...", true);
+		dialog = ProgressDialog.show(Search.this, "",
+				"A comunicar com o servidor...", true);
 		dialog.setCancelable(true);
 
 		GetStations gs = new GetStations();
 		new Thread(gs).start();
 
 		dp = (TimePicker) findViewById(R.id.timePicker1);
-		
+
 		bundle = this.getIntent().getExtras();
-		
+
 		dp.setCurrentHour(0);
 		dp.setCurrentMinute(0);
 
@@ -70,28 +71,50 @@ public class Search extends Activity {
 
 	public void updateDatabase() {
 
-		DatabaseHelper helper = Configurations.databaseHelper;
+		if (Configurations.userId > 0) {
 
-		SQLiteDatabase db = helper.getWritableDatabase();
+			DatabaseHelper helper = Configurations.databaseHelper;
 
-		ContentValues cv = new ContentValues();
-		cv.put("departure", (String) ((Spinner) findViewById(R.id.spinner1))
-				.getSelectedItem());
-		cv.put("arrival", (String) ((Spinner) findViewById(R.id.spinner2))
-				.getSelectedItem());
+			SQLiteDatabase db = helper.getWritableDatabase();
 
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.HOUR_OF_DAY, dp.getCurrentHour());
-		c.set(Calendar.MINUTE, dp.getCurrentMinute());
+			Cursor cursor = db.query("SearchHistory",
+					new String[] { "userId" }, "userId = ?",
+					new String[] { Configurations.userId + "" }, null, null,
+					null);
 
-		SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
-		cv.put("hours", tf.format(c.getTime()));
-		cv.put("date", Calendar.getInstance().getTimeInMillis());
+			if (!cursor.moveToFirst()) {
+				for (int i = 1; i <= 20; i++) {
+					long offset = Calendar.getInstance().getTimeInMillis() + i;
+					String FILLDUMMY = "INSERT INTO SearchHistory(departure, arrival, hours, date, userId) VALUES (NULL, NULL, NULL,"
+							+ offset + "," + Configurations.userId + ")";
+					db.execSQL(FILLDUMMY);
+				}
+			}
 
-		db.update("SearchHistory", cv,
-				"date = (SELECT min(date) FROM SearchHistory)", null);
+			ContentValues cv = new ContentValues();
+			cv.put("departure",
+					(String) ((Spinner) findViewById(R.id.spinner1))
+							.getSelectedItem());
+			cv.put("arrival", (String) ((Spinner) findViewById(R.id.spinner2))
+					.getSelectedItem());
 
-		db.close();
+			Calendar c = Calendar.getInstance();
+			c.set(Calendar.HOUR_OF_DAY, dp.getCurrentHour());
+			c.set(Calendar.MINUTE, dp.getCurrentMinute());
+
+			SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
+			cv.put("hours", tf.format(c.getTime()));
+			cv.put("date", Calendar.getInstance().getTimeInMillis());
+
+			db.update(
+					"SearchHistory",
+					cv,
+					"date = (SELECT min(date) FROM SearchHistory WHERE userId = ?) AND userId = ?",
+					new String[] { Configurations.userId + "", Configurations.userId + "" });
+
+			db.close();
+
+		}
 	}
 
 	class SearchServer implements Runnable {
@@ -221,25 +244,29 @@ public class Search extends Activity {
 							String toS = bundle.getString("to");
 							String timeS = bundle.getString("time");
 
-							ArrayAdapter<String> fromAdapter = (ArrayAdapter<String>) from.getAdapter();
+							ArrayAdapter<String> fromAdapter = (ArrayAdapter<String>) from
+									.getAdapter();
 							int fromPosition = fromAdapter.getPosition(fromS);
 
-							ArrayAdapter<String> toAdapter = (ArrayAdapter<String>) to.getAdapter();
+							ArrayAdapter<String> toAdapter = (ArrayAdapter<String>) to
+									.getAdapter();
 							int toPosition = toAdapter.getPosition(toS);
-							
+
 							SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
 							try {
 								tf.parse(timeS);
-								dp.setCurrentHour(tf.getCalendar().get(Calendar.HOUR_OF_DAY));
-								dp.setCurrentMinute(tf.getCalendar().get(Calendar.MINUTE));
+								dp.setCurrentHour(tf.getCalendar().get(
+										Calendar.HOUR_OF_DAY));
+								dp.setCurrentMinute(tf.getCalendar().get(
+										Calendar.MINUTE));
 							} catch (ParseException e) {
-								
+
 							}
 
 							from.setSelection(fromPosition);
 							to.setSelection(toPosition);
-						} 
-						
+						}
+
 						dialog.dismiss();
 					}
 				});
