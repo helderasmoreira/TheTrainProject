@@ -6,13 +6,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:gravity="center_vertical" >
 
         <TableLayout
-            android:layout_width="500dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" >
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true" >
 
             <TableLayout
                 android:layout_width="wrap_content"
@@ -21,13 +22,13 @@
 
                 <TableRow
                     android:id="@+id/tableRow0"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
                     android:weightSum="1.0" >
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:layout_weight="0.20"
                         android:text="ID: "
                         android:textSize="14dp"
                         android:textStyle="bold" />
@@ -41,7 +42,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:layout_weight="0.20"
                         android:text="Data: "
                         android:textSize="14dp"
                         android:textStyle="bold" />
@@ -55,13 +56,13 @@
 
                 <TableRow
                     android:id="@+id/tableRow2"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
                     android:weightSum="1.0" >
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:layout_weight="0.20"
                         android:text="Partida: "
                         android:textSize="14dp"
                         android:textStyle="bold" />
@@ -75,7 +76,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:layout_weight="0.20"
                         android:text="Destino: "
                         android:textSize="14dp"
                         android:textStyle="bold" />
@@ -89,13 +90,13 @@
 
                 <TableRow
                     android:id="@+id/tableRow4"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
                     android:weightSum="1.0" >
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:layout_weight="0.20"
                         android:text="Preço: "
                         android:textSize="14dp"
                         android:textStyle="bold" />
@@ -109,7 +110,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:layout_weight="0.20"
                         android:text="Duração: "
                         android:textSize="14dp"
                         android:textStyle="bold" />
@@ -123,13 +124,13 @@
 
                 <TableRow
                     android:id="@+id/tableRow10"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
                     android:weightSum="1.0" >
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:layout_weight="0.20"
                         android:text="Hora partida: "
                         android:textSize="14dp"
                         android:textStyle="bold" />
@@ -143,7 +144,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                       	android:layout_weight="0.20"
                         android:text="Hora chegada: "
                         android:textSize="14dp"
                         android:textStyle="bold" />
@@ -154,12 +155,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.25" />
                 </TableRow>
-   z
+   
 
                 <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal" >
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp" >
 
                     <TableRow
                         android:id="@+id/tableRow6"

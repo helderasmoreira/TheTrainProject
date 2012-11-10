@@ -97,13 +97,18 @@ public class TicketActivity extends Activity {
 					dialog.dismiss();
 					Toast.makeText(TicketActivity.this,
 							"Ocorreu um erro ao gerar o QR Code...",
-							Toast.LENGTH_LONG).show();
+							Toast.LENGTH_SHORT).show();
 				} catch (IOException e) {
 					e.printStackTrace();
 					dialog.dismiss();
-					Toast.makeText(TicketActivity.this,
-							"Ocorreu um erro ao gerar o QR Code...",
-							Toast.LENGTH_LONG).show();
+					runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(TicketActivity.this,
+									"Ocorreu um erro ao gerar o QR Code...",
+									Toast.LENGTH_SHORT).show();
+						}
+					});
+					
 				}
 
 				runOnUiThread(new Runnable() {

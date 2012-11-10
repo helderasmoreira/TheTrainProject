@@ -107,20 +107,22 @@ public class SearchResultExtended extends Activity {
 							LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT));
 					tr.setGravity(Gravity.CENTER_HORIZONTAL);
+					tr.setWeightSum(1.0f);
 
 					TextView b = new TextView(this);
 					b.setText(((JSONArray) stations_temp.get(j)).getString(0));
 					b.setLayoutParams(new LayoutParams(
 							LayoutParams.WRAP_CONTENT,
-							LayoutParams.WRAP_CONTENT));
-
+							LayoutParams.WRAP_CONTENT,
+							0.40f));
 					tr.addView(b);
 
 					TextView b2 = new TextView(this);
 					b2.setText(((JSONArray) stations_temp.get(j)).getString(1));
 					b2.setLayoutParams(new LayoutParams(
 							LayoutParams.WRAP_CONTENT,
-							LayoutParams.WRAP_CONTENT));
+							LayoutParams.WRAP_CONTENT,
+							0.05f));
 
 					tr.addView(b2);
 
