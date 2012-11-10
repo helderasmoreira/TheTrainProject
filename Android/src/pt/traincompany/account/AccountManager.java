@@ -186,8 +186,7 @@ public class AccountManager extends Activity {
 									"Registo e login efetuado com sucesso!",
 									Toast.LENGTH_SHORT).show();
 							
-							Intent i = new Intent(AccountManager.this, CardManagement.class);
-							startActivity(i);
+							AccountManager.this.finish();
 						}
 					});
 				}

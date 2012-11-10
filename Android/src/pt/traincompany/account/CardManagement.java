@@ -80,8 +80,7 @@ public class CardManagement extends Activity {
 						"Logout efetuado com sucesso.", Toast.LENGTH_LONG)
 						.show();
 
-				Intent myIntent = new Intent(CardManagement.this, Home.class);
-				CardManagement.this.startActivity(myIntent);
+				CardManagement.this.finish();
 			}
 		});
 	}

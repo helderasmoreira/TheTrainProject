@@ -310,6 +310,7 @@ public class TicketActivity extends Activity {
 							value.put("price", ticket.price);
 							value.put("departureTime", ticket.departureTime);
 							value.put("arrivalTime", ticket.arrivalTime);
+							value.put("userId", Configurations.userId + "");
 
 							SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
 							db.insert("Ticket", null, value);
