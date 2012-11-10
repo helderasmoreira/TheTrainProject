@@ -3,7 +3,7 @@
     <string name="app_name">TheTrainProjectChecker</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_home">Home</string>
+    <string name="title_activity_home">TTP Ticket Checker</string>
     <string name="title_activity_check_tickets">Inspecionar bilhetes</string>
     <string name="title_activity_success">Resultado</string>
 
