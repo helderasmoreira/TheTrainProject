@@ -13,12 +13,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true" >
+            android:layout_alignParentRight="true" 
+            android:gravity="center_vertical">
 
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" >
+                android:layout_gravity="center_vertical|center_horizontal" >
 
                 <TableRow
                     android:id="@+id/tableRow0"
@@ -178,7 +179,9 @@
                         <ImageView
                             android:id="@+id/qrCode"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/dummy" />
+
                     </TableRow>
 
                     <TableRow
@@ -204,6 +207,7 @@
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
                 android:layout_marginTop="10dp" >
 
                 <TableRow
