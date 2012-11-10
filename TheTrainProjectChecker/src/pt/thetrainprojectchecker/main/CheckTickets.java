@@ -47,7 +47,7 @@ public class CheckTickets extends Activity {
 			public void onClick(View v) {
 
 				final EditText input = new EditText(CheckTickets.this);
-
+				
 				new AlertDialog.Builder(CheckTickets.this)
 			    .setTitle("Pesquisa manual")
 			    .setMessage("Insira o ID do bilhete")
@@ -78,10 +78,19 @@ public class CheckTickets extends Activity {
 		DatabaseHelper databaseHelper = new DatabaseHelper(CheckTickets.this);
 		SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		
-		Cursor cursor = db.query("Ticket", new String[] {"id"}, "id = ?", new String[] {contents}, null, null, null);
+		Cursor cursor = db.query("Ticket", new String[] {"departure, arrival, departureTime, arrivalTime, duration, price, date, id"}, "id = ?", new String[] {contents}, null, null, null);
 		Bundle bundle = new Bundle();
-		if (cursor.moveToFirst())
+		if (cursor.moveToFirst()) {
 			bundle.putBoolean("success", true);
+			bundle.putString("departure", cursor.getString(0));
+			bundle.putString("arrival", cursor.getString(1));
+			bundle.putString("departureTime", cursor.getString(2));
+			bundle.putString("arrivalTime", cursor.getString(3));
+			bundle.putString("duration", cursor.getString(4));
+			bundle.putString("price", cursor.getString(5));
+			bundle.putString("date", cursor.getString(6));
+			bundle.putString("id", cursor.getString(7));
+		}
 		else
 			bundle.putBoolean("success", false);
 		db.close();
