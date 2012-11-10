@@ -44,6 +44,7 @@ public class Home extends Activity {
 				
 				dialog = ProgressDialog.show(Home.this, "",
 						"A comunicar com o servidor...", true);
+				dialog.setCancelable(true);
 				GetTicketsByUserIdFromServer thread = new GetTicketsByUserIdFromServer();
 				new Thread(thread).start();
 			}
