@@ -125,12 +125,6 @@ public class Home extends Activity {
 				Home.this.startActivity(myIntent);
 			}
 		});
-		
-		if(Utility.from_cancel_ticket) {
-			Utility.from_cancel_ticket = false;
-			myTickets.performClick();
-		}
-
 	}
 	
 
