@@ -4,7 +4,7 @@ import pt.traincompany.main.DatabaseHelper;
 
 public class Configurations {
 	
-	final public static String AUTHORITY = "10.0.2.2:3000";
+	final public static String AUTHORITY = "172.30.71.16:3000";
 	final public static String SCHEME = "http";
 	final public static String FORMAT = "json";
 	

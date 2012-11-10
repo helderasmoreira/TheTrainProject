@@ -31,7 +31,7 @@ public class Home extends Activity {
 
 		setContentView(R.layout.activity_home);
 		
-		//this.deleteDatabase(Configurations.THE_TRAIN_PROJECT_DB);
+		this.deleteDatabase(Configurations.THE_TRAIN_PROJECT_DB);
 		DatabaseHelper helper = new DatabaseHelper(Home.this);
 		Configurations.databaseHelper = helper;
 		
