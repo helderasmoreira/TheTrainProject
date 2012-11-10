@@ -74,8 +74,8 @@ class TicketsController < ApplicationController
     tickets_from_route += TicketRoute.where(["route_id = ? and stop_start_order <= ? and stop_end_order >= ? and date = ?", route_id, stop_start_order, stop_end_order, date])
 
     response = ["yes"]
-    response[1] = 1 - tickets_from_route.length
-    if tickets_from_route.length > 0
+    response[1] = 200 - tickets_from_route.length
+    if tickets_from_route.length > 199
      response[0] = "no"
     end
 
