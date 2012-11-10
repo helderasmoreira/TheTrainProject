@@ -4,15 +4,23 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
+import pt.thetrainproject.tickets.CheckTickets;
 import pt.thetrainprojectchecker.database.DatabaseHelper;
+import pt.thetrainprojectchecker.result.Result;
 import pt.thetrainprojectchecker.utility.Configurations;
 import pt.thetrainprojectchecker.utility.Connection;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcAdapter.CreateNdefMessageCallback;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,8 +57,10 @@ public class Home extends Activity {
 				new Thread(thread).start();
 			}
         });
+
     }
     
+
     class GetTicketsByUserIdFromServer implements Runnable {
 
 		public void run() {
@@ -115,5 +125,29 @@ public class Home extends Activity {
 		});
 	}
 	
+    private void testTicket(String contents) {
+		DatabaseHelper databaseHelper = new DatabaseHelper(Home.this);
+		SQLiteDatabase db = databaseHelper.getWritableDatabase();
+		
+		Cursor cursor = db.query("Ticket", new String[] {"departure, arrival, departureTime, arrivalTime, duration, price, date, id"}, "id = ?", new String[] {contents}, null, null, null);
+		Bundle bundle = new Bundle();
+		if (cursor.moveToFirst()) {
+			bundle.putBoolean("success", true);
+			bundle.putString("departure", cursor.getString(0));
+			bundle.putString("arrival", cursor.getString(1));
+			bundle.putString("departureTime", cursor.getString(2));
+			bundle.putString("arrivalTime", cursor.getString(3));
+			bundle.putString("duration", cursor.getString(4));
+			bundle.putString("price", cursor.getString(5));
+			bundle.putString("date", cursor.getString(6));
+			bundle.putString("id", cursor.getString(7));
+		}
+		else
+			bundle.putBoolean("success", false);
+		db.close();
+		Intent i = new Intent(Home.this, Result.class);
+		i.putExtras(bundle);
+		startActivity(i);
+	}
 	
 }

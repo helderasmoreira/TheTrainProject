@@ -178,7 +178,7 @@ public class MyTicketsPaid extends Activity {
 				}
 				
 				SQLiteDatabase db = Configurations.databaseHelper.getWritableDatabase();
-				db.execSQL("DELETE FROM Ticket;");
+				db.execSQL("DELETE FROM Ticket WHERE userId = " + Configurations.userId + ";");
 				
 				for(Ticket ti : userTickets) {
 					

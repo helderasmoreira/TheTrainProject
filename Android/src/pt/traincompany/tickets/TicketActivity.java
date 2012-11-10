@@ -3,6 +3,7 @@ package pt.traincompany.tickets;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -25,6 +26,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcAdapter.CreateNdefMessageCallback;
+import android.nfc.NfcAdapter.OnNdefPushCompleteCallback;
+import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +39,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TicketActivity extends Activity {
+public class TicketActivity extends Activity implements CreateNdefMessageCallback {
 
 	Ticket ticket;
 	Bitmap bitmap;
@@ -157,9 +164,40 @@ public class TicketActivity extends Activity {
 				new Thread(get).start();
 			}
 		});
+		
+		// Check for available NFC Adapter
+		NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (mNfcAdapter == null) {
+            Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+        // Register callback
+        mNfcAdapter.setNdefPushMessageCallback(this, this);
 
 	}
+	
 
+    public NdefMessage createNdefMessage(NfcEvent event) {
+        String text = ticket.id + "";
+        NdefMessage msg = new NdefMessage(
+                new NdefRecord[] { createMimeRecord(
+                        "application/pt.thetrainprojectchecker.main", text.getBytes())
+        });
+        return msg;
+    }
+	
+	/**
+     * Creates a custom MIME type encapsulated in an NDEF record
+     */
+    public NdefRecord createMimeRecord(String mimeType, byte[] payload) {
+        byte[] mimeBytes = mimeType.getBytes(Charset.forName("US-ASCII"));
+        NdefRecord mimeRecord = new NdefRecord(
+                NdefRecord.TNF_MIME_MEDIA, mimeBytes, new byte[0], payload);
+        return mimeRecord;
+    }
+
+	
 	class CancelTicket implements Runnable {
 
 		public void run() {
@@ -326,4 +364,5 @@ public class TicketActivity extends Activity {
 			}
 		}
 	}
+
 }

@@ -1,6 +1,9 @@
-package pt.thetrainprojectchecker.main;
+package pt.thetrainproject.tickets;
 
 import pt.thetrainprojectchecker.database.DatabaseHelper;
+import pt.thetrainprojectchecker.main.R;
+import pt.thetrainprojectchecker.main.R.id;
+import pt.thetrainprojectchecker.main.R.layout;
 import pt.thetrainprojectchecker.result.Result;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,14 +12,21 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class CheckTickets extends Activity {
 	
+	private boolean never = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -37,6 +47,14 @@ public class CheckTickets extends Activity {
 					Intent marketIntent = new Intent(Intent.ACTION_VIEW, marketUri);
 					startActivity(marketIntent);
 				}
+			}
+		});
+		
+		ImageView nfc = (ImageView) findViewById(R.id.btnNFC);
+		nfc.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				Toast.makeText(CheckTickets.this, "Por favor encoste os dois dispositivos", Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -62,6 +80,31 @@ public class CheckTickets extends Activity {
 			
 		});
 	}
+	
+	 @Override
+	    public void onResume() {
+	        super.onResume();
+	        // Check to see that the Activity started due to an Android Beam
+	        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction()) && !never) {
+	            processIntent(getIntent());
+	            never  = true;
+	        }
+	    }
+
+	    @Override
+	    public void onNewIntent(Intent intent) {
+	        // onResume gets called after this to handle the intent
+	        setIntent(intent);
+	    }
+
+
+		void processIntent(Intent intent) {
+	        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
+	                NfcAdapter.EXTRA_NDEF_MESSAGES);
+	        // only one message sent during the beam
+	        NdefMessage msg = (NdefMessage) rawMsgs[0];
+	        testTicket(new String(msg.getRecords()[0].getPayload()));
+	    }
 	
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -98,5 +141,5 @@ public class CheckTickets extends Activity {
 		i.putExtras(bundle);
 		startActivity(i);
 	}
-
+	
 }
