@@ -281,7 +281,7 @@ public class SearchResultExtended extends Activity {
 					if(dialog != null) dialog.dismiss();
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							SearchResultExtended.this);
-					builder.setMessage("Pretende reservar o bilhete? Ainda há " + free_spots + " lugares livres.")
+					builder.setMessage("Pretende reservar o bilhete? Ainda há " + free_spots + " lugar(es) livre(s).")
 							.setTitle("Confirmação")
 							.setPositiveButton("Sim",
 									new DialogInterface.OnClickListener() {
@@ -552,6 +552,8 @@ public class SearchResultExtended extends Activity {
 				
 				if(Utility.user_cards.size() == 0) {
 					makeToast("Adicione primeiro um cartão...");
+					CancelTicket search = new CancelTicket();
+					new Thread(search).start();
 					return;
 				}
 

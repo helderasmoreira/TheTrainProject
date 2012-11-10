@@ -230,6 +230,11 @@ public class TicketActivity extends Activity {
 					Utility.user_cards = new ArrayList<Card>();
 					Utility.user_cards.add(c);
 				}
+				
+				if(Utility.user_cards.size() == 0) {
+					makeToast("Adicione primeiro um cartão...");
+					return;
+				}
 
 				Configurations.cardsLoaded = true;
 

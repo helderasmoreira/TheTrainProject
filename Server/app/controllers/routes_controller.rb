@@ -75,7 +75,17 @@ class RoutesController < ApplicationController
         time1 = Time.parse(route1[2][0][1])
         time2 = Time.parse(route2[-1][-1][-1])
 
-        duration = Time.at(time2.minus_with_coercion(time1)).utc.strftime("%H:%M") 
+        if Time.parse(route2[2][0][1]) < Time.parse(route1[-1][-1][1])
+          time2 += 1.day
+        end
+
+        duration = time2.minus_with_coercion(time1)
+
+        minutes = (duration / 60) % 60
+        hours = duration / (60 * 60)
+
+        duration = format("%02d:%02d", hours, minutes) #=> "01:00:00"
+
         time_between = Time.at(Time.parse(route2[-1][0][1]).minus_with_coercion(Time.parse(route1[-1][-1][1]))).utc.strftime("%H:%M") 
         
         if route1_time > route2_time and time1 >= hour
@@ -90,6 +100,8 @@ class RoutesController < ApplicationController
         #routes.push(route_final)
       end
     end
+
+    routes = routes.sort { |p1, p2| p1[3] <=> p2[3] }
 
     respond_to do |format|
       format.json { render json: routes }

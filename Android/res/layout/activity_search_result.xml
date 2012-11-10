@@ -153,11 +153,11 @@
           android:id="@+id/btnBuyTicket"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_alignLeft="@+id/textView6"
           android:layout_below="@+id/datePickerTicket"
+          android:layout_centerHorizontal="true"
+          android:layout_marginBottom="20dp"
           android:layout_marginTop="20dp"
-          android:text="Comprar Viagem" 
-          android:layout_marginBottom="20dp"/>
+          android:text="Comprar Viagem" />
 
       <DatePicker
           android:id="@+id/datePickerTicket"
